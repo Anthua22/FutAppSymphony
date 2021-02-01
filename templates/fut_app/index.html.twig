@@ -1,0 +1,10 @@
+{% extends 'layout.html.twig' %}
+
+{% block title %}{{ parent()  }} Contactos {% endblock %}
+
+{% block main_content %}
+    <a href="{{ path("fut_app_inicio") }}" class="btn btn-primary">Nuevo <i class="fa fa-plus-circle"> </i></a>
+
+    <p>{{ usuario.nombre }}</p>
+    <p>{{ app.request.basePath}}</p>
+{% endblock %}
