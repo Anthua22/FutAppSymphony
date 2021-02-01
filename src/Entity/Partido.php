@@ -23,7 +23,7 @@ class Partido
     private $direccion_encuentro;
 
     /**
-     * @ORM\Column(type="string", length=255)
+     * @ORM\Column(type="datetime", length=255)
      */
     private $fecha_encuentro;
 
@@ -93,24 +93,24 @@ class Partido
         return $this;
     }
 
-    public function getEquipoLocal(): ?string
+    public function getEquipoLocal(): ?Equipo
     {
         return $this->equipoLocal;
     }
 
-    public function setEquipoLocal(string $equipoLocal): self
+    public function setEquipoLocal(Equipo $equipoLocal): self
     {
         $this->equipoLocal = $equipoLocal;
 
         return $this;
     }
 
-    public function getEquipoVisitante(): ?string
+    public function getEquipoVisitante(): ?Equipo
     {
         return $this->EquipoVisitante;
     }
 
-    public function setEquipoVisitante(string $EquipoVisitante): self
+    public function setEquipoVisitante(Equipo $EquipoVisitante): self
     {
         $this->EquipoVisitante = $EquipoVisitante;
 

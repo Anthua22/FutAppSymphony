@@ -1,0 +1,58 @@
+{% extends 'layout.html.twig' %}
+
+{% block title %}{{ parent()  }} Partidos - Nuevo {% endblock %}
+
+{% block main_content %}
+    <div class="container">
+
+        {% if error is defined and error is not empty %}
+            <div class="row">
+                <div class="alert alert-danger col-12">
+                    {{ error }}
+                </div>
+            </div>
+        {% endif %}
+
+        {{ form_start(form) }}
+
+        <div class="row">
+            <div class="col-6">
+
+                {{ form_label(form.equipolocal, null, {'label_attr': {'class': 'label-field'}}) }}
+                {{ form_widget(form.equipolocal, {'attr': {'class': 'text-field, form-control'}}) }}
+
+            </div>
+            <div class="col-6">
+                {{ form_label(form.equipovisitante, null, {'label_attr': {'class': 'label-field'}}) }}
+                {{ form_widget(form.equipovisitante, {'attr': {'class': 'text-field, form-control'}}) }}
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-6">
+                {{ form_label(form.arbitro, null, {'label_attr': {'class': 'label-field'}}) }}
+                {{ form_widget(form.arbitro, {'attr': {'class': 'text-field, form-control'}}) }}
+            </div>
+
+        </div>
+
+        <div class="row">
+
+            <div class="col-12">
+                {{ form_label(form.direccionencuentro, null, {'label_attr': {'class': 'label-field'}}) }}
+                {{ form_widget(form.direccionencuentro,{'attr': {'class': 'text-field, form-control'}}) }}
+            </div>
+
+        </div>
+
+        <div class="row">
+            <div class="col-2 offset-5">
+                {{ form_row(form.guardar) }}
+            </div>
+        </div>
+
+        {{ form_end(form) }}
+
+    </div>
+
+{% endblock %}
