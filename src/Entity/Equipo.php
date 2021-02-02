@@ -27,6 +27,8 @@ class Equipo
      */
     private $foto;
 
+    private $fotoFile;
+
     /**
      * @ORM\Column(type="string", length=255)
      */
@@ -54,10 +56,31 @@ class Equipo
         return $this;
     }
 
-    public function getFoto(): ?string
+    public function getFoto()
     {
         return $this->foto;
     }
+
+    /**
+     * @return mixed
+     */
+    public function getFotoFile()
+    {
+        return $this->fotoFile;
+    }
+
+    /**
+     * @param mixed $fotoFile
+     * @return Equipo
+     */
+    public function setFotoFile($fotoFile)
+    {
+        $this->fotoFile = $fotoFile;
+        return $this;
+    }
+
+
+
 
     public function setFoto(?string $foto): self
     {

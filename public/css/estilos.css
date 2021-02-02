@@ -1,7 +1,11 @@
 .nombre_empresa{
-    font-size: 40px;
+    font-size: 30px;
 }
 
 .-item_nav{
-    font-size: 20px;
+    font-size: 16px;
+}
+
+.fecha{
+    padding: 10px;
 }

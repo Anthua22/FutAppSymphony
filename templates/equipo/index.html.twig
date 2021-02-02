@@ -1,0 +1,11 @@
+{% extends 'layout.html.twig' %}
+
+{% block title %} Equipos{% endblock %}
+
+{% block main_content %}
+    <div class="mt-4">
+        {% for equipo in equipos %}
+            <p>{{ equipo.nombre }}</p>
+        {% endfor %}
+    </div>
+{% endblock %}
