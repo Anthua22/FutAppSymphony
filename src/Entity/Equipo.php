@@ -3,6 +3,7 @@
 namespace App\Entity;
 
 use App\Repository\EquipoRepository;
+use DateTime;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -27,7 +28,31 @@ class Equipo
      */
     private $foto;
 
+    /**
+     * @var DateTime
+     * @ORM\Column(type="datetime", nullable=true)
+     */
+    private $updateAT;
+
     private $fotoFile;
+
+    /**
+     * @return DateTime
+     */
+    public function getUpdateAT(): DateTime
+    {
+        return $this->updateAT;
+    }
+
+    /**
+     * @param DateTime $updateAT
+     * @return Equipo
+     */
+    public function setUpdateAT(DateTime $updateAT): Equipo
+    {
+        $this->updateAT = $updateAT;
+        return $this;
+    }
 
     /**
      * @ORM\Column(type="string", length=255)
@@ -80,8 +105,6 @@ class Equipo
     }
 
 
-
-
     public function setFoto(?string $foto): self
     {
         $this->foto = $foto;
@@ -112,4 +135,11 @@ class Equipo
 
         return $this;
     }
+
+    public function __toString()
+    {
+        return $this->nombre;
+    }
+
+
 }

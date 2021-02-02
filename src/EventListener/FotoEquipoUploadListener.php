@@ -48,19 +48,6 @@ class FotoEquipoUploadListener
         $this->uploadFile($entity);
     }
 
-    public function postLoad(LifecycleEventArgs $args)
-    {
-        $entity = $args->getEntity();
-        if (!$entity instanceof Equipo) {
-            return;
-        }
-        if ($fileName = $entity->getFotoFile()) {
-            $entity->setFotoFile(
-                new File(
-                    $this->uploader->getTargetDir().'/'.$fileName
-                )
-            );
-        }
-    }
+
 
 }

@@ -34,7 +34,8 @@ class FutAppController extends AbstractController
     }
 
     /**
-     * @Route("/partidos/nuevo", name="fut_app_partidos_nuevo")
+     * @Route("/partidos/nuevo", name="fut_app_partidos_nuevo",
+     *     methods={"GET","POST"})
      */
     public function nuevoPartido(Request  $request):Response{
         $error = null;

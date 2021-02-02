@@ -55,11 +55,65 @@ class EquipoController extends AbstractController
             }
 
         }catch (BadRequestException $exception){
-
+            $error = $exception->getMessage();
         }
         return $this->render('equipo/form-equipo.html.twig', [
             'form' => $form->createView(),
             'error'=>$error
         ]);
     }
+
+
+
+    /**
+     * @Route(
+     *     "/equipos/{id}/editar",
+     *     name="futapp_editar_equipo",
+     *     requirements={"id"="\d+"},
+     *     methods={"GET", "POST"}
+     * )
+     */
+    public function editarEquipo(Request $request, Equipo $equipo){
+        $form = $this->createForm(EquipoForm::class,$equipo);
+
+        $form->handleRequest($request);
+
+        if($form->isSubmitted() && $form->isValid()){
+            $equipo = $form->getData();
+            $fotoFile = $form['fotoFile']->getData();
+
+            if($fotoFile){
+                $equipo->setFotoFile($fotoFile);
+                $equipo->setUpdateAt(new \DateTime());
+            }
+
+            $entityManager = $this->getDoctrine()->getManager();
+            $entityManager->persist($equipo);
+            $entityManager->flush();
+
+            return $this->redirectToRoute('futapp_equipos');
+
+        }
+
+        return $this->render('equipo/form-equipo.html.twig',[
+            'form'=>$form->createView()
+        ]);
+    }
+
+
+    /**
+     * @Route(
+     *     "/equipos/{id}/borrar",
+     *     name="futapp_borrar_equipo",
+     *     requirements={"id"="\d+"},
+     *     methods={"GET"}
+     * )
+     */
+    public function borrar(Equipo $equipo){
+        $manager = $this->getDoctrine()->getManager();
+        $manager->remove($equipo);
+        $manager->flush();
+        return $this->redirectToRoute('futapp_equipos');
+    }
+
 }
