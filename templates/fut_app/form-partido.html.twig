@@ -1,6 +1,6 @@
 {% extends 'layout.html.twig' %}
 
-{% block title %}{{ parent()  }} Partidos - Nuevo {% endblock %}
+{% block title %}{{ parent() }} Partidos - Nuevo {% endblock %}
 
 {% block main_content %}
     <div class="mt-4">
@@ -29,9 +29,9 @@
         </div>
 
         <div class="row">
-            <div class="col-6">
+            <div class="col-12">
                 {{ form_label(form.arbitro, null, {'label_attr': {'class': 'label-field mt-3'}}) }}
-                {{ form_widget(form.arbitro, {'attr': {'class': 'text-field form-control'}}) }}
+                {{ form_widget(form.arbitro, {'attr': {'class': 'form-select'}}) }}
             </div>
 
         </div>
@@ -49,13 +49,13 @@
 
             <div class="col-6">
                 {{ form_label(form.fecha_encuentro, null, {'label_attr': {'class': 'label-field mt-3'}}) }}
-                {{ form_widget(form.fecha_encuentro)}}
+                {{ form_widget(form.fecha_encuentro) }}
             </div>
 
         </div>
 
         <div class="row">
-            <div class="col-2 offset-5">
+            <div class="col-2">
                 {{ form_row(form.guardar, {'attr':{'class':'btn btn-primary mt-5'}}) }}
             </div>
         </div>

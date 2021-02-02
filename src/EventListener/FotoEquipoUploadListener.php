@@ -44,6 +44,10 @@ class FotoEquipoUploadListener
     public function preUpdate(PreUpdateEventArgs $args)
     {
         $entity = $args->getEntity();
+        if($entity->getFoto()!==null && $entity->getFoto()!==''){
+
+            unlink(__DIR__.'/../../public/uploads/fotos/'.$entity->getFoto());
+        }
 
         $this->uploadFile($entity);
     }

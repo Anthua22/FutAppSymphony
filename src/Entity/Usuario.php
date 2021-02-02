@@ -4,11 +4,13 @@ namespace App\Entity;
 
 use App\Repository\UsuarioRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Exception;
+use Symfony\Component\Security\Core\User\UserInterface;
 
 /**
  * @ORM\Entity(repositoryClass=UsuarioRepository::class)
  */
-class Usuario
+class Usuario implements UserInterface, \Serializable
 {
     /**
      * @ORM\Id
@@ -26,6 +28,29 @@ class Usuario
      * @ORM\Column(type="string", length=255)
      */
     private $nombre;
+
+    /**
+     * @ORM\Column(type="boolean")
+     */
+    private $activo;
+
+    /**
+     * @return mixed
+     */
+    public function getActivo()
+    {
+        return $this->activo;
+    }
+
+    /**
+     * @param mixed $activo
+     * @return Usuario
+     */
+    public function setActivo($activo)
+    {
+        $this->activo = $activo;
+        return $this;
+    }
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
@@ -139,5 +164,43 @@ class Usuario
         $this->telefono = $telefono;
 
         return $this;
+    }
+
+    public function getRoles()
+    {
+        return ['Role_ADMIN'];
+    }
+
+    public function getSalt()
+    {
+        return null;
+    }
+
+    public function getUsername()
+    {
+        return $this->getEmail();
+    }
+
+    public function eraseCredentials()
+    {
+
+    }
+
+    public function serialize()
+    {
+        return serialize([
+            $this->id,
+            $this->email,
+            $this->password
+        ]);
+    }
+
+    public function unserialize($serialized)
+    {
+        list(
+            $this->id,
+            $this->email,
+            $this->password
+            )=$this->unserialize($serialized);
     }
 }
