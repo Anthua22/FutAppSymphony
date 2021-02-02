@@ -6,55 +6,54 @@
     <div class="mt-4">
 
         {% if error is defined and error is not empty %}
-            <div class="row">
-                <div class="alert alert-danger col-12">
-                    {{ error }}
-                </div>
+            <div class="alert alert-danger alert-dismissable">
+                <button type="button" class="close btn" data-dismiss="alert">&times;</button>
+                <strong>Error</strong> {{ error }}
             </div>
         {% endif %}
 
         {{ form_start(form) }}
 
-        <div class="row">
+        <div class="row mb-3">
             <div class="col-6">
 
-                {{ form_label(form.equipolocal, null, {'label_attr': {'class': 'label-field mt-3'}}) }}
+                <label class="mb-3">Equipo Local</label>
                 {{ form_widget(form.equipolocal, {'attr': {'class': 'text-field form-select'}}) }}
 
             </div>
             <div class="col-6">
-                {{ form_label(form.equipovisitante, null, {'label_attr': {'class': 'label-field mt-3'}}) }}
+                <label class="mb-3">Equipo Visitante</label>
                 {{ form_widget(form.equipovisitante, {'attr': {'class': 'text-field form-select'}}) }}
             </div>
         </div>
 
-        <div class="row">
+        <div class="row mb-3">
             <div class="col-12">
-                {{ form_label(form.arbitro, null, {'label_attr': {'class': 'label-field mt-3'}}) }}
+                <label class="mb-3">Arbitro</label>
                 {{ form_widget(form.arbitro, {'attr': {'class': 'form-select'}}) }}
             </div>
 
         </div>
 
-        <div class="row">
+        <div class="row mb-3">
 
             <div class="col-12">
-                {{ form_label(form.direccionencuentro, null, {'label_attr': {'class': 'label-field mt-3'}}) }}
+                <label class="mb-3">Dirección del encuentro</label>
                 {{ form_widget(form.direccionencuentro,{'attr': {'class': 'text-field form-control'}}) }}
             </div>
 
         </div>
 
-        <div class="row">
+        <div class="row mb-3">
 
             <div class="col-6">
-                {{ form_label(form.fecha_encuentro, null, {'label_attr': {'class': 'label-field mt-3'}}) }}
-                {{ form_widget(form.fecha_encuentro) }}
+                <label class="mb-3">Fecha del encuentro</label>
+                {{ form_widget(form.fecha_encuentro,{'attr': {'class': 'text-field form-control'}}) }}
             </div>
 
         </div>
 
-        <div class="row">
+        <div class="row mb-3">
             <div class="col-2">
                 {{ form_row(form.guardar, {'attr':{'class':'btn btn-primary mt-5'}}) }}
             </div>

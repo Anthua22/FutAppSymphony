@@ -1,11 +1,25 @@
 {% extends 'layout.html.twig' %}
 
-{% block title %}{{ parent()  }} Partidos {% endblock %}
+{% block title %}{{ parent() }} Partidos {% endblock %}
 
 {% block main_content %}
-    <div class="mt-4"></div>
-    <a href="{{ path("fut_app_inicio") }}" class="btn btn-primary">Nuevo <i class="fa fa-plus-circle"> </i></a>
+    <div class="card-columns mt-4">
+        <div class="row">
+            {% for partido in partidos %}
 
-    <p>{{ usuario.nombre }}</p>
-    <p>{{ app.request.basePath}}</p>
+                <div class="col-4 mb-4">
+                    {% include 'fut_app/parts/partido.part.html.twig' with {
+                        'partido':partido
+                    } only%}
+                </div>
+            {% endfor %}
+        </div>
+
+
+    </div>
+
+
+
+
+    <p>{{ app.request.basePath }}</p>
 {% endblock %}

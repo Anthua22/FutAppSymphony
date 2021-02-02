@@ -29,8 +29,10 @@ class PartidoForm extends AbstractType
         ])->add('arbitro', EntityType::class, [
             'class' => Usuario::class
         ])->add('direccionencuentro', TextType::class)
-            ->add('fecha_encuentro', DateTimeType::class)
-            ->add('guardar', SubmitType::class, array('label' => 'Guardar'));
+            ->add('fecha_encuentro', DateTimeType::class,[
+                'html5'=>false
+            ])
+            ->add('guardar', SubmitType::class, array('label' => 'Asignar'));
     }
 
     public function configureOptions(OptionsResolver  $resolver)

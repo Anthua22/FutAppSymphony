@@ -4,6 +4,7 @@ namespace App\Entity;
 
 use App\Repository\PartidoRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity(repositoryClass=PartidoRepository::class)
@@ -24,6 +25,8 @@ class Partido
 
     /**
      * @ORM\Column(type="datetime", length=255)
+     * @Assert\NotBlank()
+     * @Assert\Type("\DateTime")
      */
     private $fecha_encuentro;
 
@@ -69,24 +72,24 @@ class Partido
         return $this;
     }
 
-    public function getFechaEncuentro(): ?string
+    public function getFechaEncuentro()
     {
         return $this->fecha_encuentro;
     }
 
-    public function setFechaEncuentro(string $fecha_encuentro): self
+    public function setFechaEncuentro($fecha_encuentro): self
     {
         $this->fecha_encuentro = $fecha_encuentro;
 
         return $this;
     }
 
-    public function getArbitro(): ?string
+    public function getArbitro(): ?Usuario
     {
         return $this->arbitro;
     }
 
-    public function setArbitro(string $arbitro): self
+    public function setArbitro(Usuario $arbitro): self
     {
         $this->arbitro = $arbitro;
 

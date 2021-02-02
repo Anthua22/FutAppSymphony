@@ -186,6 +186,8 @@ class Usuario implements UserInterface, \Serializable
 
     }
 
+
+
     public function serialize()
     {
         return serialize([
@@ -203,4 +205,11 @@ class Usuario implements UserInterface, \Serializable
             $this->password
             )=$this->unserialize($serialized);
     }
+
+    public function __toString()
+    {
+        return $this->nombre;
+    }
+
+
 }

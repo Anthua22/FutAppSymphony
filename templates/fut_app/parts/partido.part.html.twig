@@ -1,0 +1,47 @@
+<div class="card shadow">
+    <div class="row">
+        <div class="col-6">
+            <a href="#"><img class="card-img-top"
+                             src="{% if partido.equipolocal.foto is empty %}/imgs/avatar.jpg{% else %}{{ asset('uploads/fotos/' ~ partido.equipolocal.foto) }}{% endif %}"></a>
+
+        </div>
+        <div class="col-6">
+            <a href="#"><img class="card-img-top"
+                             src="{% if partido.equipovisitante.foto is empty %}/imgs/avatar.jpg{% else %}{{ asset('uploads/fotos/' ~ partido.equipovisitante.foto) }}{% endif %}"></a>
+
+        </div>
+    </div>
+    <div class="card-body">
+        <div class="row">
+            <h5 class="card-title col-5"><a href="#" class="nombreEquipo">{{ partido.equipolocal.nombre }}</a></h5>
+            <h5 class="card-title col-2">VS</h5>
+            <h5 class="card-title nombreEquipo col-5"><a href="#" class="nombreEquipo">{{ partido.equipovisitante.nombre }}</a></h5>
+        </div>
+
+
+        <div class="row mt-3">
+            <span class="label col-6">Árbitro:</span>
+            <span class="card-text col-6">{{ partido.arbitro.nombre }}</span>
+        </div>
+
+        <div class="row">
+            <span class="label col-6">Dirección:</span>
+            <span class="card-text col-6">{{ partido.direccionEncuentro }}</span>
+        </div>
+
+
+
+        <div class="row">
+            <span class="label col-6">Fecha Encuentro:</span>
+            <div class="col-6 text-muted">{{ partido.fechaEncuentro |date('d-m-Y') }}</div>
+
+        </div>
+        <div class="row">
+            <span class="label col-6">Hora del Encuentro:</span>
+            <div class="col-6 text-muted">{{ partido.fechaEncuentro |date('H:i:s') }}</div>
+
+        </div>
+    </div>
+    <div class="card-footer">
+         </div>
+</div>

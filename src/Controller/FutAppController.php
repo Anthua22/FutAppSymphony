@@ -18,18 +18,11 @@ class FutAppController extends AbstractController
      */
     public function index(): Response
     {
-        $usuario = new Usuario();
-        $usuario->setNombre('Anthony')
-            ->setApellidos('Ubillus')
-            ->setEmail('anthony@gmail.com')
-            ->setPassword('1234')
-            ->setRole('arbitro');
 
-        $em= $this->getDoctrine()->getRepository(Partido::class);
-       //ç $em->persist($usuario);
-        //$em->flush();
+        $partidos = $this->getDoctrine()->getRepository(Partido::class)->findAll();
+
         return $this->render('fut_app/index.html.twig', [
-            'usuario' => $usuario,
+            'partidos'=>$partidos
         ]);
     }
 
@@ -46,13 +39,21 @@ class FutAppController extends AbstractController
 
             $form->handleRequest($request);
 
+
+
             if($form->isSubmitted() && $form->isValid()){
+
                 $partido = $form->getData();
 
-                $entityManager = $this->getDoctrine()->getManager();
-                $entityManager->persist($partido);
-                $entityManager->flush();
-                return $this->redirectToRoute('fut_app_inicio');
+                if($partido->getEquipoLocal()!==$partido->getEquipoVisitante()){
+                    $entityManager = $this->getDoctrine()->getManager();
+                    $entityManager->persist($partido);
+                    $entityManager->flush();
+                    return $this->redirectToRoute('fut_app_inicio');
+                }
+                $error='El equipo visitante no puede ser el mismo que el equipo local';
+
+
             }
 
         }catch (BadRequestException $ex){
@@ -65,4 +66,6 @@ class FutAppController extends AbstractController
         ]);
 
     }
+
+
 }

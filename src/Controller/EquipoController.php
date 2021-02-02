@@ -5,7 +5,6 @@ namespace App\Controller;
 use App\Entity\Equipo;
 use App\Forms\EquipoForm;
 
-use App\Helper\FileUploader;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Exception\BadRequestException;
 use Symfony\Component\HttpFoundation\Request;
@@ -110,6 +109,10 @@ class EquipoController extends AbstractController
      * )
      */
     public function borrar(Equipo $equipo){
+        $fileName = $equipo->getFoto();
+        if(isset($fileName)){
+            unlink(__DIR__.'/../../public/uploads/fotos/'.$fileName);
+        }
         $manager = $this->getDoctrine()->getManager();
         $manager->remove($equipo);
         $manager->flush();
