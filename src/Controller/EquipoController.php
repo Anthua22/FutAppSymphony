@@ -27,10 +27,10 @@ class EquipoController extends AbstractController
     }
 
     /**
-     * @Route("/equipos/form", name="futapp_equipos_form",
+     * @Route("/equipos/nuevo", name="futapp_equipos_form",
      *     methods={"GET","POST"})
      */
-    public function formEquipo(Request $request,FileUploader $fileUploader): Response
+    public function newEquipo(Request $request): Response
     {
         $error = null;
         try{
@@ -41,7 +41,7 @@ class EquipoController extends AbstractController
             if($form->isSubmitted() && $form->isValid()){
                 $equipo = $form->getData();
                 $fotoFile = $form->get('fotoFile')->getData();
-               // $equipo->setFotoFile($fotoFile);
+
 
                 if($fotoFile){
                     $equipo->setFotoFile($fotoFile);
@@ -51,7 +51,7 @@ class EquipoController extends AbstractController
                 $entityManager = $this->getDoctrine()->getManager();
                 $entityManager->persist($equipo);
                 $entityManager->flush();
-                return $this->redirectToRoute('fut_app_inicio');
+                return $this->redirectToRoute('futapp_equipos');
             }
 
         }catch (BadRequestException $exception){
