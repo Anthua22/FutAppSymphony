@@ -3,14 +3,62 @@
 {% block title %}{{ parent() }} Partidos {% endblock %}
 
 {% block main_content %}
+    <div class="row">
+        <div id="myCarousel" class="carousel slide" data-ride="carousel">
+            <ol class="carousel-indicators">
+                {% set item = 0 %}
+                {% for partido in partidos %}
+                    <li data-target="#myCarousel" data-slide-to="{{ item }}" {% if item ==0 %}class="active"{% endif %}></li>
+                    {% set item=item+1 %}
+                {% endfor %}
+            </ol>
+            <div class="carousel-inner">
+                {% set itemcard=0 %}
+                {% for partido in partidos %}
+                    <div {% if itemcard ==0 %}class="carousel-item active"{% else%} class="carousel-item" {% endif %}>
+                        <div class="row">
+                            <img class="col-6"  src="{% if partido.equipolocal.foto is empty %}/imgs/avatar.jpg{% else %}{{ asset('uploads/fotos/' ~ partido.equipolocal.foto) }}{% endif %}">
+                            <img class="col-6"  src="{% if partido.equipoVisitante.foto is empty %}/imgs/avatar.jpg{% else %}{{ asset('uploads/fotos/' ~ partido.equipoVisitante.foto) }}{% endif %}">
+                        </div>
+                        <div class="container">
+                            <div class="carousel-caption text-center">
+                                <div class="row">
+                                    <h1 class="col-5 item-carosul">{{ partido.equipoLocal.nombre }}</h1>
+                                    <h1 class="col-2 item-carosul">VS</h1>
+                                    <h1 class="col-5 item-carosul">{{ partido.equipoVisitante.nombre }}</h1>
+
+                                </div>
+
+                                <p><a class="btn btn-lg btn-primary" href="#" role="button">Ver Detalle</a></p>
+                            </div>
+                        </div>
+                    </div>
+                    {% set itemcard=itemcard+1 %}
+                {% endfor %}
+                <a class="carousel-control-prev" href="#myCarousel" role="button" data-slide="prev">
+                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                    <span class="sr-only">Previous</span>
+                </a>
+                <a class="carousel-control-next" href="#myCarousel" role="button" data-slide="next">
+                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                    <span class="sr-only">Next</span>
+                </a>
+            </div>
+
+        </div>
+    </div>
+
+
+
     <div class="card-columns mt-4">
+
         <div class="row">
             {% for partido in partidos %}
 
                 <div class="col-4 mb-4">
                     {% include 'fut_app/parts/partido.part.html.twig' with {
                         'partido':partido
-                    } only%}
+                    } only %}
                 </div>
             {% endfor %}
         </div>
