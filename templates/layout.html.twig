@@ -40,11 +40,21 @@
 
         </div>
     </nav>
-    <main class="container">
+
+    <div class="d-flex justify-content-center" id="spinner" style="margin-top: 400px">
+        <div class="spinner-border" role="status">
+            <span class="visually-hidden">Loading...</span>
+        </div>
+    </div>
+    <main class="container d-none" id="main">
 
         {% block main_content %}{% endblock %}
 
 
     </main>
 
+{% endblock %}
+
+{% block javascripts %}
+    <script src="{{ asset('js/main.js') }}"></script>
 {% endblock %}
