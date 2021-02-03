@@ -3,6 +3,9 @@
 {% block title %}{{ parent() }} Partidos {% endblock %}
 
 {% block main_content %}
+
+    <h1 class="mt-4 mb-4">Últimos Partidos Asignados </h1>
+
     <div class="row">
         <div id="myCarousel" class="carousel slide" data-ride="carousel">
             <ol class="carousel-indicators">
@@ -23,9 +26,9 @@
                         <div class="container">
                             <div class="carousel-caption text-center">
                                 <div class="row">
-                                    <h1 class="col-5 item-carosul">{{ partido.equipoLocal.nombre }}</h1>
-                                    <h1 class="col-2 item-carosul">VS</h1>
-                                    <h1 class="col-5 item-carosul">{{ partido.equipoVisitante.nombre }}</h1>
+                                    <h1 class="col-4">{{ partido.equipoLocal.nombre }}</h1>
+                                    <h1 class="col-4 item-carosul">VS</h1>
+                                    <h1 class="col-4">{{ partido.equipoVisitante.nombre }}</h1>
 
                                 </div>
 
@@ -49,13 +52,37 @@
     </div>
 
     <div class="row mt-5">
-        <h1 class="col-11">Partidos Asignados</h1>
-        <a href="#" class="col-1 btn btn-primary">Partidos</a>
+        <h1 class="col-8">Todos los Partidos</h1>
+        <div class="col-4">
+            <form action="{{ path('fut_app_inicio') }}" method="post">
+                <div class="row">
+                    <div class="col-6">
+                        <input placeholder="Nombre Equipo..." class="form-control" name="nombreequipo"/>
+                    </div>
+                    <div class="btn-group col-3">
+                        <button type="submit" class="btn btn-md btn-secondary">
+                            Buscar
+                        </button>
+                        <button type="button" class="btn btn-md btn-info dropdown-toggle dropdown-toggle-split" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            <i class="fa fa-filter" style="font-size: 20px;"></i>
+                        </button>
+                        <div class="dropdown-menu">
+                            <a class="dropdown-item" href="{{ path('fut_app_inicio') }}">Todos</a>
+                            <a class="dropdown-item" href="{{ path('fut_app_partidos_disputados') }}">Disputados</a>
+                            <a class="dropdown-item" href="{{ path('fut_app_partidos_no_disputados') }}">Sin Disputar</a>
+                        </div>
+                    </div>
+                </div>
+
+
+            </form>
+
+        </div>
     </div>
     <div class="card-columns mt-4">
 
         <div class="row">
-            {% for partido in partidos %}
+            {% for partido in partidosfilter %}
 
                 <div class="col-4 mb-4">
                     {% include 'fut_app/parts/partido.part.html.twig' with {

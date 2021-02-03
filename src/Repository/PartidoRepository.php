@@ -5,6 +5,7 @@ namespace App\Repository;
 use App\Entity\Partido;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
+use function Doctrine\ORM\QueryBuilder;
 
 /**
  * @method Partido|null find($id, $lockMode = null, $lockVersion = null)
@@ -19,6 +20,22 @@ class PartidoRepository extends ServiceEntityRepository
         parent::__construct($registry, Partido::class);
     }
 
+    public function getEquipoByPartido(string $busqueda)
+    {
+        $qb = $this->createQueryBuilder('partido');
+        $qb->innerJoin('partido.equipoLocal', 'equipo_local');
+        $qb->innerJoin('partido.EquipoVisitante', 'equipo_visitante');
+
+
+        $qb->where(
+            $qb->expr()->like('equipo_local.nombre', ":busqueda")
+        )->orWhere(
+            $qb->expr()->like('equipo_visitante.nombre', ":busqueda")
+        )->setParameter('busqueda', '%' . $busqueda . '%');
+
+
+        return $qb->getQuery()->execute();
+    }
     // /**
     //  * @return Partido[] Returns an array of Partido objects
     //  */

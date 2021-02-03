@@ -18,12 +18,12 @@
             <div class="col-6">
 
                 <label class="mb-3">Equipo Local</label>
-                {{ form_widget(form.equipolocal, {'attr': {'class': 'text-field form-select'}}) }}
+                {{ form_widget(form.equipolocal, {'attr': {'class': 'form-select'}}) }}
 
             </div>
             <div class="col-6">
                 <label class="mb-3">Equipo Visitante</label>
-                {{ form_widget(form.equipovisitante, {'attr': {'class': 'text-field form-select'}}) }}
+                {{ form_widget(form.equipovisitante, {'attr': {'class': 'form-select'}}) }}
             </div>
         </div>
 
@@ -39,7 +39,7 @@
 
             <div class="col-12">
                 <label class="mb-3">Dirección del encuentro</label>
-                {{ form_widget(form.direccionencuentro,{'attr': {'class': 'text-field form-control'}}) }}
+                {{ form_widget(form.direccionencuentro,{'attr': {'class': 'form-control'}}) }}
             </div>
 
         </div>
@@ -48,10 +48,11 @@
 
             <div class="col-6">
                 <label class="mb-3">Fecha del encuentro</label>
-                {{ form_widget(form.fecha_encuentro,{'attr': {'class': 'text-field form-control'}}) }}
+                {{ form_widget(form.fecha_encuentro,{'attr': {'class': 'form-control'}}) }}
             </div>
 
         </div>
+
 
         <div class="row mb-3">
             <div class="col-2">

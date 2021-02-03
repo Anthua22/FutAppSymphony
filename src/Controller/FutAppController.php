@@ -14,16 +14,37 @@ use Symfony\Component\Routing\Annotation\Route;
 class FutAppController extends AbstractController
 {
     /**
-     * @Route("/", name="fut_app_inicio")
+     * @Route("/", name="fut_app_inicio",
+     *     methods={"GET","POST"})
      */
-    public function index(): Response
+    public function index(Request  $request): Response
     {
+        if($request->getMethod()==='POST'){
+            $partidos = $this->getDoctrine()->getRepository(Partido::class)->findAll();
+            $equiponombre = $_POST['nombreequipo'];
+            if(!empty($equiponombre)){
+                $partidosfilter = $this->getDoctrine()->getRepository(Partido::class)->getEquipoByPartido($equiponombre);
+            }else{
+                $partidosfilter = $this->getDoctrine()->getRepository(Partido::class)->findAll();
+            }
 
-        $partidos = $this->getDoctrine()->getRepository(Partido::class)->findAll();
+            return $this->render('fut_app/index.html.twig', [
+                'partidos'=>$partidos,
+                'partidosfilter'=>$partidosfilter
+            ]);
 
-        return $this->render('fut_app/index.html.twig', [
-            'partidos'=>$partidos
-        ]);
+        }else{
+            $partidosfilter = $this->getDoctrine()->getRepository(Partido::class)->findAll();
+            $partidos = $this->getDoctrine()->getRepository(Partido::class)->findAll();
+
+            return $this->render('fut_app/index.html.twig', [
+                'partidos'=>$partidos,
+                'partidosfilter'=>$partidosfilter
+            ]);
+        }
+
+
+
     }
 
     /**
@@ -44,6 +65,7 @@ class FutAppController extends AbstractController
             if($form->isSubmitted() && $form->isValid()){
 
                 $partido = $form->getData();
+                $partido->setFechaAsignacion(new \DateTime());
 
                 if($partido->getEquipoLocal()!==$partido->getEquipoVisitante()){
                     $entityManager = $this->getDoctrine()->getManager();
@@ -80,5 +102,58 @@ class FutAppController extends AbstractController
         return $this->render('fut_app/partido-detail.html.twig',[
             'partido'=>$partido
         ]);
+    }
+
+
+    /**
+     * @Route(
+     *     "/partidos/{id}/borrar",
+     *     name="futapp_borrar_partido",
+     *     requirements={"id"="\d+"},
+     *     methods={"GET"}
+     * )
+     */
+    public function borrarPartido(Partido $partido){
+
+
+        $manager = $this->getDoctrine()->getManager();
+        $manager->remove($partido);
+        $manager->flush();
+        return $this->redirectToRoute('fut_app_inicio');
+
+    }
+
+    /**
+     * @Route("/partidos/disputados", name="fut_app_partidos_disputados")
+     */
+    public function partidosDisputados():Response{
+        $partidosfilter = $this->getDoctrine()->getRepository(Partido::class)->findBy([
+            'disputado'=>true
+        ]);
+
+        $partidos = $this->getDoctrine()->getRepository(Partido::class)->findAll();
+
+        return $this->render('fut_app/index.html.twig',[
+            'partidos'=>$partidos,
+            'partidosfilter'=>$partidosfilter
+        ]);
+
+    }
+
+    /**
+     * @Route("/partidos/no_disputados", name="fut_app_partidos_no_disputados")
+     */
+    public function partidosSinDisputados():Response{
+        $partidosfilter = $this->getDoctrine()->getRepository(Partido::class)->findBy([
+            'disputado'=>false
+        ]);
+
+        $partidos = $this->getDoctrine()->getRepository(Partido::class)->findAll();
+
+        return $this->render('fut_app/index.html.twig',[
+            'partidos'=>$partidos,
+            'partidosfilter'=>$partidosfilter
+        ]);
+
     }
 }

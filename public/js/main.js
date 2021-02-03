@@ -7,8 +7,8 @@ document.addEventListener('DOMContentLoaded',e=>{
     container = document.getElementById('main');
     spinner = document.getElementById('spinner');
 
-    setTimeout(function(){
+    setTimeout(()=>{
         container.classList.remove('d-none');
         spinner.classList.add('d-none');
-        }, 2000);
+        }, 1000);
 })

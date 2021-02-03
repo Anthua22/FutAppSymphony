@@ -203,12 +203,12 @@ class Usuario implements UserInterface, \Serializable
             $this->id,
             $this->email,
             $this->password
-            )=$this->unserialize($serialized);
+            )=unserialize($serialized);
     }
 
     public function __toString()
     {
-        return $this->nombre;
+        return $this->nombre.' '. $this->apellidos;
     }
 
 

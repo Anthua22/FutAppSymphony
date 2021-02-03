@@ -55,6 +55,19 @@ class Partido
      */
     private $observaciones;
 
+    /**
+     * @ORM\Column(type="boolean", nullable=true)
+     */
+    private $disputado;
+
+    /**
+     * @ORM\Column(type="datetime", nullable=true)
+     */
+    private $fecha_asignacion;
+
+
+
+
     public function getId(): ?int
     {
         return $this->id;
@@ -143,4 +156,31 @@ class Partido
 
         return $this;
     }
+
+    public function getDisputado(): ?bool
+    {
+        return $this->disputado;
+    }
+
+    public function setDisputado(?bool $disputado): self
+    {
+        $this->disputado = $disputado;
+
+        return $this;
+    }
+
+    public function getFechaAsignacion()
+    {
+        return $this->fecha_asignacion;
+    }
+
+    public function setFechaAsignacion($fecha_asignacion): self
+    {
+        $this->fecha_asignacion = $fecha_asignacion;
+
+        return $this;
+    }
+
+
+
 }

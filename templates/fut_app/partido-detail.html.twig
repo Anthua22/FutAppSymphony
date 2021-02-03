@@ -1,6 +1,6 @@
 {% extends 'layout.html.twig' %}
 
-{% block title %}{{ parent() }} partido.equipolocal.nombre <span> VS </span>partido.equipovisitante.nombre{% endblock %}
+{% block title %}{{ parent() }}{{ partido.equipoLocal.nombre }}  vs {{ partido.equipoVisitante.nombre }}{% endblock %}
 
 {% block main_content %}
 
@@ -58,7 +58,15 @@
                     </a>
                 </div>
                 <div id="Elemento2" class="accordion-collapse collapse" data-parent="#idAcordeon">
-                    <div class="accordion-body">ypu</div>
+                    <div class="accordion-body">
+                        {% if partido.observaciones is empty %}
+                            <div class="alert alert-warning">No existen datos todavía del partido... </div>
+                            {% else %}
+                             <div>
+                                 {{ partido.observaciones }}
+                             </div>
+                        {% endif %}
+                    </div>
                 </div>
 
             </div>
