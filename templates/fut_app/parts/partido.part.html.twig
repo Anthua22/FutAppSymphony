@@ -2,12 +2,12 @@
     <div class="row">
         <div class="col-6">
             <a href="#"><img class="card-img-top"
-                             src="{% if partido.equipolocal.foto is empty %}/imgs/avatar.jpg{% else %}{{ asset('uploads/fotos/' ~ partido.equipolocal.foto) }}{% endif %}"></a>
+                             src="{% if partido.equipolocal.foto is empty %}/imgs/escudodefecto.jpg{% else %}{{ asset('uploads/fotos/' ~ partido.equipolocal.foto) }}{% endif %}"></a>
 
         </div>
         <div class="col-6">
             <a href="#"><img class="card-img-top"
-                             src="{% if partido.equipovisitante.foto is empty %}/imgs/avatar.jpg{% else %}{{ asset('uploads/fotos/' ~ partido.equipovisitante.foto) }}{% endif %}"></a>
+                             src="{% if partido.equipovisitante.foto is empty %}/imgs/escudodefecto.jpg{% else %}{{ asset('uploads/fotos/' ~ partido.equipovisitante.foto) }}{% endif %}"></a>
 
         </div>
     </div>

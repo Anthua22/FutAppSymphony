@@ -17,8 +17,8 @@
                 {% for partido in partidos %}
                     <div {% if itemcard ==0 %}class="carousel-item active"{% else%} class="carousel-item" {% endif %}>
                         <div class="row">
-                            <img class="col-6"  src="{% if partido.equipolocal.foto is empty %}/imgs/avatar.jpg{% else %}{{ asset('uploads/fotos/' ~ partido.equipolocal.foto) }}{% endif %}">
-                            <img class="col-6"  src="{% if partido.equipoVisitante.foto is empty %}/imgs/avatar.jpg{% else %}{{ asset('uploads/fotos/' ~ partido.equipoVisitante.foto) }}{% endif %}">
+                            <img class="col-6"  src="{% if partido.equipolocal.foto is empty %}/imgs/escudodefecto.jpg{% else %}{{ asset('uploads/fotos/' ~ partido.equipolocal.foto) }}{% endif %}">
+                            <img class="col-6"  src="{% if partido.equipoVisitante.foto is empty %}/imgs/escudodefecto.jpg{% else %}{{ asset('uploads/fotos/' ~ partido.equipoVisitante.foto) }}{% endif %}">
                         </div>
                         <div class="container">
                             <div class="carousel-caption text-center">
@@ -29,7 +29,7 @@
 
                                 </div>
 
-                                <p><a class="btn btn-lg btn-primary" href="#" role="button">Ver Detalle</a></p>
+                                <p><a class="btn btn-lg btn-primary" href="{{ path('futapp_detalle_partido',{id: partido.id}) }}" role="button">Ver Detalle</a></p>
                             </div>
                         </div>
                     </div>
@@ -48,8 +48,10 @@
         </div>
     </div>
 
-
-
+    <div class="row mt-5">
+        <h1 class="col-11">Partidos Asignados</h1>
+        <a href="#" class="col-1 btn btn-primary">Partidos</a>
+    </div>
     <div class="card-columns mt-4">
 
         <div class="row">

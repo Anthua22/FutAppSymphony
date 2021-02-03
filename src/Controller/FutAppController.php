@@ -68,4 +68,17 @@ class FutAppController extends AbstractController
     }
 
 
+    /**
+     * @Route(
+     *     "/partidos/{id}/detalle",
+     *     name="futapp_detalle_partido",
+     *     requirements={"id"="\d+"},
+     *     methods={"GET", "POST"}
+     * )
+     */
+    public function detalle(Partido $partido):Response{
+        return $this->render('fut_app/partido-detail.html.twig',[
+            'partido'=>$partido
+        ]);
+    }
 }

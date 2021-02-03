@@ -1,0 +1,66 @@
+{% extends 'layout.html.twig' %}
+
+{% block title %}{{ parent() }} partido.equipolocal.nombre <span> VS </span>partido.equipovisitante.nombre{% endblock %}
+
+{% block main_content %}
+    <div class="mt-4 row">
+        <div class="col-6">
+            <h2 class="mb-4">Equipo Local</h2>
+
+
+            {% include 'equipo/part/equipo.part.html.twig' with {
+                'equipo':partido.equipolocal
+            } %}
+
+
+        </div>
+        <div class="col-6">
+            <h2 class="mb-4">Equipo Visitante</h2>
+            {% include 'equipo/part/equipo.part.html.twig' with {
+                'equipo':partido.equipovisitante
+            } %}
+        </div>
+    </div>
+
+    <div class="row mt-4">
+        <div id="idAcordeon" class="accordion">
+            <div class="accordion-item">
+                <div class="accordion-header">
+                    <a class="accordion-button nombreEquipo" data-toggle="collapse" href="#Elemento1">
+                        Detalles del Partido
+                    </a>
+                </div>
+                <div id="Elemento1" class="accordion-collapse collapse show" data-parent="#idAcordeon">
+                    <div class="accordion-body">
+                        <div class="row justify-content-center">
+                            <div class="col-3">
+                                <p><strong>Árbitro:</strong></p>
+                                <p><strong>Dirección del encuentro:</strong></p>
+                                <p><strong>Fecha del encuentro:</strong></p>
+                                <p><strong>Hora del encuentro:</strong></p>
+                            </div>
+                            <div class="col-3">
+                                <p>{{ partido.arbitro.nombre }} {{ partido.arbitro.apellidos }}</p>
+                                <p>{{ partido.direccionEncuentro }}</p>
+                                <p>{{ partido.fechaEncuentro |date('d-m-Y')  }}</p>
+                                <p>{{ partido.fechaEncuentro |date('H:i:s')  }}</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+            <div class="accordion-item">
+                <div class="accordion-header">
+                    <a class="accordion-button nombreEquipo" data-toggle="collapse" href="#Elemento2">
+                        Incidencias del partido
+                    </a>
+                </div>
+                <div id="Elemento2" class="accordion-collapse collapse" data-parent="#idAcordeon">
+                    <div class="accordion-body">ypu</div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+{% endblock %}
