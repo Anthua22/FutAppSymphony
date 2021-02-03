@@ -36,6 +36,15 @@ class PartidoRepository extends ServiceEntityRepository
 
         return $qb->getQuery()->execute();
     }
+
+    public function getUltimosPartidosAsignados(){
+        $qb = $this->createQueryBuilder('partido');
+        $qb->orderBy('partido.fecha_asignacion','DESC');
+        $qb->setMaxResults(10);
+
+        return $qb->getQuery()->execute();
+
+    }
     // /**
     //  * @return Partido[] Returns an array of Partido objects
     //  */
