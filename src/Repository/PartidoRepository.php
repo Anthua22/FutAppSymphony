@@ -25,12 +25,17 @@ class PartidoRepository extends ServiceEntityRepository
         $qb = $this->createQueryBuilder('partido');
         $qb->innerJoin('partido.equipoLocal', 'equipo_local');
         $qb->innerJoin('partido.EquipoVisitante', 'equipo_visitante');
-
+        $qb->innerJoin('partido.arbitro','arbitro');
 
         $qb->where(
             $qb->expr()->like('equipo_local.nombre', ":busqueda")
         )->orWhere(
             $qb->expr()->like('equipo_visitante.nombre', ":busqueda")
+        )->
+        orWhere(
+            $qb->expr()->like('arbitro.nombre',":busqueda")
+        )->orWhere(
+            $qb->expr()->like('arbitro.apellidos',":busqueda")
         )->setParameter('busqueda', '%' . $busqueda . '%');
 
 
