@@ -13,12 +13,41 @@
         </h4>
 
         <div class="row">
-            <a href="{{ path('futapp_editar_equipo',{id: equipo.id}) }}" class="col-3 btn btn-primary" style="margin-right: 5px;">Editar <i
+            <a href="{{ path('futapp_editar_equipo',{id: equipo.id}) }}" class="col-3 btn btn-primary"
+               style="margin-right: 5px;">Editar <i
                         class="fa fa-edit"></i></a>
-            <a href="{{ path('futapp_borrar_equipo',{id: equipo.id}) }}" class="col-3 btn btn-danger">Borrar <i
-                        class="fa fa-trash"></i></a>
-        </div>
 
+            <button type="button" class="col-3 btn btn-danger" data-toggle="modal" data-target="#exampleModalCenter">
+                Borrar <i class="fa fa-trash"></i>
+            </button>
+
+            <!-- Modal -->
+            <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog"
+                 aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="exampleModalLongTitle">Borrar al {{ equipo.nombre }}</h5>
+                            <button type="button" class="btn-close" data-dismiss="modal" aria-label="Close">
+
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            <div class="alert alert-warning">
+                                Estas seguro de querer elimnar a este equipo? Los partidos en los haya participado se
+                                borrarán también...
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                            <a href="{{ path('futapp_borrar_equipo',{id: equipo.id}) }}" class="col-3 btn btn-danger">Borrar
+                                <i class="fa fa-trash"></i></a>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
 
 
     </div>
@@ -26,10 +55,12 @@
     <div class="mt-5">
         <ul class="nav nav-tabs" id="myTab" role="tablist">
             <li class="nav-item waves-effect waves-light">
-                <a class="nav-link active" id="contact-tab" data-toggle="tab" href="#contact" role="tab" aria-controls="contact" aria-selected="true">Nuevos</a>
+                <a class="nav-link active" id="contact-tab" data-toggle="tab" href="#contact" role="tab"
+                   aria-controls="contact" aria-selected="true">Nuevos</a>
             </li>
             <li class="nav-item waves-effect waves-light">
-                <a class="nav-link" id="home-tab" data-toggle="tab" href="#home" role="tab" aria-controls="home" aria-selected="false">Pasados</a>
+                <a class="nav-link" id="home-tab" data-toggle="tab" href="#home" role="tab" aria-controls="home"
+                   aria-selected="false">Pasados</a>
             </li>
 
         </ul>
@@ -47,7 +78,7 @@
                     </div>
                 </div>
             </div>
-           <div class="tab-pane fade active show" id="contact" role="tabpanel" aria-labelledby="contact-tab">
+            <div class="tab-pane fade active show" id="contact" role="tabpanel" aria-labelledby="contact-tab">
                 <div class="card-columns mt-4">
                     <div class="row">
                         {% for partido in partidosnuevos %}
