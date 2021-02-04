@@ -1,15 +1,14 @@
 {% extends 'layout.html.twig' %}
 
-{% block title %}{{ parent() }} Partidos - Nuevo {% endblock %}
+{% block title %}{{ parent() }} PartidosForm {% endblock %}
 
 {% block main_content %}
     <div class="mt-4">
 
         {% if error is defined and error is not empty %}
-            <div class="row">
-                <div class="alert alert-danger col-12">
-                    {{ error }}
-                </div>
+            <div class="alert alert-danger alert-dismissable">
+                <button type="button" class="btn-close" data-dismiss="alert">&times;</button>
+                <strong>Error</strong> {{ error }}
             </div>
         {% endif %}
 
@@ -17,20 +16,19 @@
 
         <div class="row mt-5">
 
-
-            {{ form_label(form.nombre, null, {'label_attr': {'class': 'label-field'}}) }}
+            <label class="mb-3">Nombre</label>
             {{ form_widget(form.nombre, {'attr': {'class': 'form-control'}}) }}
 
 
         </div>
 
         <div class="row mt-5">
-            {{ form_label(form.correo, null, {'label_attr': {'class': 'label-field'}}) }}
+            <label class="mb-3">Correo Electrónico</label>
             {{ form_widget(form.correo, {'attr': {'class': 'form-control'}}) }}
         </div>
         <div class="row mt-5">
 
-            {{ form_label(form.direccion_campo, null, {'label_attr': {'class': 'label-field','innerText':'Dirección campo entrenamiento'}}) }}
+            <label class="mb-3">Dirección del campo de entrenamiento</label>
             {{ form_widget(form.direccion_campo, {'attr': {'class': 'form-control'}}) }}
 
 
@@ -38,18 +36,17 @@
 
         <div class="row mt-5">
 
-
-                {{ form_label(form.fotoFile, null, {'label_attr': {'class': 'label-field'}}) }}
-                {{ form_widget(form.fotoFile,{'attr':{'class':'form-control' }}) }}
+            <label class="mb-3">Foto (.JPG o .PNG)</label>
+            {{ form_widget(form.fotoFile,{'attr':{'class':'form-control' }}) }}
 
 
         </div>
 
 
         <div class="row">
-            <div class="col-2 offset-5">
-                {{ form_row(form.guardar, {'attr':{'class':'btn btn-primary mt-5'}}) }}
-            </div>
+
+            {{ form_row(form.guardar, {'attr':{'class':'btn btn-primary mt-5'}}) }}
+
         </div>
 
         {{ form_end(form) }}
