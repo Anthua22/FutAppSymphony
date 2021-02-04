@@ -43,8 +43,8 @@
                             <div class="col-3">
                                 <p>{{ partido.arbitro.nombre }} {{ partido.arbitro.apellidos }}</p>
                                 <p>{{ partido.direccionEncuentro }}</p>
-                                <p>{{ partido.fechaEncuentro |date('d-m-Y')  }}</p>
-                                <p>{{ partido.fechaEncuentro |date('H:i:s')  }}</p>
+                                <p>{{ partido.fechaEncuentro |date('d-m-Y') }}</p>
+                                <p>{{ partido.fechaEncuentro |date('H:i:s') }}</p>
                             </div>
                         </div>
                     </div>
@@ -53,19 +53,50 @@
             </div>
             <div class="accordion-item">
                 <div class="accordion-header">
-                    <a class="accordion-button nombreEquipo" data-toggle="collapse" href="#Elemento2">
+                    <a class="accordion-button collapsed nombreEquipo" data-toggle="collapse" href="#Elemento2">
                         Detalles del partido
                     </a>
                 </div>
                 <div id="Elemento2" class="accordion-collapse collapse" data-parent="#idAcordeon">
                     <div class="accordion-body">
                         {% if partido.observaciones is empty %}
-                            <div class="alert alert-warning">No existen datos todavía del partido... </div>
-                            {% else %}
-                             <div>
-                                 {{ partido.observaciones }}
-                             </div>
+                            <div class="alert alert-warning">No existen datos todavía del partido...</div>
+                        {% else %}
+                            <div>
+                                {{ partido.observaciones }}
+                            </div>
                         {% endif %}
+                    </div>
+                </div>
+
+            </div>
+            <div class="accordion-item">
+                <div class="accordion-header">
+                    <a class="accordion-button collapsed nombreEquipo" data-toggle="collapse" href="#Elemento3">
+                        Acta del partido
+                    </a>
+                </div>
+                <div id="Elemento3" class="accordion-collapse collapse" data-parent="#idAcordeon">
+                    <div class="accordion-body">
+                        <form action="{{ path('futapp_observaciones_partido',{id: partido.id}) }}" method="post">
+                            <div class="row justify-content-center">
+                                <div class="col-3">
+                                    <p class="mb-3"><strong>Resultado:</strong></p>
+                                    <p><strong>Observaciones:</strong></p>
+
+                                </div>
+                                <div class="col-5 mb-3">
+                                    <input type="text" name="resultado" required value="{{ partido.resultado }}" placeholder="0-0" class="mb-3 form-control"/>
+                                    <textarea name="observaciones" class="form-control">{{ partido.observaciones }}</textarea>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-2 offset-5">
+                                   <button type="submit" class="btn btn-primary">Enviar</button>
+                                </div>
+                            </div>
+                        </form>
                     </div>
                 </div>
 

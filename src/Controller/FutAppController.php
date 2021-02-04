@@ -100,9 +100,9 @@ class FutAppController extends AbstractController
         $form->handleRequest($request);
 
         if($form->isSubmitted() && $form->isValid()){
-            $equipo = $form->getData();
+            $partido = $form->getData();
             $entityManager = $this->getDoctrine()->getManager();
-            $entityManager->persist($equipo);
+            $entityManager->persist($partido);
             $entityManager->flush();
 
             return $this->redirectToRoute('fut_app_inicio');
@@ -177,4 +177,30 @@ class FutAppController extends AbstractController
         ]);
 
     }
+
+    /**
+     * @Route(
+     *     "/partidos/{id}/observaciones",
+     *     name="futapp_observaciones_partido",
+     *     requirements={"id"="\d+"},
+     *     methods={"POST"}
+     * )
+     */
+    public function postDetallesPartido(Request $request, Partido $partido)
+    {
+        $partido->setResultado($request->get('resultado'));
+
+        if($request->get('observaciones')){
+            $partido->setObservaciones($request->get('observaciones'));
+        }
+
+        $entityManager = $this->getDoctrine()->getManager();
+        $entityManager->persist($partido);
+        $entityManager->flush();
+
+        return $this->redirectToRoute('futapp_detalle_partido',['id'=>$partido->getId()]);
+
+    }
+
+
 }
