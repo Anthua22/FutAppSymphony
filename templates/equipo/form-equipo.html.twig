@@ -14,38 +14,47 @@
 
         {{ form_start(form) }}
 
-        <div class="row mt-5">
+        <div class="row mb-3">
+            <div class="col-12">
+                <label class="mb-3">Nombre</label>
+                {{ form_widget(form.nombre, {'attr': {'class': 'form-control'}}) }}
+            </div>
 
-            <label class="mb-3">Nombre</label>
-            {{ form_widget(form.nombre, {'attr': {'class': 'form-control'}}) }}
+        </div>
+
+        <div class="row mb-3">
+            <div class="col-12">
+                <label class="mb-3">Correo Electrónico</label>
+                {{ form_widget(form.correo, {'attr': {'class': 'form-control'}}) }}
+            </div>
+
+        </div>
+        <div class="row mb-3">
+            <div class="col-12">
+                <label class="mb-3">Dirección del campo de entrenamiento</label>
+                {{ form_widget(form.direccion_campo, {'attr': {'class': 'form-control'}}) }}
+
+            </div>
 
 
         </div>
 
-        <div class="row mt-5">
-            <label class="mb-3">Correo Electrónico</label>
-            {{ form_widget(form.correo, {'attr': {'class': 'form-control'}}) }}
-        </div>
-        <div class="row mt-5">
+        <div class="row mb-3">
+            <div class="col-12">
+                <label class="mb-3">Foto (.JPG o .PNG)</label>
+                {{ form_widget(form.fotoFile,{'attr':{'class':'form-control' }}) }}
 
-            <label class="mb-3">Dirección del campo de entrenamiento</label>
-            {{ form_widget(form.direccion_campo, {'attr': {'class': 'form-control'}}) }}
-
-
-        </div>
-
-        <div class="row mt-5">
-
-            <label class="mb-3">Foto (.JPG o .PNG)</label>
-            {{ form_widget(form.fotoFile,{'attr':{'class':'form-control' }}) }}
+            </div>
 
 
         </div>
 
 
-        <div class="row">
+        <div class="row mb-3">
+            <div class="col-2">
+                {{ form_row(form.guardar, {'attr':{'class':'btn btn-primary mt-5'}}) }}
+            </div>
 
-            {{ form_row(form.guardar, {'attr':{'class':'btn btn-primary mt-5'}}) }}
 
         </div>
 
