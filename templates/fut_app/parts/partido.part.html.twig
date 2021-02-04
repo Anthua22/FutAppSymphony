@@ -45,10 +45,13 @@
     </div>
     <div class="card-footer">
         <div class="row justify-content-evenly">
-            <a href="{{ path('futapp_editar_partido',{id: partido.id}) }}" class="col-3 btn btn-primary">Editar <i
-                        class="fa fa-edit"></i></a>
-            <a href="{{ path('futapp_borrar_partido',{id: partido.id}) }}" class="col-3 btn btn-danger">Borrar <i
-                        class="fa fa-trash"></i></a>
+            {% if is_granted('ROLE_ADMIN') %}
+                <a href="{{ path('futapp_editar_partido',{id: partido.id}) }}" class="col-3 btn btn-primary">Editar <i
+                            class="fa fa-edit"></i></a>
+                <a href="{{ path('futapp_borrar_partido',{id: partido.id}) }}" class="col-3 btn btn-danger">Borrar <i
+                            class="fa fa-trash"></i></a>
+            {% endif %}
+
             <a href="{{ path('futapp_detalle_partido',{id: partido.id}) }}" class="col-3 btn btn-info" style="color: white;">Ver <i
                         class="fa fa-eye"></i></a>
         </div>

@@ -168,7 +168,7 @@ class Usuario implements UserInterface, \Serializable
 
     public function getRoles()
     {
-        return ['Role_ADMIN'];
+        return [$this->getRole()];
     }
 
     public function getSalt()
@@ -193,7 +193,8 @@ class Usuario implements UserInterface, \Serializable
         return serialize([
             $this->id,
             $this->email,
-            $this->password
+            $this->password,
+            $this->role
         ]);
     }
 
@@ -202,7 +203,8 @@ class Usuario implements UserInterface, \Serializable
         list(
             $this->id,
             $this->email,
-            $this->password
+            $this->password,
+            $this->role
             )=unserialize($serialized);
     }
 
