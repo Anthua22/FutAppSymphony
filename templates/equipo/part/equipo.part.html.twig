@@ -1,8 +1,9 @@
 <div class="card shadow">
     <a href="{{ path('futapp_detalle_equipo',{id: equipo.id}) }}"><img class="card-img-top"
-                     src="{% if equipo.foto is empty %}/imgs/escudodefecto.jpg{% else %}{{ asset('uploads/fotos/' ~ equipo.foto) }}{% endif %}"/></a>
+                                                                       src="{% if equipo.foto is empty %}/imgs/escudodefecto.jpg{% else %}{{ asset('uploads/fotos/' ~ equipo.foto) }}{% endif %}"/></a>
     <div class="card-body">
-        <h5 class="card-title"><a href="{{ path('futapp_detalle_equipo',{id: equipo.id}) }}" class="nombreEquipo">{{ equipo.nombre }}</a></h5>
+        <h5 class="card-title"><a href="{{ path('futapp_detalle_equipo',{id: equipo.id}) }}"
+                                  class="nombreEquipo">{{ equipo.nombre }}</a></h5>
         <div class="row mt-3">
             <span class="label col-6">Correo:</span>
             <span class="card-text col-6">{{ equipo.correo }}</span>
@@ -14,17 +15,45 @@
 
         </div>
     </div>
+
     <div class="card-footer">
+        {% set modal = 'Equipo' ~ equipo.id %}
         <div class="row justify-content-evenly">
             <a href="{{ path('futapp_editar_equipo',{id: equipo.id}) }}" class="col-3 btn btn-primary">Editar <i
                         class="fa fa-edit"></i></a>
-            <a href="{{ path('futapp_borrar_equipo',{id: equipo.id}) }}" class="col-3 btn btn-danger">Borrar <i
-                        class="fa fa-trash"></i></a>
+            <button type="button" class="col-3 btn btn-danger" data-toggle="modal" data-target="#{{ modal }}">
+                Borrar <i class="fa fa-trash"></i>
+            </button>
+
             <a href="{{ path('futapp_detalle_equipo',{id: equipo.id}) }}" class="col-3 btn btn-info">Ver <i
                         class="fa fa-eye"></i></a>
         </div>
+        <div class="modal fade" id="{{ modal }}" tabindex="-1" role="dialog"
+             aria-labelledby="{{ modal ~ 'Title' }}" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="{{ modal ~ 'LongTitle'}}">Eliminación del equipo {{ equipo.nombre }}</h5>
+                        <button type="button" class="btn-close" data-dismiss="modal" aria-label="Close">
 
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="alert alert-warning">
+                            Estas seguro de querer elimnar a este equipo? Los partidos en los haya participado se borrarán también...
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                        <a href="{{ path('futapp_borrar_equipo',{id: equipo.id}) }}" class="col-3 btn btn-danger">Borrar <i
+                                    class="fa fa-trash"></i></a>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
+
+
 </div>
 
 
