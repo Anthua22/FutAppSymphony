@@ -81,11 +81,13 @@
                         <form action="{{ path('futapp_observaciones_partido',{id: partido.id}) }}" method="post">
                             <div class="row justify-content-center">
                                 <div class="col-3">
+                                    <p class="mb-3"><strong>Acabado:</strong></p>
                                     <p class="mb-3"><strong>Resultado:</strong></p>
                                     <p><strong>Observaciones:</strong></p>
 
                                 </div>
                                 <div class="col-5 mb-3">
+                                    <input type="checkbox" name="acabado" {% if partido.disputado %}checked{% endif%} class="mb-3">
                                     <input type="text" name="resultado" required value="{{ partido.resultado }}" placeholder="0-0" class="mb-3 form-control"/>
                                     <textarea name="observaciones" class="form-control">{{ partido.observaciones }}</textarea>
                                 </div>

@@ -189,7 +189,7 @@ class FutAppController extends AbstractController
     public function postDetallesPartido(Request $request, Partido $partido)
     {
         $partido->setResultado($request->get('resultado'));
-
+        $partido->setDisputado($request->get('acabado'));
         if($request->get('observaciones')){
             $partido->setObservaciones($request->get('observaciones'));
         }
