@@ -127,7 +127,6 @@ class FutAppController extends AbstractController
         ]);
     }
 
-
     /**
      * @Route(
      *     "/partidos/{id}/borrar",

@@ -8,8 +8,13 @@ security:
                 property: email
     encoders:
         App\Entity\Usuario:
-            algorithm: bcrypy
+            algorithm: bcrypt
             cost: 12
+
+
+    role_hierarchy:
+        ROLE_ADMIN: ROLE_USER
+
     firewalls:
         dev:
             pattern: ^/(_(profiler|wdt)|css|images|js)/
@@ -19,7 +24,12 @@ security:
             http_basic: ~
             lazy: true
             provider: users_in_bbdd
-
+            form_login:
+                login_path: futapp_login
+                check_path: futapp_check_login
+            logout:
+              path: futapp_logout
+              target: futapp_login
             # activate different ways to authenticate
             # https://symfony.com/doc/current/security.html#firewalls-authentication
 
@@ -29,5 +39,7 @@ security:
     # Easy way to control access for large sections of your site
     # Note: Only the *first* access control that matches will be used
     access_control:
-         - { path: ^/admin, roles: ROLE_ADMIN }
-        # - { path: ^/profile, roles: ROLE_USER }
+         - { path: ^/partidos/nuevo, roles: ROLE_ADMIN }
+         - { path: ^/equipo_nuevo, roles: ROLE_ADMIN }
+         - { path: ^/login, roles: IS_AUTHENTICATED_ANONYMOUSLY}
+
