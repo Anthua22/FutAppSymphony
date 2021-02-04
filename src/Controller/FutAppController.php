@@ -43,8 +43,6 @@ class FutAppController extends AbstractController
             ]);
         }
 
-
-
     }
 
     /**
@@ -112,8 +110,6 @@ class FutAppController extends AbstractController
      * )
      */
     public function borrarPartido(Partido $partido){
-
-
         $manager = $this->getDoctrine()->getManager();
         $manager->remove($partido);
         $manager->flush();

@@ -110,14 +110,19 @@ class EquipoController extends AbstractController
      * )
      */
     public function borrar(Equipo $equipo){
-        $fileName = $equipo->getFoto();
-        if(isset($fileName)){
-            unlink(__DIR__.'/../../public/uploads/fotos/'.$fileName);
+        try{
+
+            if(isset($fileName)){
+                unlink(__DIR__.'/../../public/uploads/fotos/'.$fileName);
+            }
+            $manager = $this->getDoctrine()->getManager();
+            $manager->remove($equipo);
+            $manager->flush();
+            return $this->redirectToRoute('futapp_equipos');
+        }catch (BadRequestException $exception){
+            echo $exception;
         }
-        $manager = $this->getDoctrine()->getManager();
-        $manager->remove($equipo);
-        $manager->flush();
-        return $this->redirectToRoute('futapp_equipos');
+
     }
 
     /**

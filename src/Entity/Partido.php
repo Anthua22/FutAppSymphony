@@ -36,17 +36,20 @@ class Partido
     private $arbitro;
 
     /**
-     * @ORM\ManyToOne(targetEntity=Equipo::class, inversedBy="equipos")
+     * @ORM\ManyToOne(targetEntity=Equipo::class, inversedBy="equipos", cascade="remove")
+     * @ORM\JoinColumn(onDelete="CASCADE")
      */
     private $equipoLocal;
 
     /**
-     * @ORM\ManyToOne(targetEntity=Equipo::class, inversedBy="equipos")
+     * @ORM\ManyToOne(targetEntity=Equipo::class, inversedBy="equipos", cascade="remove")
+     * @ORM\JoinColumn(onDelete="CASCADE")
      */
     private $EquipoVisitante;
 
     /**
      * @ORM\Column(type="string", length=6, nullable=true)
+     * @ORM\JoinColumn(onDelete="CASCADE")
      */
     private $resultado;
 
