@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\Equipo;
+use App\Entity\Partido;
 use App\Forms\EquipoForm;
 
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -117,6 +118,25 @@ class EquipoController extends AbstractController
         $manager->remove($equipo);
         $manager->flush();
         return $this->redirectToRoute('futapp_equipos');
+    }
+
+    /**
+     * @Route(
+     *     "/equipos/{id}/detalle",
+     *     name="futapp_detalle_equipo",
+     *     requirements={"id"="\d+"},
+     *     methods={"GET", "POST"}
+     * )
+     */
+    public function detalle(Equipo $equipo):Response{
+        $partidosNuevos = $this->getDoctrine()->getRepository(Partido::class)->getPartidosNuevosEquipo($equipo);
+        $partidosPasados = $this->getDoctrine()->getRepository(Partido::class)->getPartidosPasadosEquipo($equipo);
+
+        return $this->render('equipo/equipo-detail.html.twig',[
+            'equipo'=>$equipo,
+            'partidosnuevos'=>$partidosNuevos,
+            'partidospasados'=>$partidosPasados
+        ]);
     }
 
 }

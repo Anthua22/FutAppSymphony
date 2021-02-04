@@ -2,6 +2,7 @@
 
 namespace App\Repository;
 
+use App\Entity\Equipo;
 use App\Entity\Partido;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
@@ -49,6 +50,39 @@ class PartidoRepository extends ServiceEntityRepository
 
         return $qb->getQuery()->execute();
 
+    }
+
+    public function getPartidosNuevosEquipo(Equipo $equipo){
+        $qb = $this->createQueryBuilder('partido');
+        $qb->innerJoin('partido.equipoLocal', 'equipo_local');
+        $qb->innerJoin('partido.EquipoVisitante', 'equipo_visitante');
+
+        $qb->where(
+            'equipo_local.id = :id'
+        )->orWhere(
+            'equipo_visitante.id = :id'
+        )->andWhere(
+            'partido.disputado = false'
+        )->setParameter('id',$equipo->getId());
+
+        return $qb->getQuery()->execute();
+    }
+
+
+    public function getPartidosPasadosEquipo(Equipo $equipo){
+        $qb = $this->createQueryBuilder('partido');
+        $qb->innerJoin('partido.equipoLocal', 'equipo_local');
+        $qb->innerJoin('partido.EquipoVisitante', 'equipo_visitante');
+
+        $qb->where(
+            'equipo_local.id = :id'
+        )->orWhere(
+            'equipo_visitante.id = :id'
+        )->andWhere(
+            'partido.disputado = true'
+        )->setParameter('id',$equipo->getId());
+
+        return $qb->getQuery()->execute();
     }
     // /**
     //  * @return Partido[] Returns an array of Partido objects

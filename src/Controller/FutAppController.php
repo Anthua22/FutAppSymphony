@@ -60,13 +60,11 @@ class FutAppController extends AbstractController
 
             $form->handleRequest($request);
 
-
-
             if($form->isSubmitted() && $form->isValid()){
 
                 $partido = $form->getData();
                 $partido->setFechaAsignacion(new \DateTime());
-
+                $partido->setDisputado(false);
                 if($partido->getEquipoLocal()!==$partido->getEquipoVisitante()){
                     $entityManager = $this->getDoctrine()->getManager();
                     $entityManager->persist($partido);
