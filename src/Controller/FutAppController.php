@@ -85,6 +85,33 @@ class FutAppController extends AbstractController
 
     }
 
+    /**
+     * @Route(
+     *     "/partidos/{id}/editar",
+     *     name="futapp_editar_partido",
+     *     requirements={"id"="\d+"},
+     *     methods={"GET", "POST"}
+     * )
+     */
+    public function editar(Request $request,Partido $partido)
+    {
+        $form = $this->createForm(PartidoForm::class, $partido);
+
+        $form->handleRequest($request);
+
+        if($form->isSubmitted() && $form->isValid()){
+            $equipo = $form->getData();
+            $entityManager = $this->getDoctrine()->getManager();
+            $entityManager->persist($equipo);
+            $entityManager->flush();
+
+            return $this->redirectToRoute('fut_app_inicio');
+        }
+
+        return $this->render('fut_app/form-partido.html.twig',[
+            'form'=>$form->createView()
+        ]);
+    }
 
     /**
      * @Route(

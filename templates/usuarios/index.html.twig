@@ -1,0 +1,23 @@
+{% extends 'layout.html.twig' %}
+
+{% block title %} {{ parent() }} Arbitros{% endblock %}
+
+{% block main_content %}
+    <div class="card-columns mt-4 mb-4">
+        <div class="row">
+            {% for arbitro in arbitros %}
+                <div class="col-4 mb-4">
+                    {% include 'usuarios/parts/usuario.part.html.twig' with {
+                        'arbitro':arbitro
+                    } only %}
+                </div>
+
+            {% endfor %}
+        </div>
+
+    </div>
+
+
+
+
+{% endblock %}
