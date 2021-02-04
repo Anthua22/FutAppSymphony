@@ -46,7 +46,7 @@ class PartidoRepository extends ServiceEntityRepository
     public function getUltimosPartidosAsignados(){
         $qb = $this->createQueryBuilder('partido');
         $qb->orderBy('partido.fecha_asignacion','DESC');
-        $qb->setMaxResults(10);
+        $qb->setMaxResults(7);
 
         return $qb->getQuery()->execute();
 

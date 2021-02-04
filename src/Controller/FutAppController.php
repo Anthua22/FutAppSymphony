@@ -19,8 +19,9 @@ class FutAppController extends AbstractController
      */
     public function index(Request  $request): Response
     {
+        $partidos = $this->getDoctrine()->getRepository(Partido::class)->getUltimosPartidosAsignados();
         if($request->getMethod()==='POST'){
-            $partidos = $this->getDoctrine()->getRepository(Partido::class)->getUltimosPartidosAsignados();
+
             $equiponombre = $_POST['nombreequipo'];
             if(!empty($equiponombre)){
                 $partidosfilter = $this->getDoctrine()->getRepository(Partido::class)->getEquipoByPartido($equiponombre);
@@ -35,7 +36,6 @@ class FutAppController extends AbstractController
 
         }else{
             $partidosfilter = $this->getDoctrine()->getRepository(Partido::class)->findAll();
-            $partidos = $this->getDoctrine()->getRepository(Partido::class)->getUltimosPartidosAsignados();
 
             return $this->render('fut_app/index.html.twig', [
                 'partidos'=>$partidos,
@@ -129,7 +129,7 @@ class FutAppController extends AbstractController
             'disputado'=>true
         ]);
 
-        $partidos = $this->getDoctrine()->getRepository(Partido::class)->findAll();
+        $partidos = $this->getDoctrine()->getRepository(Partido::class)->getUltimosPartidosAsignados();
 
         return $this->render('fut_app/index.html.twig',[
             'partidos'=>$partidos,
@@ -146,7 +146,7 @@ class FutAppController extends AbstractController
             'disputado'=>false
         ]);
 
-        $partidos = $this->getDoctrine()->getRepository(Partido::class)->findAll();
+        $partidos = $this->getDoctrine()->getRepository(Partido::class)->getUltimosPartidosAsignados();
 
         return $this->render('fut_app/index.html.twig',[
             'partidos'=>$partidos,

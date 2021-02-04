@@ -20,20 +20,22 @@
 
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav mr-auto">
-                <a class="nav-link -item_nav active" href="{{ path('fut_app_inicio') }}">Inicio<span class="sr-only">(current)</span></a>
+                <li>
+                    <a {% if menuactivo('index')==1 %} class="nav-link -item_nav active" {% else%}class="nav-link -item_nav"  {% endif%} href="{{ path('fut_app_inicio') }}">Inicio<span
+                                class="sr-only">(current)</span></a>
                 </li>
                 <li class="nav-item active">
                     <a class="nav-link -item_nav" href="#">Arbitros</a>
                 </li>
 
                 <li class="nav-item">
-                    <a class="nav-link -item_nav" href="{{ path('futapp_equipos') }}">Equipos</a>
+                    <a {% if menuactivo('equipos')==1 %} class="nav-link -item_nav active" {% else%}class="nav-link -item_nav"  {% endif%} href="{{ path('futapp_equipos') }}">Equipos</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link -item_nav" href="{{ path('fut_app_partidos_nuevo') }}">Asignar Partido</a>
+                    <a {% if menuactivo('partidos/nuevo')==1 %} class="nav-link -item_nav active" {% else%}class="nav-link -item_nav"  {% endif%}  href="{{ path('fut_app_partidos_nuevo') }}">Asignar Partido</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link -item_nav" href="{{ path('futapp_equipos_form') }}">Añadir Equipo</a>
+                    <a {% if menuactivo('equipo_nuevo')==1 %} class="nav-link -item_nav active" {% else%}class="nav-link -item_nav"  {% endif%}  href="{{ path('futapp_equipos_form') }}">Añadir Equipo</a>
                 </li>
 
             </ul>
