@@ -4,6 +4,7 @@ namespace App\Repository;
 
 use App\Entity\Equipo;
 use App\Entity\Partido;
+use App\Entity\Usuario;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 use function Doctrine\ORM\QueryBuilder;
@@ -51,6 +52,34 @@ class PartidoRepository extends ServiceEntityRepository
 
         return $qb->getQuery()->execute();
 
+    }
+
+    public function getPartidosNuevosArbitro(Usuario $usuario)
+    {
+        $qb = $this->createQueryBuilder('partido');
+        $qb->innerJoin('partido.arbitro', 'arbitro');
+
+        $qb->where(
+            'arbitro.id = :id'
+        )->andWhere(
+            'partido.disputado = false'
+        )->setParameter('id',$usuario->getId());
+
+        return $qb->getQuery()->execute();
+    }
+
+    public function getPartidosPasadosArbitro(Usuario $usuario)
+    {
+        $qb = $this->createQueryBuilder('partido');
+        $qb->innerJoin('partido.arbitro', 'arbitro');
+
+        $qb->where(
+            'arbitro.id = :id'
+        )->andWhere(
+            'partido.disputado = true'
+        )->setParameter('id',$usuario->getId());
+
+        return $qb->getQuery()->execute();
     }
 
     public function getPartidosNuevosEquipo(Equipo $equipo){

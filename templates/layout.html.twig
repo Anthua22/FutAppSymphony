@@ -26,19 +26,14 @@
                                 class="sr-only">(current)</span></a>
                 </li>
                 <li class="nav-item active">
-                    <a class="nav-link -item_nav" href="{{ path('futapp_arbitros') }}">Arbitros</a>
+                    <a {% if menuactivo('arbitros')==1 %} class="nav-link -item_nav active" {% else %}class="nav-link -item_nav"  {% endif %} href="{{ path('futapp_arbitros') }}">Arbitros</a>
                 </li>
 
                 <li class="nav-item">
                     <a {% if menuactivo('equipos')==1 %} class="nav-link -item_nav active" {% else %}class="nav-link -item_nav"  {% endif %}
                             href="{{ path('futapp_equipos') }}">Equipos</a>
                 </li>
-                {% if is_granted('ROLE_USER') %}
-                    <li class="nav-item">
-                        <a {% if menuactivo('me')==1 %} class="nav-link -item_nav active" {% else %}class="nav-link -item_nav"  {% endif %}
-                                href="{{ path('futapp_equipos_form') }}">Mi Perfil</a>
-                    </li>
-                {% endif %}
+
                 {% if is_granted('ROLE_ADMIN') %}
                     <li class="nav-item">
                         <a {% if menuactivo('partidos/nuevo')==1 %} class="nav-link -item_nav active" {% else %}class="nav-link -item_nav"  {% endif %}
@@ -62,22 +57,23 @@
 
 
                 <li class="nav-item">
-                    <a class="nav-link" href="#">Registrarse</a>
+                    <a class="nav-link" href="{{ path('futapp_register') }}">Registrarse</a>
                 </li>
             </ul>
         {% endif %}
-        {% if is_granted('ROLE_ADMIN') %}
-            <div class="dropdown ml-auto">
-                <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                    <div class="row">
-                        <img src="{{ asset('imgs/avatar.jpg') }}" class="col-4 rounded"/>
-                        <div class="col-2">{{ app.user.nombre }}</div>
-                    </div>
+        {% if is_granted('ROLE_USER') %}
+            <div class="dropdown ml-auto" style="margin-right: 10px">
+                <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton"
+                        data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+
+                    <img src="{% if app.user.foto is empty %}/imgs/avatar.jpg{% else %}{{ asset('uploads/fotos/' ~ arbitro.foto) }}{% endif %}"
+                         class="col-3 rounded"/>
+
                 </button>
                 <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                    <a class="dropdown-item" href="#">Action</a>
-                    <a class="dropdown-item" href="#">Another action</a>
-                    <a class="nav-link logout" href="{{ path('futapp_logout') }}">Salir</a>
+                    <a class="dropdown-item" href="#">Ver mi perfil</a>
+                    <a class="dropdown-item" href="{{ path('futapp_arbitro_perfil', {id: app.user.id })}}">Editar Perfil</a>
+                    <a class="nav-link logout" href="{{ path('futapp_logout') }}">Cerrar sesión</a>
                 </div>
             </div>
 

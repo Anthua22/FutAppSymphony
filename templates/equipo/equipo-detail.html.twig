@@ -11,43 +11,46 @@
         <h4>
             <small class="text-muted">{{ equipo.correo }}</small>
         </h4>
+        {% if is_granted('ROLE_ADMIN') %}
+            <div class="row">
 
-        <div class="row">
-            <a href="{{ path('futapp_editar_equipo',{id: equipo.id}) }}" class="col-3 btn btn-primary"
-               style="margin-right: 5px;">Editar <i
-                        class="fa fa-edit"></i></a>
+                <a href="{{ path('futapp_editar_equipo',{id: equipo.id}) }}" class="col-3 btn btn-primary"
+                   style="margin-right: 5px;">Editar <i
+                            class="fa fa-edit"></i></a>
 
-            <button type="button" class="col-3 btn btn-danger" data-toggle="modal" data-target="#exampleModalCenter">
-                Borrar <i class="fa fa-trash"></i>
-            </button>
+                <button type="button" class="col-3 btn btn-danger" data-toggle="modal" data-target="#exampleModalCenter">
+                    Borrar <i class="fa fa-trash"></i>
+                </button>
 
-            <!-- Modal -->
-            <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog"
-                 aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
-                <div class="modal-dialog modal-dialog-centered" role="document">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <h5 class="modal-title" id="exampleModalLongTitle">Borrar al {{ equipo.nombre }}</h5>
-                            <button type="button" class="btn-close" data-dismiss="modal" aria-label="Close">
+                <!-- Modal -->
+                <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog"
+                     aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+                    <div class="modal-dialog modal-dialog-centered" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="exampleModalLongTitle">Borrar al {{ equipo.nombre }}</h5>
+                                <button type="button" class="btn-close" data-dismiss="modal" aria-label="Close">
 
-                            </button>
-                        </div>
-                        <div class="modal-body">
-                            <div class="alert alert-warning">
-                                Estas seguro de querer elimnar a este equipo? Los partidos en los haya participado se
-                                borrarán también...
+                                </button>
                             </div>
-                        </div>
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                            <a href="{{ path('futapp_borrar_equipo',{id: equipo.id}) }}" class="col-3 btn btn-danger">Borrar
-                                <i class="fa fa-trash"></i></a>
+                            <div class="modal-body">
+                                <div class="alert alert-warning">
+                                    Estas seguro de querer elimnar a este equipo? Los partidos en los haya participado se
+                                    borrarán también...
+                                </div>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                <a href="{{ path('futapp_borrar_equipo',{id: equipo.id}) }}" class="col-3 btn btn-danger">Borrar
+                                    <i class="fa fa-trash"></i></a>
 
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
-        </div>
+        {% endif %}
+
 
 
     </div>

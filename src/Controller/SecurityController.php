@@ -9,6 +9,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
 
+
 class SecurityController extends AbstractController
 {
 
@@ -51,5 +52,17 @@ class SecurityController extends AbstractController
      */
     function logout() {
 
+    }
+
+    /**
+     * @Route(
+     *     "/registro",
+     *     name="futapp_register",
+     *     methods={"GET","POST"}
+     * )
+     */
+    public function registro()
+    {
+        return $this->render('security/registro.html.twig');
     }
 }
