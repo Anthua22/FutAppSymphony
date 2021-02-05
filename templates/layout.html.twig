@@ -21,7 +21,8 @@
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav mr-auto">
                 <li>
-                    <a {% if menuactivo('index')==1 %} class="nav-link -item_nav active" {% else%}class="nav-link -item_nav"  {% endif%} href="{{ path('fut_app_inicio') }}">Inicio<span
+                    <a {% if menuactivo('index')==1 %} class="nav-link -item_nav active" {% else %}class="nav-link -item_nav"  {% endif %}
+                            href="{{ path('fut_app_inicio') }}">Inicio<span
                                 class="sr-only">(current)</span></a>
                 </li>
                 <li class="nav-item active">
@@ -29,13 +30,16 @@
                 </li>
 
                 <li class="nav-item">
-                    <a {% if menuactivo('equipos')==1 %} class="nav-link -item_nav active" {% else%}class="nav-link -item_nav"  {% endif%} href="{{ path('futapp_equipos') }}">Equipos</a>
+                    <a {% if menuactivo('equipos')==1 %} class="nav-link -item_nav active" {% else %}class="nav-link -item_nav"  {% endif %}
+                            href="{{ path('futapp_equipos') }}">Equipos</a>
                 </li>
-                <li class="nav-item">
-                    <a {% if menuactivo('me')==1 %} class="nav-link -item_nav active" {% else%}class="nav-link -item_nav"  {% endif%}  href="{{ path('futapp_equipos_form') }}">Mi Perfil</a>
-                </li>
-
-                {%  if is_granted('ROLE_ADMIN') %}
+                {% if is_granted('ROLE_USER') %}
+                    <li class="nav-item">
+                        <a {% if menuactivo('me')==1 %} class="nav-link -item_nav active" {% else %}class="nav-link -item_nav"  {% endif %}
+                                href="{{ path('futapp_equipos_form') }}">Mi Perfil</a>
+                    </li>
+                {% endif %}
+                {% if is_granted('ROLE_ADMIN') %}
                     <li class="nav-item">
                         <a {% if menuactivo('partidos/nuevo')==1 %} class="nav-link -item_nav active" {% else %}class="nav-link -item_nav"  {% endif %}
                                 href="{{ path('fut_app_partidos_nuevo') }}">Asignar Partido</a>
@@ -50,24 +54,33 @@
             </ul>
 
         </div>
-        {% if is_granted('IS_AUTHENTICATED_ANONYMOUSLY') %}
-        <ul class="navbar-nav ml-auto">
-            <li class="nav-item">
-                <a class="nav-link" href="#">Entrar</a>
-            </li>
-
-
-            <li class="nav-item">
-                <a class="nav-link" href="#">Registrarse</a>
-            </li>
-        </ul>
-        {% endif %}
-        {% if is_granted('ROLE_ADMIN') %}
+        {% if not is_granted('ROLE_USER') and not is_granted('ROLE_ADMIN') %}
             <ul class="navbar-nav ml-auto">
                 <li class="nav-item">
-                    <a class="nav-link logout" href="#">Salir</a>
+                    <a class="nav-link" href="{{ path('futapp_login') }}">Entrar</a>
+                </li>
+
+
+                <li class="nav-item">
+                    <a class="nav-link" href="#">Registrarse</a>
                 </li>
             </ul>
+        {% endif %}
+        {% if is_granted('ROLE_ADMIN') %}
+            <div class="dropdown ml-auto">
+                <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    <div class="row">
+                        <img src="{{ asset('imgs/avatar.jpg') }}" class="col-4 rounded"/>
+                        <div class="col-2">{{ app.user.nombre }}</div>
+                    </div>
+                </button>
+                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                    <a class="dropdown-item" href="#">Action</a>
+                    <a class="dropdown-item" href="#">Another action</a>
+                    <a class="nav-link logout" href="{{ path('futapp_logout') }}">Salir</a>
+                </div>
+            </div>
+
         {% endif %}
 
     </nav>
