@@ -45,6 +45,7 @@ class PartidoRepository extends ServiceEntityRepository
 
     public function getUltimosPartidosAsignados(){
         $qb = $this->createQueryBuilder('partido');
+        $qb->where('partido.disputado = 0');
         $qb->orderBy('partido.fecha_asignacion','DESC');
         $qb->setMaxResults(7);
 
@@ -85,19 +86,7 @@ class PartidoRepository extends ServiceEntityRepository
         return $qb->getQuery()->execute();
     }
 
-    public function deletePartidoporEquipo(Equipo $equipo){
-        $qb = $this->createQueryBuilder('partido');
-        $qb->innerJoin('partido.equipoLocal', 'equipo_local');
-        $qb->innerJoin('partido.EquipoVisitante', 'equipo_visitante');
-        $qb->where(
-            'equipo_visitante.id = :id'
-        )->orWhere(
-            'equipo_local.id = :id'
-        )->setParameter('id',$equipo->getId());
-        $qb->delete();
 
-        return $qb->getQuery()->execute();
-    }
     // /**
     //  * @return Partido[] Returns an array of Partido objects
     //  */

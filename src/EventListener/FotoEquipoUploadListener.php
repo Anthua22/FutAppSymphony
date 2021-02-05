@@ -48,7 +48,7 @@ class FotoEquipoUploadListener
         if($entity instanceof Equipo){
             if($entity->getFoto()!==null && $entity->getFoto()!==''){
 
-                unlink(__DIR__.'/../../public/uploads/fotos/'.$entity->getFoto());
+               // unlink(__DIR__.'/../../public/uploads/fotos/'.$entity->getFoto());
             }
             $this->uploadFile($entity);
         }
