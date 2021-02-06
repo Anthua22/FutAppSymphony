@@ -118,7 +118,7 @@ class FutAppController extends AbstractController
      *     "/partidos/{id}/detalle",
      *     name="futapp_detalle_partido",
      *     requirements={"id"="\d+"},
-     *     methods={"GET", "POST"}
+     *     methods={"GET"}
      * )
      */
     public function detalle(Partido $partido):Response{

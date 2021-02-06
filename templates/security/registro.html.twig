@@ -4,8 +4,21 @@
     <script src="https://www.google.com/recaptcha/api.js" async defer></script> {% endblock %}
 {% block main_content %}
     <div class="mt-4">
-        <form action="/" method="post">
+        <form action="{{ path('futapp_register') }}" method="post">
             <legend>Registrase en FutAPP</legend>
+
+            {% if app.flashes('error_registro') is not empty %}
+                <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                    <strong>Error</strong>
+                    {% for message in app.flashes('aviso') %}
+                        <div class="avisos-flash">
+                            {{ message }}
+                        </div>
+                    {% endfor %}
+
+
+                </div>
+            {% endif %}
 
             <div class="row mb-4">
                 <div class="col-6">
@@ -31,16 +44,14 @@
 
             </div>
 
-
-
             <div class="row mb-4">
                 <div class="col-6">
                     <label class="mb-2">Contraseña</label>
-                    <input type="password" name="password" class="form-control" required/>
+                    <input type="password" name="password" class="form-control" minlength="5" required/>
                 </div>
                 <div class="col-6">
-                    <label class="mb-2">Vuelve a repetir contraseñas</label>
-                    <input type="password" name="password2" class="form-control" required/>
+                    <label class="mb-2">Vuelve a repetir la contraseña</label>
+                    <input type="password" name="password2" class="form-control" minlength="5" required/>
                 </div>
 
             </div>
@@ -54,5 +65,9 @@
             <button type="submit" class="mt-3 btn btn-md btn-primary">Enviar</button>
         </form>
     </div>
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
 {% endblock %}
 
