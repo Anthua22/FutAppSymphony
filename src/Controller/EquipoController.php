@@ -63,8 +63,6 @@ class EquipoController extends AbstractController
         ]);
     }
 
-
-
     /**
      * @Route(
      *     "/equipos/{id}/editar",

@@ -7,15 +7,16 @@
         <form action="{{ path('futapp_register') }}" method="post">
             <legend>Registrase en FutAPP</legend>
 
-            {% if app.flashes('error_registro') is not empty %}
-                <div class="alert alert-danger alert-dismissible fade show" role="alert">
+            {% if app.session.flashBag.has('error_registro') %}
+                <div class="alert alert-danger" role="alert">
                     <strong>Error</strong>
-                    {% for message in app.flashes('aviso') %}
-                        <div class="avisos-flash">
-                            {{ message }}
-                        </div>
-                    {% endfor %}
+                    <div>
+                    {% for message in app.session.flashBag.get('error_registro') %}
 
+                            {{ message }}
+
+                    {% endfor %}
+                    </div>
 
                 </div>
             {% endif %}
@@ -23,11 +24,33 @@
             <div class="row mb-4">
                 <div class="col-6">
                     <label class="mt-4 mb-2">Nombre</label>
-                    <input name="nombre" placeholder="Nombre..." class="form-control" required/>
+                    {% if app.session.flashBag.has('nombre') %}
+                        {% set value='' %}
+                        {% for nombre in app.session.flashBag.get('nombre') %}
+                            {% set value = nombre %}
+                        {% endfor %}
+                        <input name="nombre" placeholder="Nombre..." class="form-control"
+                               value="{{ value }}" required/>
+                    {% else %}
+                        <input name="nombre" placeholder="Nombre..." class="form-control"
+                               required/>
+                    {% endif %}
+
                 </div>
                 <div class="col-6">
                     <label class="mt-4 mb-2">Apellidos</label>
-                    <input type="text" name="apellidos" placeholder="Apellidos.." class="form-control" required/>
+                    {% if app.session.flashBag.has('apellidos') %}
+                        {% set value='' %}
+                        {% for apellidos in app.session.flashBag.get('apellidos') %}
+                            {% set value = apellidos %}
+                        {% endfor %}
+                        <input type="text" name="apellidos" placeholder="Apellidos.." value="{{ value }}"
+                               class="form-control" required/>
+
+                    {% else %}
+                        <input type="text" name="apellidos" placeholder="Apellidos.."
+                               class="form-control" required/>
+                    {% endif %}
 
                 </div>
             </div>
@@ -35,11 +58,31 @@
             <div class="row mb-4">
                 <div class="col-6">
                     <label class="mb-2">Email</label>
-                    <input type="email" name="email" placeholder="example@gmail.com" class="form-control" required/>
+                    {% if app.session.flashBag.has('email') %}
+                        {% set value='' %}
+                        {% for email in app.session.flashBag.get('email') %}
+                            {% set value = email %}
+                        {% endfor %}
+                        <input type="email" name="email" placeholder="example@gmail.com" class="form-control"
+                               value="{{ value }}" required/>
+                    {% else %}
+                        <input type="email" name="email" placeholder="example@gmail.com" class="form-control"
+                               required/>
+                    {% endif %}
+
                 </div>
                 <div class="col-6">
                     <label class="mb-2">Teléfono</label>
-                    <input type="text" name="telefono" placeholder="65541234" class="form-control"/>
+                    {% if app.session.flashBag.has('email') %}
+                        {% set value='' %}
+                        {% for telefono in app.session.flashBag.get('telefono') %}
+                            {% set value = telefono %}
+                        {% endfor %}
+                        <input type="text" name="telefono" placeholder="65541234" class="form-control"
+                               value="{{ value }}"/>
+                    {% else %}
+                        <input type="text" name="telefono" placeholder="65541234" class="form-control"/>
+                    {% endif %}
                 </div>
 
             </div>

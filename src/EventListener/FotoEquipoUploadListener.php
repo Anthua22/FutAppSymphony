@@ -5,6 +5,7 @@ namespace App\EventListener;
 
 
 use App\Entity\Equipo;
+use App\Entity\Usuario;
 use App\Helper\FileUploader;
 use Doctrine\ORM\Event\LifecycleEventArgs;
 use Doctrine\ORM\Event\PreUpdateEventArgs;
@@ -21,7 +22,7 @@ class FotoEquipoUploadListener
     }
 
     private function uploadFile($entity){
-        if(!$entity instanceof  Equipo){
+        if(!$entity instanceof  Equipo || !$entity instanceof Usuario){
             return;
         }
 

@@ -8,6 +8,7 @@ use App\Entity\Usuario;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
 
 
@@ -66,44 +67,64 @@ class SecurityController extends AbstractController
      *     methods={"GET","POST"}
      * )
      */
-    public function registro(Request $request)
+    public function registro(Request $request, UserPasswordEncoderInterface $encoder)
     {
         if ($request->getMethod() == 'POST') {
             $password = $request->get('password');
             $passwordcheck = $request->get('password2');
+            if(!$this->checkEmailRepeat($request->get('email'))){
+                if ($password === $passwordcheck) {
+                    define("CLAVE_SECRETA", "6Lf94UsaAAAAAAMRHun72PLiRl50ii0yNqST0qHj");
+                    if (empty($request->get('g-recaptcha-response'))) {
+                        $this->addFlash('error_registro', 'Debes completar el captcha');
+                        $this->asignarDatos($request);
+                        return $this->redirectToRoute('futapp_register');
+                    }
+                    $token = $request->get('g-recaptcha-response');
+                    $verificado = $this->checkCaptcha($token, CLAVE_SECRETA);
+                    if ($verificado) {
+                        $usario = new Usuario();
+                        $encoded = $encoder->encodePassword($usario, $request->get('password'));
+                        $usario->setRole('ROLE_USER')
+                            ->setEmail($request->get('email'))
+                            ->setPassword($encoded)
+                            ->setNombre($request->get('nombre'))
+                            ->setActivo(true)
+                            ->setApellidos($request->get('apellidos'));
+                        $entityManager = $this->getDoctrine()->getManager();
+                        $entityManager->persist($usario);
+                        $entityManager->flush();
+                        return $this->redirectToRoute('futapp_login');
 
-            if ($password === $passwordcheck) {
-                define("CLAVE_SECRETA", "6Lf94UsaAAAAAAMRHun72PLiRl50ii0yNqST0qHj");
-                if (!empty($request->get('g-recaptcha-response'))) {
-                    $this->addFlash('error_registro', 'Debes completar el captcha');
-                    return $this->redirectToRoute('futapp_register');
-                }
-                $token = $request->get('g-recaptcha-response');
-                $verificado = $this->checkCaptcha($token, CLAVE_SECRETA);
-                if ($verificado) {
-                    $usario = new Usuario();
-                    $usario->setRole('ROLE_USER')
-                        ->setEmail($request->get('email'))
-                        ->setNombre($request->get('nombre'))
-                        ->setActivo(true)
-                        ->setApellidos($request->get('apellidos'));
+                    } else {
+                        $this->addFlash('error_registro', 'Eres un robot!');
+                        $this->asignarDatos($request);
+                        return $this->redirectToRoute('futapp_register');
+                    }
 
-                    return $this->redirectToRoute('futapp_login');
 
                 } else {
-                    $this->addFlash('error_registro', 'Eres un robot!');
-                    return $this->redirectToRoute('futapp_register');
+                    $this->addFlash('error_registro', 'Las contraseñas no coinciden');
+                    $this->asignarDatos($request);
                 }
-
-
-            } else {
-                $this->addFlash('error_registro', 'Las contraseñas no coinciden');
+            }else{
+                $this->addFlash('error_registro', 'El correo ya existe');
+                    $this->asignarDatos($request);
             }
+
 
 
         }
 
         return $this->render('security/registro.html.twig');
+    }
+
+    private function asignarDatos(Request $request){
+        $this->addFlash('email', $request->get('email'));
+        $this->addFlash('nombre',$request->get('nombre'));
+        $this->addFlash('apellidos',$request->get('apellidos'));
+        $this->addFlash('telefono',$request->get('telefono'));
+
     }
 
     private function checkCaptcha($token, $claveSecreta)
@@ -144,5 +165,10 @@ class SecurityController extends AbstractController
         $pruebaPasada = $resultado->success;
         # Regresamos ese valor, y listo (sí, ya sé que se podría regresar $resultado->success)
         return $pruebaPasada;
+    }
+
+    private function  checkEmailRepeat(string $correo){
+        $usuarios = $this->getDoctrine()->getRepository(Usuario::class)->findBy(['email'=>$correo]);
+        return count($usuarios) > 0 ? true:false;
     }
 }

@@ -59,23 +59,7 @@ class Usuario implements UserInterface, \Serializable
      */
     private $telefono;
 
-    public function getId(): ?int
-    {
-        return $this->id;
-    }
-
-    public function getPassword(): ?string
-    {
-        return $this->password;
-    }
-
-    public function setPassword(string $password): self
-    {
-        $this->password = $password;
-
-        return $this;
-    }
-
+    private $fotoFile;
 
     /**
      * @return mixed
@@ -124,6 +108,22 @@ class Usuario implements UserInterface, \Serializable
         return $this->foto;
     }
 
+    /**
+     * @return mixed
+     */
+    public function getFotoFile()
+    {
+        return $this->fotoFile;
+    }
+
+    /**
+     * @param mixed $fotoFile
+     */
+    public function setFotoFile($fotoFile): void
+    {
+        $this->fotoFile = $fotoFile;
+    }
+
     public function setFoto(?string $foto): self
     {
         $this->foto = $foto;
@@ -154,6 +154,24 @@ class Usuario implements UserInterface, \Serializable
 
         return $this;
     }
+
+    public function getId(): ?int
+    {
+        return $this->id;
+    }
+
+    public function getPassword(): ?string
+    {
+        return $this->password;
+    }
+
+    public function setPassword(string $password): self
+    {
+        $this->password = $password;
+
+        return $this;
+    }
+
 
     public function getTelefono(): ?string
     {
