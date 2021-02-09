@@ -26,7 +26,7 @@
                                 class="sr-only">(current)</span></a>
                 </li>
                 <li class="nav-item active">
-                    <a {% if menuactivo('arbitros')==1 %} class="nav-link -item_nav active" {% else %}class="nav-link -item_nav"  {% endif %} href="{{ path('futapp_arbitros') }}">Arbitros</a>
+                    <a {% if menuactivo('arbitros')==1 %} class="nav-link -item_nav active" {% else %}class="nav-link -item_nav"  {% endif %} href="{{ path('futapp_usuarios') }}">Arbitros y Organizadores</a>
                 </li>
 
                 <li class="nav-item">
@@ -43,6 +43,13 @@
                         <a {% if menuactivo('equipo_nuevo')==1 %} class="nav-link -item_nav active" {% else %}class="nav-link -item_nav"  {% endif %}
                                 href="{{ path('futapp_equipos_form') }}">Añadir Equipo</a>
                     </li>
+                {% endif %}
+                {% if is_granted('ROLE_USER') %}
+                    <li class="nav-item">
+                        <a {% if menuactivo('mi_perfil')==1 %} class="nav-link -item_nav active" {% else %}class="nav-link -item_nav"  {% endif %}
+                                href="{{ path('futapp_usuario_yo') }}">Mi Perfil</a>
+                    </li>
+
                 {% endif %}
 
 
@@ -71,8 +78,8 @@
 
                 </button>
                 <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                    <a class="dropdown-item" href="#">Ver mi perfil</a>
-                    <a class="dropdown-item" href="{{ path('futapp_arbitro_perfil', {id: app.user.id })}}">Editar Perfil</a>
+                    <a class="dropdown-item" href="{{ path('futapp_usuario_yo') }}">Ver mi perfil</a>
+                    <a class="dropdown-item" href="{{ path('futapp_usuario_perfil', {id: app.user.id })}}">Editar Perfil</a>
                     <a class="nav-link logout" href="{{ path('futapp_logout') }}">Cerrar sesión</a>
                 </div>
             </div>

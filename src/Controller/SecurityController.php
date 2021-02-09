@@ -90,6 +90,7 @@ class SecurityController extends AbstractController
                             ->setPassword($encoded)
                             ->setNombre($request->get('nombre'))
                             ->setActivo(true)
+                            ->setTelefono($request->get('telefono'))
                             ->setApellidos($request->get('apellidos'));
                         $entityManager = $this->getDoctrine()->getManager();
                         $entityManager->persist($usario);

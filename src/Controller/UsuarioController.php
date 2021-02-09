@@ -16,7 +16,7 @@ class UsuarioController extends AbstractController
     /**
      * @Route(
      *     "/arbitros/",
-     *     name="futapp_arbitros",
+     *     name="futapp_usuarios",
      *     methods={"GET"}
      * )
      */
@@ -32,7 +32,7 @@ class UsuarioController extends AbstractController
     /**
      * @Route(
      *     "/arbitros/{id}",
-     *     name="futapp_arbitro_perfil",
+     *     name="futapp_usuario_perfil",
      *     requirements={"id"="\d+"},
      *     methods={"GET"}
      * )
@@ -40,6 +40,28 @@ class UsuarioController extends AbstractController
     public function showProfile(Usuario $usuario):Response{
         $partidosnuevos = $this->getDoctrine()->getRepository(Partido::class)->getPartidosNuevosArbitro($usuario);
         $partidospasados =  $this->getDoctrine()->getRepository(Partido::class)->getPartidosPasadosArbitro($usuario);
+
+        return $this->render('usuarios/user-profile.html.twig',[
+            'user'=>$usuario,
+            'partidosnuevos'=>$partidosnuevos,
+            'partidospasados'=>$partidospasados
+        ]);
+    }
+
+
+    /**
+     * @Route(
+     *     "/mi_perfil",
+     *     name="futapp_usuario_yo",
+     *     methods={"GET"}
+     * )
+     */
+    public function showMyprofile()
+    {
+        $usuario=$this->getDoctrine()->getRepository(Usuario::class)->findOneBy(['email'=>$this->getUser()->getUsername()]);
+        $partidosnuevos = $this->getDoctrine()->getRepository(Partido::class)->getPartidosNuevosArbitro($usuario);
+        $partidospasados =  $this->getDoctrine()->getRepository(Partido::class)->getPartidosPasadosArbitro($usuario);
+
 
         return $this->render('usuarios/user-profile.html.twig',[
             'user'=>$usuario,
