@@ -19,7 +19,7 @@
             <h4>
                 <small class="text-muted" style="font-style: italic">{% if user.role == 'ROLE_ADMIN' %}ADMINISTRADOR {% else %}ÁRBITRO{% endif %}</small>
             </h4>
-            {% if is_granted('ROLE_USER') and user.id == app.user.id %}
+            {% if is_granted('ROLE_USER') and user.id == app.user.id and user.id is not empty user.id%}
                 <div class="row mt-3">
 
                     <a href="{{ path('futapp_editar_equipo',{id: user.id}) }}" class="col-3 btn btn-primary"

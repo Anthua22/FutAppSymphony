@@ -35,24 +35,6 @@ class Usuario implements UserInterface, \Serializable
     private $activo;
 
     /**
-     * @return mixed
-     */
-    public function getActivo()
-    {
-        return $this->activo;
-    }
-
-    /**
-     * @param mixed $activo
-     * @return Usuario
-     */
-    public function setActivo($activo)
-    {
-        $this->activo = $activo;
-        return $this;
-    }
-
-    /**
      * @ORM\Column(type="string", length=255, nullable=true)
      */
     private $apellidos;
@@ -91,6 +73,25 @@ class Usuario implements UserInterface, \Serializable
     {
         $this->password = $password;
 
+        return $this;
+    }
+
+
+    /**
+     * @return mixed
+     */
+    public function getActivo()
+    {
+        return $this->activo;
+    }
+
+    /**
+     * @param mixed $activo
+     * @return Usuario
+     */
+    public function setActivo($activo)
+    {
+        $this->activo = $activo;
         return $this;
     }
 
