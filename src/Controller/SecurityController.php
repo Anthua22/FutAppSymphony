@@ -91,7 +91,8 @@ class SecurityController extends AbstractController
                             ->setNombre($request->get('nombre'))
                             ->setActivo(true)
                             ->setTelefono($request->get('telefono'))
-                            ->setApellidos($request->get('apellidos'));
+                            ->setApellidos($request->get('apellidos'))
+                            ->setFotoFile($request->files->get('foto'));
                         $entityManager = $this->getDoctrine()->getManager();
                         $entityManager->persist($usario);
                         $entityManager->flush();

@@ -4,7 +4,7 @@
     <script src="https://www.google.com/recaptcha/api.js" async defer></script> {% endblock %}
 {% block main_content %}
     <div class="mt-4">
-        <form action="{{ path('futapp_register') }}" method="post">
+        <form action="{{ path('futapp_register') }}" method="post" enctype="multipart/form-data" role="form">
             <legend>Registrase en FutAPP</legend>
 
             {% if app.session.flashBag.has('error_registro') %}
@@ -101,7 +101,7 @@
 
 
             <label class="mb-2">Foto de Perfil (JPG o PNG)</label>
-            <input type="file" class="form-control mb-4" id="inputGroupFile02">
+            <input type="file" name="foto" class="form-control mb-4" id="inputGroupFile02">
 
 
             <div class="g-recaptcha" data-sitekey="6Lf94UsaAAAAAAlZH5v-pwkRO6TZvfpEmLtNzgAC"></div>

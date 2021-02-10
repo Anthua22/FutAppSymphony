@@ -59,12 +59,12 @@
         {% if not is_granted('ROLE_USER') and not is_granted('ROLE_ADMIN') %}
             <ul class="navbar-nav ml-auto">
                 <li class="nav-item">
-                    <a class="nav-link" href="{{ path('futapp_login') }}">Entrar</a>
+                    <a {% if menuactivo('login')==1 %} class="nav-link -item_nav active" {% else %}class="nav-link -item_nav"  {% endif %} href="{{ path('futapp_login') }}">Entrar</a>
                 </li>
 
 
                 <li class="nav-item">
-                    <a class="nav-link" href="{{ path('futapp_register') }}">Registrarse</a>
+                    <a {% if menuactivo('register')==1 %} class="nav-link -item_nav active" {% else %}class="nav-link -item_nav"  {% endif %} href="{{ path('futapp_register') }}">Registrarse</a>
                 </li>
             </ul>
         {% endif %}
