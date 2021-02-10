@@ -16,6 +16,7 @@ use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 
 class UsuarioController extends AbstractController
 {
+
     /**
      * @Route(
      *     "/usuarios",
@@ -85,19 +86,22 @@ class UsuarioController extends AbstractController
     public function showEditProfile(Usuario $usuario)
     {
 
-        return $this->render('usuarios/editar-perfil.html.twig');
+        return $this->render('usuarios/editar-perfil.html.twig',
+            [
+                'usuario' => $usuario
+            ]);
     }
 
     /**
      * @Route(
-     *     "/usarios/editar_perfil/datos_basicos",
+     *     "/usarios/editar_perfil/datos_basicos/{id}",
      *     name="futapp_usuario_edit_basico",
+     *     requirements={"id"="\d+"},
      *     methods={"POST"}
      * )
      */
-    public function editPerfil(Request $request)
+    public function editPerfil(Request $request, Usuario $usuario)
     {
-        $usuario = $this->getDoctrine()->getRepository(Usuario::class)->findOneBy(['email' => $this->getUser()->getUsername()]);
 
         if (!$this->checkEmail($request->get('email'), $usuario->getEmail())) {
             $usuario->setTelefono($request->get('telefono'))
@@ -130,14 +134,14 @@ class UsuarioController extends AbstractController
 
     /**
      * @Route(
-     *     "/usarios/editar_perfil/password",
+     *     "/usarios/editar_perfil/password/{id}",
      *     name="futapp_usuario_edit_password",
+     *      requirements={"id"="\d+"},
      *     methods={"POST"}
      * )
      */
-    public function editpassword(Request $request, UserPasswordEncoderInterface $encoder)
+    public function editpassword(Request $request, UserPasswordEncoderInterface $encoder, Usuario $usuario)
     {
-        $usuario = $this->getDoctrine()->getRepository(Usuario::class)->findOneBy(['email' => $this->getUser()->getUsername()]);
 
         if ($encoder->isPasswordValid($usuario, $request->get('passantigua'))) {
             if ($request->get('passconfirm') === $request->get('passnueva')) {
@@ -163,14 +167,14 @@ class UsuarioController extends AbstractController
 
     /**
      * @Route(
-     *     "/usarios/editar_perfil/foto",
+     *     "/usarios/editar_perfil/foto/{id}",
      *     name="futapp_usuario_foto",
+     *      requirements={"id"="\d+"},
      *     methods={"POST"}
      * )
      */
-    public function editFoto(Request $request)
+    public function editFoto(Request $request, Usuario $usuario)
     {
-        $usuario = $this->getDoctrine()->getRepository(Usuario::class)->findOneBy(['email' => $this->getUser()->getUsername()]);
 
         $fotoFile = $request->files->get('foto');
 
@@ -178,6 +182,28 @@ class UsuarioController extends AbstractController
         $usuario->setFotoFile($fotoFile);
         $usuario->setUpdateAT(new \DateTime());
 
+        $entityManager = $this->getDoctrine()->getManager();
+        $entityManager->persist($usuario);
+        $entityManager->flush();
+        return $this->redirectToRoute('futapp_usuario_edit_perfil', ['id' => $usuario->getId()]);
+
+
+    }
+
+    /**
+     * @Route(
+     *     "/usarios/editar_perfil/rol/{id}",
+     *     name="futapp_usuario_rol",
+     *      requirements={"id"="\d+"},
+     *     methods={"POST"}
+     * )
+     */
+    public function editRol(Request $request, Usuario $usuario)
+    {
+
+
+        $usuario->setRole($request->get('rol'));
+        $usuario->setUpdateAT(new \DateTime());
         $entityManager = $this->getDoctrine()->getManager();
         $entityManager->persist($usuario);
         $entityManager->flush();
