@@ -31,7 +31,8 @@ class Partido
     private $fecha_encuentro;
 
     /**
-     * @ORM\ManyToOne(targetEntity=Usuario::class, inversedBy="usuarios")
+     * @ORM\ManyToOne(targetEntity=Usuario::class, inversedBy="usuarios",cascade="remove")
+     * @ORM\JoinColumn(onDelete="CASCADE")
      */
     private $arbitro;
 

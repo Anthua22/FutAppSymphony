@@ -53,7 +53,7 @@
                     <a href="{{ path('futapp_usuario_edit_perfil',{id: arbitro.id}) }}" class="col-3 btn btn-primary">Editar
                         <i class="fa fa-edit"></i></a>
 
-                    {% if arbitro.id != app.user.id %}
+                    {% if arbitro.id != app.user.id and arbitro.role == 'ROLE_USER'%}
                         <button type="button" class="col-3 btn btn-danger" data-toggle="modal"
                                 data-target="#{{ modal }}">
                             Borrar <i class="fa fa-trash"></i>
@@ -92,13 +92,13 @@
                     </div>
                     <div class="modal-body">
                         <div class="alert alert-warning">
-                            Estas seguro de querer elimnar a este equipo? Los partidos en los haya participado se
+                            Estas seguro de querer elimnar a este árbitro? Los partidos en los haya participado se
                             borrarán también...
                         </div>
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                        <a href="{{ path('futapp_borrar_equipo',{id: arbitro.id}) }}" class="col-3 btn btn-danger">Borrar
+                        <a href="{{ path('futapp_borrar_usuario',{id: arbitro.id}) }}" class="col-3 btn btn-danger">Borrar
                             <i
                                     class="fa fa-trash"></i></a>
                     </div>

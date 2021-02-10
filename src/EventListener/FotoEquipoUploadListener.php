@@ -46,8 +46,11 @@ class FotoEquipoUploadListener
     public function preUpdate(PreUpdateEventArgs $args)
     {
         $entity = $args->getEntity();
-
+        if( $entity instanceof Usuario && empty($entity->getFotoFile())){
+            return;
+        }
         if($entity instanceof Equipo || $entity instanceof Usuario){
+
             if($entity->getFoto()!==null && $entity->getFoto()!==''){
 
                 unlink(__DIR__.'/../../public/uploads/fotos/'.$entity->getFoto());

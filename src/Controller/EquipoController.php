@@ -109,7 +109,7 @@ class EquipoController extends AbstractController
      */
     public function borrar(Equipo $equipo){
         try{
-
+            $fileName = $equipo->getFoto();
             if(isset($fileName)){
                 unlink(__DIR__.'/../../public/uploads/fotos/'.$fileName);
             }
@@ -118,7 +118,7 @@ class EquipoController extends AbstractController
             $manager->flush();
             return $this->redirectToRoute('futapp_equipos');
         }catch (BadRequestException $exception){
-            echo $exception;
+            $this->addFlash('error',$exception );
         }
 
     }

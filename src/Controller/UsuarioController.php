@@ -4,11 +4,13 @@
 namespace App\Controller;
 
 
+use App\Entity\Equipo;
 use App\Entity\Partido;
 use App\Entity\Usuario;
 
 
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\Exception\BadRequestException;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -200,8 +202,6 @@ class UsuarioController extends AbstractController
      */
     public function editRol(Request $request, Usuario $usuario)
     {
-
-
         $usuario->setRole($request->get('rol'));
         $usuario->setUpdateAT(new \DateTime());
         $entityManager = $this->getDoctrine()->getManager();
@@ -211,4 +211,29 @@ class UsuarioController extends AbstractController
 
 
     }
+
+    /**
+     * @Route(
+     *     "/usuarios/{id}/borrar",
+     *     name="futapp_borrar_usuario",
+     *     requirements={"id"="\d+"},
+     *     methods={"GET"}
+     * )
+     */
+    public function borrar(Usuario $usuario){
+        try{
+            $fileName = $usuario->getFoto();
+            if(isset($fileName)){
+                unlink(__DIR__.'/../../public/uploads/fotos/'.$fileName);
+            }
+            $manager = $this->getDoctrine()->getManager();
+            $manager->remove($usuario);
+            $manager->flush();
+            return $this->redirectToRoute('futapp_usuarios');
+        }catch (BadRequestException $exception){
+            $this->addFlash('error',$exception );
+        }
+
+    }
+
 }

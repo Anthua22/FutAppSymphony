@@ -20,7 +20,7 @@
                 <small class="text-muted" style="font-style: italic">{% if user.role == 'ROLE_ADMIN' %}ADMINISTRADOR {% else %}ÁRBITRO{% endif %}</small>
             </h4>
 
-            {% if is_granted('ROLE_USER') and user.id == app.user.id and user.id is not empty %}
+            {% if is_granted('ROLE_ADMIN') or user.id == app.user.id and user.id is not empty %}
                 <div class="row mt-3">
 
                     <a href="{{ path('futapp_usuario_edit_perfil',{id: user.id}) }}" class="col-3 btn btn-primary"
@@ -54,7 +54,7 @@
                                     <div class="modal-footer">
                                         <button type="button" class="btn btn-secondary" data-dismiss="modal">Close
                                         </button>
-                                        <a href="{{ path('futapp_borrar_equipo',{id: user.id}) }}"
+                                        <a href="{{ path('futapp_borrar_usuario',{id: user.id}) }}"
                                            class="col-3 btn btn-danger">Borrar
                                             <i class="fa fa-trash"></i></a>
 
