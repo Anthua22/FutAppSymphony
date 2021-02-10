@@ -64,6 +64,24 @@ class Usuario implements UserInterface, \Serializable
     /**
      * @return mixed
      */
+    public function getFotoFile()
+    {
+        return $this->fotoFile;
+    }
+
+    /**
+     * @param mixed $fotoFile
+     */
+    public function setFotoFile($fotoFile): void
+    {
+        $this->fotoFile = $fotoFile;
+    }
+
+
+
+    /**
+     * @return mixed
+     */
     public function getActivo()
     {
         return $this->activo;
@@ -106,22 +124,6 @@ class Usuario implements UserInterface, \Serializable
     public function getFoto(): ?string
     {
         return $this->foto;
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getFotoFile()
-    {
-        return $this->fotoFile;
-    }
-
-    /**
-     * @param mixed $fotoFile
-     */
-    public function setFotoFile($fotoFile): void
-    {
-        $this->fotoFile = $fotoFile;
     }
 
     public function setFoto(?string $foto): self

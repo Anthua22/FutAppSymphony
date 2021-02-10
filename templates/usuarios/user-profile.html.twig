@@ -1,6 +1,6 @@
 {% extends "layout.html.twig" %}
 
-{% block title %} {{ parent() ~ app.user.nombre ~ '' ~ app.user.apellidos }} {% endblock %}
+{% block title %} {{ parent() ~ user.nombre ~ ' ' ~ user.apellidos }} {% endblock %}
 
 {% block main_content %}
     <div class="mt-4">
@@ -23,7 +23,7 @@
             {% if is_granted('ROLE_USER') and user.id == app.user.id and user.id is not empty %}
                 <div class="row mt-3">
 
-                    <a href="{{ path('futapp_editar_equipo',{id: user.id}) }}" class="col-3 btn btn-primary"
+                    <a href="{{ path('futapp_usuario_edit_perfil',{id: user.id}) }}" class="col-3 btn btn-primary"
                        style="margin-right: 5px;">Editar perfil <i
                                 class="fa fa-edit"></i></a>
                     {% if is_granted('ROLE_ADMIN') and user.id != app.user.id %}

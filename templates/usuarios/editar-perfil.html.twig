@@ -1,0 +1,186 @@
+{% extends "layout.html.twig" %}
+
+{% block title %} {{ parent() ~ 'Editar' }}{% endblock %}
+
+{% block main_content %}
+
+    <form
+            class="mt-4"
+            action="{{ path('futapp_usuario_edit_basico') }}"
+            method="POST"
+            role="form"
+    >
+        <legend>Editar Perfil</legend>
+        {% if app.session.flashBag.has('error_basico') %}
+            <div class="alert alert-danger mb-4" role="alert">
+                <strong>Error</strong>
+                <div>
+                    {% for message in app.session.flashBag.get('error_basico') %}
+
+                        {{ message }}
+
+                    {% endfor %}
+                </div>
+
+            </div>
+        {% endif %}
+
+        <div class="form-group">
+            <div class="row">
+                <div class="col-6"><label for="correo">Email:</label>
+                    <input
+                            type="email"
+                            class="form-control mb-3"
+                            name="email"
+                            id="email"
+                            value="{{ usuario.email }}"
+                            required
+                            placeholder="Email"
+                    /></div>
+                <div class="col-6"><label for="name">Teléfono </label>
+                    <input
+                            type="text"
+                            class="form-control mb-3"
+                            name="telefono"
+                            id="name"
+                            placeholder="6566551"
+                            value="{{ usuario.telefono }}"
+                    /></div>
+
+            </div>
+            <div class="row">
+                <div class="col-6"><label for="name">Nombre </label>
+                    <input
+                            type="text"
+                            class="form-control mb-3"
+                            name="nombre"
+                            id="name"
+                            placeholder="Nombre.."
+                            value="{{ usuario.nombre }}"
+                    /></div>
+                <div class="col-6"><label for="name">Apellidos </label>
+                    <input
+                            type="text"
+                            class="form-control mb-3"
+                            name="apellidos"
+                            id="name"
+                            placeholder="Apellidos.."
+                            value="{{ usuario.apellidos }}"
+                    /></div>
+
+            </div>
+
+
+        </div>
+        <button type="submit" class="btn btn-primary">Editar perfil</button>
+    </form>
+    <form
+            action="/"
+            class="mt-4"
+            method="POST"
+            role="form"
+    >
+        <legend>Editar foto</legend>
+
+        <div class="form-group">
+            <input
+                    type="file"
+                    class="form-control mb-3"
+                    id="image"
+                    name="fotofile"
+                    required
+
+            />
+        </div>
+        <div class="row mb-3">
+            <div class="col">
+                <img class="imgwidth" id="photo"
+                     src="{% if usuario.foto is empty %}/imgs/avatar.jpg{% else %}{{ asset('uploads/fotos/' ~ usuario.foto) }}{% endif %}"
+                     alt=""/>
+            </div>
+            <div class="col">
+                <img
+                        class="d-none imgwidth"
+                        src=""
+                        alt=""
+                        id="imgPreview"
+                />
+            </div>
+        </div>
+
+
+        <button type="submit" class="btn btn-primary">Cambiar foto</button>
+    </form>
+    <form action="{{ path('futapp_usuario_edit_password') }}"
+          id="form-password"
+          class="mt-4"
+          method="POST"
+          role="form">
+        <legend>Editar Contraseña</legend>
+        {% if app.session.flashBag.has('error_pass') %}
+            <div class="alert alert-danger mb-4" role="alert">
+                <strong>Error</strong>
+                <div>
+                    {% for message in app.session.flashBag.get('error_pass') %}
+
+                        {{ message }}
+
+                    {% endfor %}
+                </div>
+
+            </div>
+        {% endif %}
+        {% if app.session.flashBag.has('pass_ok') %}
+            <div class="alert alert-success mb-4" role="alert">
+                <strong>Ok</strong>
+                <div>
+                    {% for message in app.session.flashBag.get('pass_ok') %}
+
+                        {{ message }}
+
+                    {% endfor %}
+                </div>
+
+            </div>
+        {% endif %}
+        <div class="form-group">
+
+            <label for="password">Contraseña antigua</label>
+            <input
+                    type="password"
+                    class="form-control mb-3"
+                    name="passantigua"
+                    id="password"
+                    required
+                    placeholder="Password"
+            />
+            <div class="row">
+                <div class="col-6"><label for="password2">Nueva contraseña</label>
+                    <input
+                            type="password"
+                            class="form-control mb-3"
+                            name="passnueva"
+                            id="passnueva"
+                            minlength="5"
+                            required
+                            placeholder="Nueva contraseña..."
+                    /></div>
+                <div class="col-6"><label for="password2">Repetir contraseña:</label>
+                    <input
+                            type="password"
+                            class="form-control mb-3"
+                            name="passconfirm"
+                            id="passnueva"
+                            minlength="5"
+                            required
+                            placeholder="Repetir contraseña..."
+                    />
+                </div>
+
+            </div>
+
+
+            <button type="submit" class="btn btn-primary">Editar contrarseña</button>
+        </div>
+    </form>
+{% endblock %}
