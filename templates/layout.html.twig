@@ -69,11 +69,11 @@
             </ul>
         {% endif %}
         {% if is_granted('ROLE_USER') %}
-            <div class="dropdown ml-auto" style="margin-right: 10px">
+            <div class="dropdown ml-auto" style="margin-right: 10px; width: 350px;">
                 <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton"
                         data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
 
-                    <img src="{% if app.user.foto is empty %}/imgs/avatar.jpg{% else %}{{ asset('uploads/fotos/' ~ arbitro.foto) }}{% endif %}"
+                    <img src="{% if app.user.foto is empty %}/imgs/avatar.jpg{% else %}{{ asset('uploads/fotos/' ~  app.user.foto) }}{% endif %}"
                          class="col-3 rounded"/>
 
                 </button>

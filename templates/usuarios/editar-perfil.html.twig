@@ -33,7 +33,7 @@
                             class="form-control mb-3"
                             name="email"
                             id="email"
-                            value="{{ usuario.email }}"
+                            value="{{ app.user.email }}"
                             required
                             placeholder="Email"
                     /></div>
@@ -44,7 +44,7 @@
                             name="telefono"
                             id="name"
                             placeholder="6566551"
-                            value="{{ usuario.telefono }}"
+                            value="{{ app.user.telefono }}"
                     /></div>
 
             </div>
@@ -56,7 +56,7 @@
                             name="nombre"
                             id="name"
                             placeholder="Nombre.."
-                            value="{{ usuario.nombre }}"
+                            value="{{ app.user.nombre }}"
                     /></div>
                 <div class="col-6"><label for="name">Apellidos </label>
                     <input
@@ -65,7 +65,7 @@
                             name="apellidos"
                             id="name"
                             placeholder="Apellidos.."
-                            value="{{ usuario.apellidos }}"
+                            value="{{ app.user.apellidos }}"
                     /></div>
 
             </div>
@@ -75,10 +75,11 @@
         <button type="submit" class="btn btn-primary">Editar perfil</button>
     </form>
     <form
-            action="/"
+            action="{{ path('futapp_usuario_foto') }}"
             class="mt-4"
             method="POST"
             role="form"
+            enctype="multipart/form-data"
     >
         <legend>Editar foto</legend>
 
@@ -87,7 +88,7 @@
                     type="file"
                     class="form-control mb-3"
                     id="image"
-                    name="fotofile"
+                    name="foto"
                     required
 
             />
@@ -95,7 +96,7 @@
         <div class="row mb-3">
             <div class="col">
                 <img class="imgwidth" id="photo"
-                     src="{% if usuario.foto is empty %}/imgs/avatar.jpg{% else %}{{ asset('uploads/fotos/' ~ usuario.foto) }}{% endif %}"
+                     src="{% if app.user.foto is empty %}/imgs/avatar.jpg{% else %}{{ asset('uploads/fotos/' ~ app.user.foto) }}{% endif %}"
                      alt=""/>
             </div>
             <div class="col">

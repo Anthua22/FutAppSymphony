@@ -62,6 +62,11 @@ class Usuario implements UserInterface, \Serializable
     private $fotoFile;
 
     /**
+     * @ORM\Column(type="datetime", nullable=true)
+     */
+    private $updateAT;
+
+    /**
      * @return mixed
      */
     public function getFotoFile()
@@ -232,6 +237,18 @@ class Usuario implements UserInterface, \Serializable
     public function __toString()
     {
         return $this->nombre.' '. $this->apellidos;
+    }
+
+    public function getUpdateAT(): ?\DateTimeInterface
+    {
+        return $this->updateAT;
+    }
+
+    public function setUpdateAT(?\DateTimeInterface $updateAT): self
+    {
+        $this->updateAT = $updateAT;
+
+        return $this;
     }
 
 

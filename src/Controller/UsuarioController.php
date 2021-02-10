@@ -40,14 +40,15 @@ class UsuarioController extends AbstractController
      *     methods={"GET"}
      * )
      */
-    public function showProfile(Usuario $usuario):Response{
+    public function showProfile(Usuario $usuario): Response
+    {
         $partidosnuevos = $this->getDoctrine()->getRepository(Partido::class)->getPartidosNuevosArbitro($usuario);
-        $partidospasados =  $this->getDoctrine()->getRepository(Partido::class)->getPartidosPasadosArbitro($usuario);
+        $partidospasados = $this->getDoctrine()->getRepository(Partido::class)->getPartidosPasadosArbitro($usuario);
 
-        return $this->render('usuarios/user-profile.html.twig',[
-            'user'=>$usuario,
-            'partidosnuevos'=>$partidosnuevos,
-            'partidospasados'=>$partidospasados
+        return $this->render('usuarios/user-profile.html.twig', [
+            'user' => $usuario,
+            'partidosnuevos' => $partidosnuevos,
+            'partidospasados' => $partidospasados
         ]);
     }
 
@@ -61,15 +62,15 @@ class UsuarioController extends AbstractController
      */
     public function showMyprofile()
     {
-        $usuario=$this->getDoctrine()->getRepository(Usuario::class)->findOneBy(['email'=>$this->getUser()->getUsername()]);
+        $usuario = $this->getDoctrine()->getRepository(Usuario::class)->findOneBy(['email' => $this->getUser()->getUsername()]);
         $partidosnuevos = $this->getDoctrine()->getRepository(Partido::class)->getPartidosNuevosArbitro($usuario);
-        $partidospasados =  $this->getDoctrine()->getRepository(Partido::class)->getPartidosPasadosArbitro($usuario);
+        $partidospasados = $this->getDoctrine()->getRepository(Partido::class)->getPartidosPasadosArbitro($usuario);
 
 
-        return $this->render('usuarios/user-profile.html.twig',[
-            'user'=>$usuario,
-            'partidosnuevos'=>$partidosnuevos,
-            'partidospasados'=>$partidospasados
+        return $this->render('usuarios/user-profile.html.twig', [
+            'user' => $usuario,
+            'partidosnuevos' => $partidosnuevos,
+            'partidospasados' => $partidospasados
         ]);
     }
 
@@ -84,9 +85,7 @@ class UsuarioController extends AbstractController
     public function showEditProfile(Usuario $usuario)
     {
 
-        return $this->render('usuarios/editar-perfil.html.twig',[
-            'usuario'=>$usuario
-        ]);
+        return $this->render('usuarios/editar-perfil.html.twig');
     }
 
     /**
@@ -98,31 +97,34 @@ class UsuarioController extends AbstractController
      */
     public function editPerfil(Request $request)
     {
-        $usuario=$this->getDoctrine()->getRepository(Usuario::class)->findOneBy(['email'=>$this->getUser()->getUsername()]);
+        $usuario = $this->getDoctrine()->getRepository(Usuario::class)->findOneBy(['email' => $this->getUser()->getUsername()]);
 
-        if(!$this->checkEmail($request->get('email'),$usuario->getEmail())){
-           $usuario->setTelefono($request->get('telefono'))
+        if (!$this->checkEmail($request->get('email'), $usuario->getEmail())) {
+            $usuario->setTelefono($request->get('telefono'))
                 ->setNombre($request->get('nombre'))
                 ->setApellidos($request->get('apellidos'))
-                ->setEmail($request->get('email'));
+                ->setEmail($request->get('email'))
+                ->setUpdateAT(new \DateTime());
+
 
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->persist($usuario);
             $entityManager->flush();
-            return $this->redirectToRoute('futapp_usuario_edit_perfil',['id'=>$usuario->getId()]);
+            return $this->redirectToRoute('futapp_usuario_edit_perfil', ['id' => $usuario->getId()]);
         }
-        $this->addFlash('error_basico','El email ya está registrado ');
-        return  $this->redirectToRoute('futapp_usuario_edit_perfil',['id'=>$usuario->getId()]);
+        $this->addFlash('error_basico', 'El email ya está registrado ');
+        return $this->redirectToRoute('futapp_usuario_edit_perfil', ['id' => $usuario->getId()]);
 
 
     }
 
-    private function checkEmail(string $correo, string $correoantiguo){
-        $usuarios = $this->getDoctrine()->getRepository(Usuario::class)->findBy(['email'=>$correo]);
-        if($correo=== $correoantiguo){
+    private function checkEmail(string $correo, string $correoantiguo)
+    {
+        $usuarios = $this->getDoctrine()->getRepository(Usuario::class)->findBy(['email' => $correo]);
+        if ($correo === $correoantiguo) {
             return false;
         }
-        return count($usuarios) > 0 ? true:false;
+        return count($usuarios) > 0 ? true : false;
     }
 
 
@@ -133,28 +135,54 @@ class UsuarioController extends AbstractController
      *     methods={"POST"}
      * )
      */
-    public function editpassword(Request $request,  UserPasswordEncoderInterface $encoder)
+    public function editpassword(Request $request, UserPasswordEncoderInterface $encoder)
     {
-        $usuario=$this->getDoctrine()->getRepository(Usuario::class)->findOneBy(['email'=>$this->getUser()->getUsername()]);
+        $usuario = $this->getDoctrine()->getRepository(Usuario::class)->findOneBy(['email' => $this->getUser()->getUsername()]);
 
-        if($encoder->isPasswordValid($usuario,$request->get('passantigua'))){
-            if($request->get('passconfirm') === $request->get('passnueva')){
-                $usuario->setPassword($encoder->encodePassword($usuario,$request->get('passnueva')));
+        if ($encoder->isPasswordValid($usuario, $request->get('passantigua'))) {
+            if ($request->get('passconfirm') === $request->get('passnueva')) {
+                $usuario->setPassword($encoder->encodePassword($usuario, $request->get('passnueva')))
+                    ->setUpdateAT(new \DateTime());
                 $entityManager = $this->getDoctrine()->getManager();
                 $entityManager->persist($usuario);
                 $entityManager->flush();
-                $this->addFlash('pass_ok','Contraseña cambiada');
-                return $this->redirectToRoute('futapp_usuario_edit_perfil',['id'=>$usuario->getId()]);
-            }else{
-                $this->addFlash('error_pass','La contraseña nueva introducida no coincide con la confirmada');
-                return $this->redirectToRoute('futapp_usuario_edit_perfil',['id'=>$usuario->getId()]);
+                $this->addFlash('pass_ok', 'Contraseña cambiada');
+                return $this->redirectToRoute('futapp_usuario_edit_perfil', ['id' => $usuario->getId()]);
+            } else {
+                $this->addFlash('error_pass', 'La contraseña nueva introducida no coincide con la confirmada');
+                return $this->redirectToRoute('futapp_usuario_edit_perfil', ['id' => $usuario->getId()]);
 
             }
-        }else{
-            $this->addFlash('error_pass','La contraseña introducida no coincide con la actual');
-            return $this->redirectToRoute('futapp_usuario_edit_perfil',['id'=>$usuario->getId()]);
+        } else {
+            $this->addFlash('error_pass', 'La contraseña introducida no coincide con la actual');
+            return $this->redirectToRoute('futapp_usuario_edit_perfil', ['id' => $usuario->getId()]);
 
         }
+
+    }
+
+    /**
+     * @Route(
+     *     "/usarios/editar_perfil/foto",
+     *     name="futapp_usuario_foto",
+     *     methods={"POST"}
+     * )
+     */
+    public function editFoto(Request $request)
+    {
+        $usuario = $this->getDoctrine()->getRepository(Usuario::class)->findOneBy(['email' => $this->getUser()->getUsername()]);
+
+        $fotoFile = $request->files->get('foto');
+
+
+        $usuario->setFotoFile($fotoFile);
+        $usuario->setUpdateAT(new \DateTime());
+
+        $entityManager = $this->getDoctrine()->getManager();
+        $entityManager->persist($usuario);
+        $entityManager->flush();
+        return $this->redirectToRoute('futapp_usuario_edit_perfil', ['id' => $usuario->getId()]);
+
 
     }
 }

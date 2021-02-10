@@ -5,6 +5,7 @@ namespace App\EventListener;
 
 
 use App\Entity\Equipo;
+use App\Entity\Partido;
 use App\Entity\Usuario;
 use App\Helper\FileUploader;
 use Doctrine\ORM\Event\LifecycleEventArgs;
@@ -22,7 +23,7 @@ class FotoEquipoUploadListener
     }
 
     private function uploadFile($entity){
-        if(!$entity instanceof  Equipo || !$entity instanceof Usuario){
+        if($entity instanceof Partido){
             return;
         }
 
@@ -46,10 +47,10 @@ class FotoEquipoUploadListener
     {
         $entity = $args->getEntity();
 
-        if($entity instanceof Equipo){
+        if($entity instanceof Equipo || $entity instanceof Usuario){
             if($entity->getFoto()!==null && $entity->getFoto()!==''){
 
-               // unlink(__DIR__.'/../../public/uploads/fotos/'.$entity->getFoto());
+                unlink(__DIR__.'/../../public/uploads/fotos/'.$entity->getFoto());
             }
             $this->uploadFile($entity);
         }
