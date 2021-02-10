@@ -5,10 +5,18 @@
 {% block main_content %}
     <div class="mt-4">
 
-        {% if error is defined and error is not empty %}
+
+        {% if app.session.flashBag.has('error') %}
             <div class="alert alert-danger alert-dismissable">
-                <button type="button" class="btn-close" data-dismiss="alert">&times;</button>
-                <strong>Error</strong> {{ error }}
+                <button type="button" class="btn-close" data-dismiss="alert"></button>
+                <strong>Error</strong>
+                <div>
+                {% for message in app.session.flashBag.get('error') %}
+
+                    <p>{{ message }}</p>
+
+                {% endfor %}
+                </div>
             </div>
         {% endif %}
 

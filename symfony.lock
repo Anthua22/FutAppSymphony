@@ -108,6 +108,9 @@
     "phpdocumentor/type-resolver": {
         "version": "1.4.0"
     },
+    "phpmailer/phpmailer": {
+        "version": "v6.2.0"
+    },
     "psr/cache": {
         "version": "1.0.1"
     },

@@ -5,6 +5,7 @@
 # https://symfony.com/doc/current/best_practices/configuration.html#application-related-configuration
 parameters:
     fotos_directory: '%kernel.project_dir%/public/uploads/fotos'
+    author: 'dd'
 services:
     # default configuration for services in *this* file
     _defaults:
@@ -32,6 +33,11 @@ services:
     App\Helper\FileUploader:
         arguments:
             $targetDir: '%fotos_directory%'
+
+    App\Helper\Emails:
+        arguments:
+            $author: '%author%'
+
 
     App\EventListener\FotoEquipoUploadListener:
         tags:

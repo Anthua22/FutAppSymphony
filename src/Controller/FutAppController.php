@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\Partido;
 use App\Entity\Usuario;
 use App\Forms\PartidoForm;
+use App\Helper\Emails;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Exception\BadRequestException;
 use Symfony\Component\HttpFoundation\Response;
@@ -49,11 +50,12 @@ class FutAppController extends AbstractController
      * @Route("/partidos/nuevo", name="fut_app_partidos_nuevo",
      *     methods={"GET","POST"})
      */
-    public function nuevoPartido(Request  $request):Response{
-        $error = null;
+    public function nuevoPartido(Request  $request, Emails $emails):Response{
 
         try{
             $partido = new Partido();
+
+            $fecha_actual = new \DateTime();
             $form = $this->createForm(PartidoForm::class,$partido);
 
             $form->handleRequest($request);
@@ -61,26 +63,34 @@ class FutAppController extends AbstractController
             if($form->isSubmitted() && $form->isValid()){
 
                 $partido = $form->getData();
-                $partido->setFechaAsignacion(new \DateTime());
-                $partido->setDisputado(false);
-                if($partido->getEquipoLocal()!==$partido->getEquipoVisitante()){
-                    $entityManager = $this->getDoctrine()->getManager();
-                    $entityManager->persist($partido);
-                    $entityManager->flush();
-                    return $this->redirectToRoute('fut_app_inicio');
-                }
-                $error='El equipo visitante no puede ser el mismo que el equipo local';
 
+                if($fecha_actual < $partido->getFechaEncuentro())
+                {
+                    $partido->setFechaAsignacion(new \DateTime());
+                    $partido->setDisputado(false);
+                    if($partido->getEquipoLocal()!==$partido->getEquipoVisitante()){
+                        $entityManager = $this->getDoctrine()->getManager();
+                        $entityManager->persist($partido);
+                        $entityManager->flush();
+                        $emails->setPartido($partido);
+                        $emails->sendDesignacion();
+                        return $this->redirectToRoute('fut_app_inicio');
+                    }
+
+                    $this->addFlash('error','El equipo visitante no puede ser el mismo que el equipo local');
+
+
+                }
+                $this->addFlash('error','La fecha introducida ya ha pasado');
 
             }
 
         }catch (BadRequestException $ex){
-            $error = $ex->getMessage();
+            $this->addFlash('error',$ex->getMessage());
         }
 
         return $this->render('fut_app/form-partido.html.twig',[
-            'form'=>$form->createView(),
-            'error'=>$error
+            'form'=>$form->createView()
         ]);
 
     }

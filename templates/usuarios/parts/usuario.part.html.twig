@@ -53,7 +53,7 @@
                     <a href="{{ path('futapp_usuario_edit_perfil',{id: arbitro.id}) }}" class="col-3 btn btn-primary">Editar
                         <i class="fa fa-edit"></i></a>
 
-                    {% if arbitro.id != app.user.id and arbitro.role == 'ROLE_USER'%}
+                    {% if arbitro.id != app.user.id and arbitro.role == 'ROLE_ADMIN'%}
                         <button type="button" class="col-3 btn btn-danger" data-toggle="modal"
                                 data-target="#{{ modal }}">
                             Borrar <i class="fa fa-trash"></i>

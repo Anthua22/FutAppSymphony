@@ -236,7 +236,9 @@ class Usuario implements UserInterface, \Serializable
 
     public function __toString()
     {
-        return $this->nombre.' '. $this->apellidos;
+        if($this->role === 'ROLE_ADMIN')
+            return $this->nombre.' '. $this->apellidos.' - Administrador';
+        return $this->nombre.' '. $this->apellidos.' - Árbitro';
     }
 
     public function getUpdateAT(): ?\DateTimeInterface
