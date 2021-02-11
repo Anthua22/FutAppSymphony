@@ -9,7 +9,7 @@
             <h2 class="mb-4">Equipo Local</h2>
 
 
-            {% include 'equipo/part/equipo.part.html.twig' with {
+            {% include 'equipo/parts/equipo.parts.html.twig' with {
                 'equipo':partido.equipolocal
             } %}
 
@@ -17,7 +17,7 @@
         </div>
         <div class="col-6">
             <h2 class="mb-4">Equipo Visitante</h2>
-            {% include 'equipo/part/equipo.part.html.twig' with {
+            {% include 'equipo/parts/equipo.parts.html.twig' with {
                 'equipo':partido.equipovisitante
             } %}
         </div>
@@ -70,7 +70,7 @@
                 </div>
 
             </div>
-            {% if is_granted('ROLE_USER') and partido.arbitro.id == app.user.id %}
+            {% if is_granted('ROLE_USER') and partido.arbitro.id == app.user.id or is_granted('ROLE_ADMIN') %}
                 <div class="accordion-item">
                     <div class="accordion-header">
                         <a class="accordion-button collapsed nombreEquipo" data-toggle="collapse" href="#Elemento3">

@@ -17,56 +17,69 @@
                 <small class="text-muted">{{ user.email }}</small>
             </h4>
             <h4>
-                <small class="text-muted" style="font-style: italic">{% if user.role == 'ROLE_ADMIN' %}ADMINISTRADOR {% else %}ÁRBITRO{% endif %}</small>
+                <small class="text-muted"
+                       style="font-style: italic">{% if user.role == 'ROLE_ADMIN' %}ADMINISTRADOR {% else %}ÁRBITRO{% endif %}</small>
             </h4>
 
-            {% if is_granted('ROLE_ADMIN') or user.id == app.user.id and user.id is not empty %}
-                <div class="row mt-3">
+            {% if app.user is not empty %}
+                {% if user.id == app.user.id or is_granted('ROLE_ADMIN') %}
+                    <div class="row mt-3">
 
-                    <a href="{{ path('futapp_usuario_edit_perfil',{id: user.id}) }}" class="col-3 btn btn-primary"
-                       style="margin-right: 5px;">Editar perfil <i
-                                class="fa fa-edit"></i></a>
-                    {% if is_granted('ROLE_ADMIN') and user.id != app.user.id %}
-                        <button type="button" class="col-3 btn btn-danger" data-toggle="modal"
-                                data-target="#exampleModalCenter">
-                            Borrar <i class="fa fa-trash"></i>
-                        </button>
+                        <a href="{{ path('futapp_usuario_edit_perfil',{id: user.id}) }}" class="col-3 btn btn-primary"
+                           style="margin-right: 5px;">Editar perfil <i
+                                    class="fa fa-edit"></i></a>
+                        {% if user.id == app.user.id %}
+                            <a href="{{ path('fut_app_mensajes') }}" class="col-3 btn btn-info">Mis
+                                mensajes
+                                <i class="fa fa-envelope"></i>
+                            </a>
+                        {% endif %}
+                        {% if user.id != app.user.id %}
+                            <a href="{{ path('fut_app_chat',{id: user.id}) }}" class="col-3 btn btn-info" style="margin-right: 5px;">Enviar un mensaje <i class="fa fa-comment"></i></a>
 
-                        <!-- Modal -->
-                        <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog"
-                             aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
-                            <div class="modal-dialog modal-dialog-centered" role="document">
-                                <div class="modal-content">
-                                    <div class="modal-header">
-                                        <h5 class="modal-title" id="exampleModalLongTitle">Borrar
-                                            al {{ user.nombre }}</h5>
-                                        <button type="button" class="btn-close" data-dismiss="modal" aria-label="Close">
+                        {% endif %}
+                        {% if is_granted('ROLE_ADMIN') and user.id != app.user.id %}
+                            <button type="button" class="col-3 btn btn-danger" data-toggle="modal"
+                                    data-target="#exampleModalCenter">
+                                Borrar <i class="fa fa-trash"></i>
+                            </button>
 
-                                        </button>
-                                    </div>
-                                    <div class="modal-body">
-                                        <div class="alert alert-warning">
-                                            Estas seguro de querer elimnar a este equipo? Los partidos en los haya
-                                            participado se
-                                            borrarán también...
+                            <!-- Modal -->
+                            <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog"
+                                 aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+                                <div class="modal-dialog modal-dialog-centered" role="document">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h5 class="modal-title" id="exampleModalLongTitle">Borrar
+                                                al {{ user.nombre }}</h5>
+                                            <button type="button" class="btn-close" data-dismiss="modal"
+                                                    aria-label="Close">
+
+                                            </button>
                                         </div>
-                                    </div>
-                                    <div class="modal-footer">
-                                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close
-                                        </button>
-                                        <a href="{{ path('futapp_borrar_usuario',{id: user.id}) }}"
-                                           class="col-3 btn btn-danger">Borrar
-                                            <i class="fa fa-trash"></i></a>
+                                        <div class="modal-body">
+                                            <div class="alert alert-warning">
+                                                Estas seguro de querer elimnar a este equipo? Los partidos en los haya
+                                                participado se
+                                                borrarán también...
+                                            </div>
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close
+                                            </button>
+                                            <a href="{{ path('futapp_borrar_usuario',{id: user.id}) }}"
+                                               class="col-3 btn btn-danger">Borrar
+                                                <i class="fa fa-trash"></i></a>
 
+                                        </div>
                                     </div>
                                 </div>
                             </div>
-                        </div>
-                    {% endif %}
+                        {% endif %}
 
-                </div>
+                    </div>
+                {% endif %}
             {% endif %}
-
 
         </div>
 
@@ -90,7 +103,7 @@
                     <div class="row">
                         {% for partido in partidospasados %}
                             <div class="col-4 mb-4">
-                                {% include 'fut_app/parts/partido.part.html.twig' with {
+                                {% include 'fut_app/parts/partido.parts.html.twig' with {
                                     'partido':partido
                                 } only %}
                             </div>
@@ -103,7 +116,7 @@
                     <div class="row">
                         {% for partido in partidosnuevos %}
                             <div class="col-4 mb-4">
-                                {% include 'fut_app/parts/partido.part.html.twig' with {
+                                {% include 'fut_app/parts/partido.parts.html.twig' with {
                                     'partido':partido
                                 } only %}
                             </div>

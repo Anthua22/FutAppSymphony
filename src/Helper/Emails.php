@@ -2,15 +2,12 @@
 
 namespace App\Helper;
 
-use App\Entity\Equipo;
 use App\Entity\Partido;
-use App\Entity\Usuario;
-use Exception;
 use PHPMailer\PHPMailer\PHPMailer;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 
-class Emails extends AbstractController
+
+class Emails
 {
 
     const CORREOSMTP = 'smtp.gmail.com';
@@ -69,46 +66,43 @@ class Emails extends AbstractController
 
     public function sendDesignacion()
     {
-        try {
-            //Server settings
-            $this->server->isSMTP();                                            // Send using SMTP
-            $this->server->Host = self::CORREOSMTP;                   // Set the SMTP server to send through
-            $this->server->SMTPAuth = true;                                   // Enable SMTP authentication
-            $this->server->Username = self::USERNAME;                     // SMTP username
-            $this->server->Password = self::PASSUSERNAME;                               // SMTP password
-            $this->server->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;         // Enable TLS encryption; `PHPMailer::ENCRYPTION_SMTPS` encouraged
-            $this->server->Port = 587;                                    // TCP port to connect to, use 465 for `PHPMailer::ENCRYPTION_SMTPS` above
 
-            //Recipients
-            $this->server->setFrom(self::USERNAME, 'Admin-' . $this->author);
+        //Server settings
+        $this->server->isSMTP();                                            // Send using SMTP
+        $this->server->Host = self::CORREOSMTP;                   // Set the SMTP server to send through
+        $this->server->SMTPAuth = true;                                   // Enable SMTP authentication
+        $this->server->Username = self::USERNAME;                     // SMTP username
+        $this->server->Password = self::PASSUSERNAME;                               // SMTP password
+        $this->server->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;         // Enable TLS encryption; `PHPMailer::ENCRYPTION_SMTPS` encouraged
+        $this->server->Port = 587;                                    // TCP port to connect to, use 465 for `PHPMailer::ENCRYPTION_SMTPS` above
 
-
-            $this->server->addAddress($this->partido->getArbitro()->getEmail());     // Add a recipient
-            $this->server->addAddress($this->partido->getEquipoLocal()->getCorreo());
-            $this->server->addAddress($this->partido->getEquipoVisitante()->getCorreo());
+        //Recipients
+        $this->server->setFrom(self::USERNAME, 'Admin-' . $this->author);
 
 
-            $this->server->isHTML(true);                                  // Set email format to HTML
-            $this->server->Subject = 'Notificacion de partido';
-            $this->server->Body = $this->body();
+        $this->server->addAddress($this->partido->getArbitro()->getEmail());     // Add a recipient
+        $this->server->addAddress($this->partido->getEquipoLocal()->getCorreo());
+        $this->server->addAddress($this->partido->getEquipoVisitante()->getCorreo());
 
-            $this->server->send();
 
-        } catch (Exception $e) {
-            die("Message could not be sent. Mailer Error: {$this->server->ErrorInfo}");
-        }
+        $this->server->isHTML(true);                                  // Set email format to HTML
+        $this->server->Subject = 'Notificacion de partido';
+        $this->server->Body = $this->body();
+
+        $this->server->send();
+
     }
 
     /* public function sendDeteAsignados(array $admins){
          try {
              //Server settings
-             $this->server->isSMTP();                                            // Send using SMTP
-             $this->server->Host       = self::CORREOSMTP;                   // Set the SMTP server to send through
-             $this->server->SMTPAuth   = true;                                   // Enable SMTP authentication
-             $this->server->Username   = self::USERNAME;                     // SMTP username
-             $this->server->Password   = self::PASSUSERNAME;                               // SMTP password
-             $this->server->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;         // Enable TLS encryption; `PHPMailer::ENCRYPTION_SMTPS` encouraged
-             $this->server->Port       = 587;                                    // TCP port to connect to, use 465 for `PHPMailer::ENCRYPTION_SMTPS` above
+             $this->server->isSMTP();
+             $this->server->Host       = self::CORREOSMTP;
+             $this->server->SMTPAuth   = true;
+             $this->server->Username   = self::USERNAME;
+             $this->server->Password   = self::PASSUSERNAME;
+             $this->server->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;
+             $this->server->Port       = 587;
              $this->server->setFrom(self::USERNAME, 'Admin');
 
              foreach ($admins as $admin){
@@ -133,9 +127,9 @@ class Emails extends AbstractController
 
     private function body(): string
     {
-        $nombrelocal = $this->getDoctrine()->getRepository(Equipo::class)->findOneBy(['id' => $this->partido->getEquipoLocal()])->getNombre();
-        $nombrevisitante = $this->getDoctrine()->getRepository(Equipo::class)->findOneBy(['id' => $this->partido->getEquipoVisitante()])->getNombre();
-        $arbitro = $this->getDoctrine()->getRepository(Usuario::class)->findOneBy(['id' => $this->partido->getArbitro()->getId()])->getNombre();
+        $nombrelocal = $this->partido->getEquipoLocal()->getNombre();
+        $nombrevisitante = $this->partido->getEquipoVisitante()->getNombre();
+        $arbitro = $this->partido->getArbitro()->getNombre().' '.$this->partido->getArbitro()->getApellidos();
         $fecha = $this->partido->getFechaEncuentro()->format('d-m-Y');
         $hora = $this->partido->getFechaEncuentro()->format('H:i:s');
         $direccion = $this->partido->getDireccionEncuentro();

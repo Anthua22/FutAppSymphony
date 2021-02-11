@@ -3,11 +3,33 @@
 {% block title %} {{ parent() }} Arbitros{% endblock %}
 
 {% block main_content %}
+    <form action="{{ path('fut_app_inicio') }}" method="post" class="mt-4">
+        <div class="row">
+            <div class="col-8">
+                <input placeholder="Nombre del Árbitro" class="form-control" name="nombreequipo"/>
+            </div>
+            <div class="btn-group col-3">
+                <button type="submit" class="btn btn-md btn-secondary">
+                    Buscar
+                </button>
+                <button type="button" class="btn btn-md btn-info dropdown-toggle dropdown-toggle-split" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    <i class="fa fa-filter" style="font-size: 20px;"></i>
+                </button>
+                <div class="dropdown-menu">
+                    <a class="dropdown-item" href="{{ path('fut_app_inicio') }}">Administradores</a>
+                    <a class="dropdown-item" href="{{ path('fut_app_partidos_disputados') }}">Árbitros</a>
+                </div>
+            </div>
+        </div>
+
+
+    </form>
+
     <div class="card-columns mt-4 mb-4">
         <div class="row">
             {% for arbitro in arbitros %}
                 <div class="col-4 mb-4">
-                    {% include 'usuarios/parts/usuario.part.html.twig' with {
+                    {% include 'usuarios/parts/usuario.parts.html.twig' with {
                         'arbitro':arbitro
                     } only %}
                 </div>

@@ -1,0 +1,45 @@
+<div class="col-md-12 col-xl-12 chat">
+    <div class="card mb-sm-3 mb-md-0 contacts_card">
+        <div class="card-header">
+            <div class="input-group">
+                <input type="text" placeholder="Search..." name="" class="form-control search">
+                <div class="input-group-prepend">
+                    <span class="input-group-text search_btn" style="height: 60px"><i class="fa fa-search"></i></span>
+                </div>
+            </div>
+        </div>
+        <div class="card-body contacts_body">
+            <div class="contacts">
+                <div class="active mb-2 card">
+                    <div class="d-flex bd-highlight">
+
+                        <div class="img_cont">
+                            <img src="{% if usuario.foto is empty %}/imgs/avatar.jpg{% else %}{{ asset('uploads/fotos/' ~ usuario.foto) }}{% endif %}"
+                                 class="rounded-circle" style="height: 90px">
+                            <span class="online_icon"></span>
+                        </div>
+                        <div class="user_info">
+                            <span>Khalid</span>
+
+                        </div>
+                    </div>
+                </div>
+                <div>
+                    <div class="d-flex bd-highlight">
+                        <div class="img_cont">
+                            <img src="{% if usuario.foto is empty %}/imgs/avatar.jpg{% else %}{{ asset('uploads/fotos/' ~ usuario.foto) }}{% endif %}"
+                                 style="height: 90px" class="rounded-circle user_img">
+                            <span class="online_icon offline"></span>
+                        </div>
+                        <div class="user_info">
+                            <span>Taherah Big</span>
+                            <p>Taherah left 7 mins ago</p>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+    </div>
+</div>

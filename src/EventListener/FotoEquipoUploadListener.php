@@ -4,6 +4,7 @@
 namespace App\EventListener;
 
 
+use App\Entity\Chat;
 use App\Entity\Equipo;
 use App\Entity\Partido;
 use App\Entity\Usuario;
@@ -23,7 +24,7 @@ class FotoEquipoUploadListener
     }
 
     private function uploadFile($entity){
-        if($entity instanceof Partido){
+        if($entity instanceof Partido || $entity instanceof Chat){
             return;
         }
 

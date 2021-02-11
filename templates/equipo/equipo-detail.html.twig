@@ -73,7 +73,7 @@
                     <div class="row">
                         {% for partido in partidospasados %}
                             <div class="col-4 mb-4">
-                                {% include 'fut_app/parts/partido.part.html.twig' with {
+                                {% include 'fut_app/parts/partido.parts.html.twig' with {
                                     'partido':partido
                                 } only %}
                             </div>
@@ -86,7 +86,7 @@
                     <div class="row">
                         {% for partido in partidosnuevos %}
                             <div class="col-4 mb-4">
-                                {% include 'fut_app/parts/partido.part.html.twig' with {
+                                {% include 'fut_app/parts/partido.parts.html.twig' with {
                                     'partido':partido
                                 } only %}
                             </div>

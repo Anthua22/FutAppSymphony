@@ -1,0 +1,125 @@
+{% extends "layout.html.twig" %}
+
+{% block title %} {{ parent() ~ 'Mis Mensajes' }} {% endblock %}
+{% block stylesheets %}
+
+    {{ parent() }}
+
+
+{% endblock %}
+
+{% block main_content %}
+
+    <div class="row justify-content-center h-100 mt-4">
+        <div class="col-md-10 col-xl-9 chat">
+            <div class="card">
+                <div class="card-header msg_head">
+                    <div class="d-flex bd-highlight">
+                        <div class="img_cont">
+                            <img src="{% if userchat.foto is empty %}/imgs/avatar.jpg{% else %}{{ asset('uploads/fotos/' ~ userchat.foto) }}{% endif %}"
+                                 class="rounded-circle"
+                                 style="height: 100px">
+
+                        </div>
+                        <div class="row align-items-center">
+                            <div class="col">
+                                <a style="text-decoration: none; margin-left: 10px; font-size: 20px"
+                                   href="{{ path('futapp_usuario_perfil', {id: userchat.id}) }}">{{ userchat.nombre }}</a>
+                            </div>
+
+                        </div>
+
+
+                    </div>
+
+                </div>
+                <div class="card-body msg_card_body">
+                    {% if mensajes| length > 0 %}
+                        {% for mensaje in mensajes %}
+                            {% if mensaje.receptor.id == app.user.id %}
+                                <div class="d-flex justify-content-start mb-4">
+                                    <div class="card shadow" style="background-color: #5eb5e0">
+                                        <div class="row">
+                                            <div class="col-2">
+                                                <div class="img_cont_msg">
+                                                    <img src="{% if mensaje.emisor.foto is empty %}/imgs/avatar.jpg{% else %}{{ asset('uploads/fotos/' ~ mensaje.emisor.foto) }}{% endif %}"
+                                                         class="rounded-circle" style="height: 50px">
+                                                </div>
+                                            </div>
+                                            <div class="col-10">
+                                                <div class="msg_cotainer" style="overflow-y: auto;">
+                                                    <p>{{ mensaje.mensaje }} </p>
+                                                    <strong class="msg_time">
+                                                        {{ mensaje.fecha |date('Y-m-d H:i:s') }}
+                                                    </strong>
+                                                </div>
+                                            </div>
+                                        </div>
+
+
+                                    </div>
+
+                                </div>
+                            {% else %}
+                                <div class="d-flex justify-content-end mb-4" >
+                                    <div class="row justify-content-end" style="margin-right:25px ">
+                                        <div class="col-8">
+                                            <div class="card shadow" style="background-color: lightgreen; float: right">
+                                                <div class="row">
+                                                    <div class="col-9">
+                                                        <div class="msg_cotainer_send">
+                                                            <p>{{ mensaje.mensaje }} </p>
+                                                            <strong style="font-size: 10px"> {{ mensaje.fecha |date('Y-m-d') }}</strong>
+                                                            <a href="/" class="btn-close" style="margin-left: 5px"></a>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-2">
+                                                        <div class="img_cont_msg">
+                                                            <img src="{% if mensaje.emisor.foto is empty %}/imgs/avatar.jpg{% else %}{{ asset('uploads/fotos/' ~ mensaje.emisor.foto) }}{% endif %}"
+                                                                 style="max-height: 60px"
+                                                                 class="rounded-circle user_img_msg">
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+
+                                </div>
+                            {% endif %}
+
+                        {% endfor %}
+                    {% else %}
+                        <div>Escribe un mensaje</div>
+                    {% endif %}
+
+
+                </div>
+                <div class="card-footer">
+
+                    <form action="#" method="post">
+                        <div class="row">
+                            <div class="col-10"><textarea name="mensaje" class="form-control type_msg"
+                                                          placeholder="Escribe tu mensaje..."></textarea></div>
+                            <div class="col-2">
+
+                                <button type="submit" class="input-group-text btn btn-lg btn-primary" style="height: 57px"><i
+                                            class="fa fa-location-arrow"></i></button>
+
+                            </div>
+
+                        </div>
+
+
+                    </form>
+
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+{% endblock %}

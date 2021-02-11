@@ -87,6 +87,8 @@ class FutAppController extends AbstractController
 
         }catch (BadRequestException $ex){
             $this->addFlash('error',$ex->getMessage());
+        }catch (\Exception $exception){
+            $this->addFlash('error',$exception->getMessage());
         }
 
         return $this->render('fut_app/form-partido.html.twig',[

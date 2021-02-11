@@ -20,7 +20,7 @@ class FileUploader
     public function upload(UploadedFile $file)
     {
         $originalFilename = pathinfo($file->getClientOriginalName(), PATHINFO_FILENAME);
-        // this is needed to safely include the file name as part of the URL
+        // this is needed to safely include the file name as parts of the URL
         $newFilename = $originalFilename.'-'.uniqid().'.'.$file->guessExtension();
 
         try {

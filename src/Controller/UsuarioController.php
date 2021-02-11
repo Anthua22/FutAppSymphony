@@ -58,7 +58,7 @@ class UsuarioController extends AbstractController
 
     /**
      * @Route(
-     *     "/usuarios/mi_perfil",
+     *     "/mi_perfil",
      *     name="futapp_usuario_yo",
      *     methods={"GET"}
      * )
