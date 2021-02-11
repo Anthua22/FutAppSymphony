@@ -73,7 +73,7 @@ class FutAppController extends AbstractController
                         $entityManager->persist($partido);
                         $entityManager->flush();
                         $emails->setPartido($partido);
-                        $emails->sendDesignacion();
+                       // $emails->sendDesignacion();
                         return $this->redirectToRoute('fut_app_inicio');
                     }
 

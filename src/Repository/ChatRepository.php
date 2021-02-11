@@ -25,14 +25,25 @@ class ChatRepository extends ServiceEntityRepository
     {
 
         $qb = $this->createQueryBuilder('chat');
-        $qb->innerJoin('chat.emisor','emisor');
-        $qb->innerJoin('chat.receptor','receptor');
+        $qb->innerJoin('chat.emisor', 'emisor');
+        $qb->innerJoin('chat.receptor', 'receptor');
 
 
-        $qb->where('emisor.id = '.$emisor->getId().' and receptor.id = '.$receptor->getId().
-            ' or emisor.id = '.$receptor->getId().' and receptor.id = '.$emisor->getId())->orderBy('chat.fecha','ASC');
+        $qb->where('emisor.id = ' . $emisor->getId() . ' and receptor.id = ' . $receptor->getId() .
+            ' or emisor.id = ' . $receptor->getId() . ' and receptor.id = ' . $emisor->getId())->orderBy('chat.fecha', 'ASC');
 
         return $qb->getQuery()->execute();
+    }
+
+    public function getRecibidos(Usuario $usuario)
+    {
+        $qb = $this->createQueryBuilder('chat');
+        $qb->innerJoin('chat.receptor', 'receptor');
+
+        $qb->where('receptor.id = ' . $usuario->getId())->orderBy('chat.fecha', 'ASC');
+
+        return $qb->getQuery()->execute();
+
     }
 
     // /**

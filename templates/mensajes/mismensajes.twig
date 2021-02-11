@@ -13,11 +13,11 @@
         <ul class="nav nav-tabs" id="myTab" role="tablist">
             <li class="nav-item waves-effect waves-light">
                 <a class="nav-link active" id="contact-tab" data-toggle="tab" href="#contact" role="tab"
-                   aria-controls="contact" aria-selected="true">Nuevos</a>
+                   aria-controls="contact" aria-selected="true">Recibidos</a>
             </li>
             <li class="nav-item waves-effect waves-light">
                 <a class="nav-link" id="home-tab" data-toggle="tab" href="#home" role="tab" aria-controls="home"
-                   aria-selected="false">Pasados</a>
+                   aria-selected="false">Enviados</a>
             </li>
 
         </ul>
@@ -26,11 +26,11 @@
                 <div class="card-columns mt-4">
                     <div class="row">
                         {% for mensaje in mensajesrecibidos %}
-                            <div class="col-4 mb-4">
-                                {% include 'mensajes/parts/bandeja.part.html.twig' with {
-                                    'usuario':mensaje.emisor
-                                } only %}
-                            </div>
+
+                            {% include 'mensajes/parts/bandeja.part.html.twig' with {
+                                'usuario':mensaje.receptor
+                            } only %}
+
                         {% endfor %}
                     </div>
                 </div>
@@ -38,12 +38,12 @@
             <div class="tab-pane fade active show" id="contact" role="tabpanel" aria-labelledby="contact-tab">
                 <div class="card-columns mt-4">
                     <div class="row">
-                        {% for partido in partidosnuevos %}
-                            <div class="col-4 mb-4">
-                                {% include 'fut_app/parts/partido.parts.html.twig' with {
-                                    'partido':partido
-                                } only %}
-                            </div>
+                        {% for mensaje in mensajesrecibidos %}
+
+                            {% include 'mensajes/parts/bandeja.part.html.twig' with {
+                                'usuario':mensaje.emisor
+                            } only %}
+
                         {% endfor %}
                     </div>
                 </div>

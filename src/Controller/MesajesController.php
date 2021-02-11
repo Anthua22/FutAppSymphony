@@ -17,9 +17,15 @@ class MesajesController extends AbstractController
      * @Route("/mensajes", name="fut_app_mensajes",
      *     methods={"GET","POST"})
      */
-    public function showChats()
+    public function showBandeja()
     {
-        return $this->render('mensajes/mismensajes.twig');
+        $usuario = $this->getDoctrine()->getRepository(Usuario::class)->findOneBy(['email' => $this->getUser()->getUsername()]);
+        $mensajesrecivbidos = $this->getDoctrine()->getRepository(Chat::class)->getRecibidos($usuario);
+        $mensajesenviados = $this->getDoctrine()->getRepository(Chat::class)->findBy(['emisor'=>$usuario]);
+        return $this->render('mensajes/mismensajes.twig',[
+            'mensajesrecibidos'=>$mensajesrecivbidos,
+            'mensajesenviados'=>$mensajesenviados
+        ]);
     }
 
 

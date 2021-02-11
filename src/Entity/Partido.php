@@ -31,19 +31,19 @@ class Partido
     private $fecha_encuentro;
 
     /**
-     * @ORM\ManyToOne(targetEntity=Usuario::class, inversedBy="usuarios",cascade="remove")
+     * @ORM\ManyToOne(targetEntity=Usuario::class)
      * @ORM\JoinColumn(onDelete="CASCADE")
      */
     private $arbitro;
 
     /**
-     * @ORM\ManyToOne(targetEntity=Equipo::class, inversedBy="equipos", cascade="remove")
+     * @ORM\ManyToOne(targetEntity=Equipo::class)
      * @ORM\JoinColumn(onDelete="CASCADE")
      */
     private $equipoLocal;
 
     /**
-     * @ORM\ManyToOne(targetEntity=Equipo::class, inversedBy="equipos", cascade="remove")
+     * @ORM\ManyToOne(targetEntity=Equipo::class)
      * @ORM\JoinColumn(onDelete="CASCADE")
      */
     private $EquipoVisitante;
