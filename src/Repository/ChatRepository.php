@@ -39,12 +39,26 @@ class ChatRepository extends ServiceEntityRepository
     {
         $qb = $this->createQueryBuilder('chat');
         $qb->innerJoin('chat.receptor', 'receptor');
+        $qb->innerJoin('chat.emisor','emisor');
 
-        $qb->where('receptor.id = ' . $usuario->getId())->orderBy('chat.fecha', 'ASC');
+        $qb->where('receptor.id = ' . $usuario->getId())->select('emisor.id')->distinct()->orderBy('chat.fecha', 'ASC');
 
         return $qb->getQuery()->execute();
 
     }
+
+    public function getEnviados(Usuario $usuario)
+    {
+        $qb = $this->createQueryBuilder('chat');
+        $qb->innerJoin('chat.receptor', 'receptor');
+        $qb->innerJoin('chat.emisor','emisor');
+
+        $qb->where('emisor.id = ' . $usuario->getId())->select('receptor.id')->distinct()->orderBy('chat.fecha', 'ASC');
+
+        return $qb->getQuery()->execute();
+
+    }
+
 
     // /**
     //  * @return Chat[] Returns an array of Chat objects

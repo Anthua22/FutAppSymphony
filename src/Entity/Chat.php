@@ -28,13 +28,13 @@ class Chat
     private $mensaje;
 
     /**
-     * @ORM\ManyToOne(targetEntity=Usuario::class, inversedBy="usuarios", cascade="remove")
+     * @ORM\ManyToOne(targetEntity=Usuario::class)
      * @ORM\JoinColumn(onDelete="CASCADE")
      */
     private $emisor;
 
     /**
-     * @ORM\ManyToOne(targetEntity=Usuario::class, inversedBy="usuarios", cascade="remove")
+     * @ORM\ManyToOne(targetEntity=Usuario::class)
      * @ORM\JoinColumn(onDelete="CASCADE")
      */
     private $receptor;

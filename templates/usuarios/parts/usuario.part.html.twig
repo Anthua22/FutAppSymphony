@@ -48,12 +48,12 @@
     <div class="card-footer">
         {% set modal = 'Arbitro' ~ arbitro.id %}
         <div class="row justify-content-evenly">
-            {% if arbitro is not empty and app.user is not empty %}
+            {% if app.user is not empty %}
                 {% if is_granted('ROLE_ADMIN') %}
-                    <a href="{{ path('futapp_usuario_edit_perfil',{id: arbitro.id}) }}" class="col-3 btn btn-primary">Editar
+                    <a href="{{ path('futapp_usuario_edit_perfil',{id: arbitro.id}) }}" class="col-3 btn btn-primary">
                         <i class="fa fa-edit"></i></a>
 
-                    {% if arbitro.id != app.user.id and arbitro.role == 'ROLE_ADMIN'%}
+                    {% if arbitro.id != app.user.id and is_granted('ROLE_ADMIN') %}
                         <button type="button" class="col-3 btn btn-danger" data-toggle="modal"
                                 data-target="#{{ modal }}">
                             Borrar <i class="fa fa-trash"></i>
@@ -61,17 +61,13 @@
                     {% endif %}
                 {% endif %}
             {% endif %}
-            {% if arbitro is not empty and app.user is not empty %}
-                {% if arbitro.id == app.user.id %}
-                    <a href="{{ path('futapp_usuario_yo') }}" style="color: #ffffff;"
-                       class="col-3 btn btn-info">Ver <i
-                                class="fa fa-eye"></i></a>
-                {% else %}
-                    <a href="{{ path('futapp_usuario_perfil',{id: arbitro.id}) }}" style="color: #ffffff;"
-                       class="col-3 btn btn-info">Ver <i
-                                class="fa fa-eye"></i></a>
+            {% if app.user is not empty %}
+                {% if arbitro.id != app.user.id %}
+                    <a href="{{ path('fut_app_chat',{id: arbitro.id}) }}" class="col-3 btn btn-info"
+                       style="margin-right: 5px;"> <i class="fa fa-comment"></i></a>
 
                 {% endif %}
+
             {% else %}
                 <a href="{{ path('futapp_usuario_perfil',{id: arbitro.id}) }}" style="color: #ffffff;"
                    class="col-3 btn btn-info">Ver <i

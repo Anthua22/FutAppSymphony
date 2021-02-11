@@ -6,6 +6,7 @@ namespace App\Controller;
 
 use App\Entity\Chat;
 use App\Entity\Usuario;
+use phpDocumentor\Reflection\Types\Array_;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
@@ -21,11 +22,41 @@ class MesajesController extends AbstractController
     {
         $usuario = $this->getDoctrine()->getRepository(Usuario::class)->findOneBy(['email' => $this->getUser()->getUsername()]);
         $mensajesrecivbidos = $this->getDoctrine()->getRepository(Chat::class)->getRecibidos($usuario);
-        $mensajesenviados = $this->getDoctrine()->getRepository(Chat::class)->findBy(['emisor'=>$usuario]);
-        return $this->render('mensajes/mismensajes.twig',[
-            'mensajesrecibidos'=>$mensajesrecivbidos,
-            'mensajesenviados'=>$mensajesenviados
+        $usuariosrecibidos = $this->getUsersMensajes($mensajesrecivbidos);
+        $mensajesenviados = $this->getDoctrine()->getRepository(Chat::class)->getEnviados($usuario);
+        $usuariosenviados = $this->getUsersMensajes($mensajesenviados);
+        return $this->render('mensajes/mismensajes.twig', [
+            'usuariosrecibidos' => $usuariosrecibidos,
+            'usuariosenviados' => $usuariosenviados
         ]);
+    }
+
+    private function getUsersMensajes(array $mensajes): array
+    {
+        $usuarios = [];
+        foreach ($mensajes as $id){
+            $usuario = $this->getDoctrine()->getRepository(Usuario::class)->findOneBy(['id'=>$id]);
+            array_push($usuarios,$usuario);
+        }
+
+        return $usuarios;
+    }
+
+    /**
+     * @Route(
+     *     "/mensajes/{id}/borrar",
+     *     name="futapp_borrar_mensaje",
+     *     requirements={"id"="\d+"},
+     *     methods={"GET"}
+     * )
+     */
+    public function deleteMessage(Chat $chat)
+    {
+        $usuario = $chat->getReceptor();
+        $manager = $this->getDoctrine()->getManager();
+        $manager->remove($chat);
+        $manager->flush();
+        return $this->redirectToRoute('fut_app_chat',['id'=>$usuario->getId()]);
     }
 
 
@@ -46,7 +77,7 @@ class MesajesController extends AbstractController
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->persist($chat);
             $entityManager->flush();
-            return $this->redirectToRoute('fut_app_chat',['id'=>$otrousuario->getId()]);
+            return $this->redirectToRoute('fut_app_chat', ['id' => $otrousuario->getId()]);
         }
 
         $mensajes = $this->getDoctrine()->getRepository(Chat::class)->getMessageOneChat($otrousuario, $usuario);

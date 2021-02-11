@@ -22,9 +22,8 @@
             </h4>
 
             {% if app.user is not empty %}
-                {% if user.id == app.user.id or is_granted('ROLE_ADMIN') %}
-                    <div class="row mt-3">
-
+                <div class="row mt-3">
+                    {% if user.id == app.user.id or is_granted('ROLE_ADMIN') %}
                         <a href="{{ path('futapp_usuario_edit_perfil',{id: user.id}) }}" class="col-3 btn btn-primary"
                            style="margin-right: 5px;">Editar perfil <i
                                     class="fa fa-edit"></i></a>
@@ -34,13 +33,11 @@
                                 <i class="fa fa-envelope"></i>
                             </a>
                         {% endif %}
-                        {% if user.id != app.user.id %}
-                            <a href="{{ path('fut_app_chat',{id: user.id}) }}" class="col-3 btn btn-info" style="margin-right: 5px;">Enviar un mensaje <i class="fa fa-comment"></i></a>
 
-                        {% endif %}
                         {% if is_granted('ROLE_ADMIN') and user.id != app.user.id %}
                             <button type="button" class="col-3 btn btn-danger" data-toggle="modal"
-                                    data-target="#exampleModalCenter">
+                                    data-target="#exampleModalCenter" style="margin-right: 5px">
+
                                 Borrar <i class="fa fa-trash"></i>
                             </button>
 
@@ -77,8 +74,14 @@
                             </div>
                         {% endif %}
 
-                    </div>
-                {% endif %}
+
+                    {% endif %}
+                    {% if user.id != app.user.id %}
+                        <a href="{{ path('fut_app_chat',{id: user.id}) }}" class="col-3 btn btn-info"
+                           style="margin-right: 5px;">Enviar un mensaje <i class="fa fa-comment"></i></a>
+
+                    {% endif %}
+                </div>
             {% endif %}
 
         </div>

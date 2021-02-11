@@ -1,6 +1,6 @@
 {% extends "layout.html.twig" %}
 
-{% block title %} {{ parent() ~ 'Mis Mensajes' }} {% endblock %}
+{% block title %} {{ parent() ~ 'Chat' }} {% endblock %}
 {% block stylesheets %}
 
     {{ parent() }}
@@ -39,6 +39,7 @@
                             {% if mensaje.receptor.id == app.user.id %}
                                 <div class="d-flex justify-content-start mb-4">
                                     <div class="card shadow" style="background-color: #5eb5e0">
+
                                         <div class="row">
                                             <div class="col-2">
                                                 <div class="img_cont_msg">
@@ -48,7 +49,7 @@
                                             </div>
                                             <div class="col-10">
                                                 <div class="msg_cotainer" style="overflow-y: auto;">
-                                                    <p>{{ mensaje.mensaje }} </p>
+                                                    <p style="margin-left: 10px">{{ mensaje.mensaje }} </p>
                                                     <strong class="msg_time">
                                                         {{ mensaje.fecha |date('Y-m-d H:i:s') }}
                                                     </strong>
@@ -62,21 +63,21 @@
                                 </div>
                             {% else %}
                                 <div class="d-flex justify-content-end mb-4" >
-                                    <div class="row justify-content-end" style="margin-right:25px ">
+                                    <div class="row justify-content-end" style="margin-right:25px; width: 500px">
                                         <div class="col-8">
                                             <div class="card shadow" style="background-color: lightgreen; float: right">
                                                 <div class="row">
                                                     <div class="col-9">
                                                         <div class="msg_cotainer_send">
                                                             <p>{{ mensaje.mensaje }} </p>
-                                                            <strong style="font-size: 10px"> {{ mensaje.fecha |date('Y-m-d') }}</strong>
-                                                            <a href="/" class="btn-close" style="margin-left: 5px"></a>
+                                                            <strong> {{ mensaje.fecha |date('Y-m-d H:i:s') }}</strong>
+                                                            <a href="{{ path('futapp_borrar_mensaje',{id: mensaje.id}) }}" class="btn-close" style="margin-left: 5px"></a>
                                                         </div>
                                                     </div>
                                                     <div class="col-2">
                                                         <div class="img_cont_msg">
                                                             <img src="{% if mensaje.emisor.foto is empty %}/imgs/avatar.jpg{% else %}{{ asset('uploads/fotos/' ~ mensaje.emisor.foto) }}{% endif %}"
-                                                                 style="max-height: 60px"
+                                                                 style="max-height: 60px;"
                                                                  class="rounded-circle user_img_msg">
                                                         </div>
                                                     </div>
@@ -91,7 +92,7 @@
 
                         {% endfor %}
                     {% else %}
-                        <div>Escribe un mensaje</div>
+                        <div style="font-style: italic;">Escribe un mensaje</div>
                     {% endif %}
 
 

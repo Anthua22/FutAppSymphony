@@ -25,26 +25,69 @@
             <div class="tab-pane fade" id="home" role="tabpanel" aria-labelledby="home-tab">
                 <div class="card-columns mt-4">
                     <div class="row">
-                        {% for mensaje in mensajesrecibidos %}
+                        {% if usuariosenviados | length > 0 %}
+                            <div class="col-md-12 col-xl-12 chat">
+                                <div class="card mb-sm-3 mb-md-0 contacts_card">
+                                    <div class="card-header">
+                                        <div class="input-group">
+                                            <input type="text" placeholder="Search..." name=""
+                                                   class="form-control search">
+                                            <div class="input-group-prepend">
+                                            <span class="input-group-text search_btn" style="height: 60px"><i
+                                                        class="fa fa-search"></i></span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="card-body contacts_body">
+                                        <div class="contacts">
+                                            {% for usuario in usuariosenviados %}
 
-                            {% include 'mensajes/parts/bandeja.part.html.twig' with {
-                                'usuario':mensaje.receptor
-                            } only %}
+                                                {% include 'mensajes/parts/bandeja.part.html.twig' with {
+                                                    'usuario':usuario
+                                                } only %}
 
-                        {% endfor %}
+                                            {% endfor %}
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+                        {% endif %}
+
                     </div>
                 </div>
             </div>
             <div class="tab-pane fade active show" id="contact" role="tabpanel" aria-labelledby="contact-tab">
                 <div class="card-columns mt-4">
                     <div class="row">
-                        {% for mensaje in mensajesrecibidos %}
+                        {% if usuariosrecibidos | length > 0 %}
+                            <div class="col-md-12 col-xl-12 chat">
+                                <div class="card mb-sm-3 mb-md-0 contacts_card">
+                                    <div class="card-header">
+                                        <div class="input-group">
+                                            <input type="text" placeholder="Search..." name=""
+                                                   class="form-control search">
+                                            <div class="input-group-prepend">
+                                            <span class="input-group-text search_btn" style="height: 60px"><i
+                                                        class="fa fa-search"></i></span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="card-body contacts_body">
+                                        <div class="contacts">
+                                            {% for usuario in usuariosrecibidos %}
 
-                            {% include 'mensajes/parts/bandeja.part.html.twig' with {
-                                'usuario':mensaje.emisor
-                            } only %}
+                                                {% include 'mensajes/parts/bandeja.part.html.twig' with {
+                                                    'usuario':usuario
+                                                } only %}
 
-                        {% endfor %}
+                                            {% endfor %}
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+                        {% endif %}
                     </div>
                 </div>
             </div>
