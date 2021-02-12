@@ -122,6 +122,7 @@ class UsuarioController extends AbstractController
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->persist($usuario);
             $entityManager->flush();
+            $this->addFlash('perfil_ok', 'Perfil cambiado correctamente');
             return $this->redirectToRoute('futapp_usuario_edit_perfil', ['id' => $usuario->getId()]);
         }
         $this->addFlash('error_basico', 'El email ya está registrado ');
@@ -158,7 +159,7 @@ class UsuarioController extends AbstractController
                 $entityManager = $this->getDoctrine()->getManager();
                 $entityManager->persist($usuario);
                 $entityManager->flush();
-                $this->addFlash('pass_ok', 'Contraseña cambiada');
+                $this->addFlash('pass_ok', 'Contraseña cambiada correctamente');
                 return $this->redirectToRoute('futapp_usuario_edit_perfil', ['id' => $usuario->getId()]);
             } else {
                 $this->addFlash('error_pass', 'La contraseña nueva introducida no coincide con la confirmada');
@@ -189,6 +190,7 @@ class UsuarioController extends AbstractController
         $entityManager = $this->getDoctrine()->getManager();
         $entityManager->persist($usuario);
         $entityManager->flush();
+        $this->addFlash('foto_ok', 'Foto cambiada correctamente');
         return $this->redirectToRoute('futapp_usuario_edit_perfil', ['id' => $usuario->getId()]);
     }
 
@@ -207,6 +209,7 @@ class UsuarioController extends AbstractController
         $entityManager = $this->getDoctrine()->getManager();
         $entityManager->persist($usuario);
         $entityManager->flush();
+        $this->addFlash('rol_ok', 'Rol cambiado correctamente');
         return $this->redirectToRoute('futapp_usuario_edit_perfil', ['id' => $usuario->getId()]);
 
 

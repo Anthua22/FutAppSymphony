@@ -27,7 +27,7 @@ class EquipoController extends AbstractController
     }
 
     /**
-     * @Route("/equipo_nuevo", name="futapp_equipos_form",
+     * @Route("/admin/equipos/nuevo", name="futapp_equipos_form",
      *     methods={"GET","POST"})
      */
     public function newEquipo(Request $request): Response
@@ -65,7 +65,7 @@ class EquipoController extends AbstractController
 
     /**
      * @Route(
-     *     "/equipos/{id}/editar",
+     *     "/admin/equipos/{id}/editar",
      *     name="futapp_editar_equipo",
      *     requirements={"id"="\d+"},
      *     methods={"GET", "POST"}
@@ -101,7 +101,7 @@ class EquipoController extends AbstractController
 
     /**
      * @Route(
-     *     "/equipos/{id}/borrar",
+     *     "/admin/equipos/{id}/borrar",
      *     name="futapp_borrar_equipo",
      *     requirements={"id"="\d+"},
      *     methods={"GET"}

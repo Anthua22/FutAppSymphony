@@ -89,7 +89,7 @@ class MesajesController extends AbstractController
 
 
     /**
-     * @Route("/chat/{id}", name="fut_app_chat",
+     * @Route("/mensajes/chat/{id}", name="fut_app_chat",
      *      requirements={"id"="\d+"},
      *     methods={"GET","POST"})
      */
