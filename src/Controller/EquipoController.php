@@ -27,7 +27,7 @@ class EquipoController extends AbstractController
     }
 
     /**
-     * @Route("/admin/equipos/nuevo", name="futapp_equipos_form",
+     * @Route("/admin/equipo_nuevo", name="futapp_equipos_form",
      *     methods={"GET","POST"})
      */
     public function newEquipo(Request $request): Response

@@ -93,38 +93,6 @@ class Emails
 
     }
 
-    /* public function sendDeteAsignados(array $admins){
-         try {
-             //Server settings
-             $this->server->isSMTP();
-             $this->server->Host       = self::CORREOSMTP;
-             $this->server->SMTPAuth   = true;
-             $this->server->Username   = self::USERNAME;
-             $this->server->Password   = self::PASSUSERNAME;
-             $this->server->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;
-             $this->server->Port       = 587;
-             $this->server->setFrom(self::USERNAME, 'Admin');
-
-             foreach ($admins as $admin){
-                 $this->server->addAddress($admin->getEmail());     // Add a recipient
-             }
-
-             $this->server->isHTML(true);                                  // Set email format to HTML
-             $this->server->Subject = 'Notificacion de eliminacion partido';
-
-
-             $this->server->Body    = $this->bodyEliminate();
-
-             $this->server->send();
-             //Recipients
-             $this->server->setFrom(self::USERNAME, 'Admin');
-         }catch (Exception $exception){
-             die("Message could not be sent. Mailer Error: {$this->server->ErrorInfo}");
-         }
-     }
-
-    */
-
     private function body(): string
     {
         $nombrelocal = $this->partido->getEquipoLocal()->getNombre();

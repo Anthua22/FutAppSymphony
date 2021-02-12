@@ -69,11 +69,12 @@ class FutAppController extends AbstractController
                     $partido->setFechaAsignacion(new \DateTime());
                     $partido->setDisputado(false);
                     if($partido->getEquipoLocal()!==$partido->getEquipoVisitante()){
+                        $emails->setPartido($partido);
                         $emails->sendDesignacion();
                         $entityManager = $this->getDoctrine()->getManager();
                         $entityManager->persist($partido);
                         $entityManager->flush();
-                        $emails->setPartido($partido);
+
 
                         return $this->redirectToRoute('fut_app_inicio');
                     }

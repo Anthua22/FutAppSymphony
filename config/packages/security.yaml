@@ -40,7 +40,7 @@ security:
     # Note: Only the *first* access control that matches will be used
     access_control:
          - { path: ^/partidos, roles: ROLE_ADMIN }
-         - { path: ^/admin/equipos, roles: ROLE_ADMIN }
+         - { path: ^/admin, roles: ROLE_ADMIN }
          - { path: ^/mensajes, roles: ROLE_USER}
          - { path: ^/mi_perfil, roles: ROLE_USER}
          - { path: ^/login, roles: IS_AUTHENTICATED_ANONYMOUSLY}

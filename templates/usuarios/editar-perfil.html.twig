@@ -91,6 +91,7 @@
             class="mt-4"
             method="POST"
             role="form"
+            id="form"
             enctype="multipart/form-data"
     >
         <legend>Editar foto</legend>
@@ -116,18 +117,18 @@
                     required
 
             />
+
+
         </div>
         <div class="row mb-3">
-            <div class="col">
+            <div class="col-6">
                 <img class="imgwidth" id="photo"
                      src="{% if usuario.foto is empty %}/imgs/avatar.jpg{% else %}{{ asset('uploads/fotos/' ~ usuario.foto) }}{% endif %}"
                      alt=""/>
             </div>
-            <div class="col">
+            <div class="col-6">
                 <img
-                        class="d-none imgwidth"
-                        src=""
-                        alt=""
+                        style="display: none; margin-left: 25px; "
                         id="imgPreview"
                 />
             </div>
@@ -241,4 +242,9 @@
             <button type="submit" class="btn btn-primary">Editar contrarseña</button>
         </div>
     </form>
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script src="{{ asset('js/cargarimagen.js') }}"></script>
 {% endblock %}
