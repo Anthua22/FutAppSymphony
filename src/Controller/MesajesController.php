@@ -18,13 +18,41 @@ class MesajesController extends AbstractController
      * @Route("/mensajes", name="fut_app_mensajes",
      *     methods={"GET","POST"})
      */
-    public function showBandeja()
+    public function showBandeja(Request $request)
     {
         $usuario = $this->getDoctrine()->getRepository(Usuario::class)->findOneBy(['email' => $this->getUser()->getUsername()]);
+        if($request->getMethod()==='POST'){
+            $filtro = $request->get('filtro');
+            if(!empty($filtro)){
+                $mensajesrecivbidos = $this->getDoctrine()->getRepository(Chat::class)->getUsersRecibidosBusqueda($filtro,$usuario->getId());
+                $usuariosrecibidos = $this->getUsersMensajes($mensajesrecivbidos);
+                $mensajesenviados = $this->getDoctrine()->getRepository(Chat::class)->getUsersEnviadosBusqueda($filtro,$usuario->getId());
+                $usuariosenviados = $this->getUsersMensajes($mensajesenviados);
+                return $this->render('mensajes/mismensajes.twig', [
+                    'usuariosrecibidos' => $usuariosrecibidos,
+                    'usuariosenviados' => $usuariosenviados
+                ]);
+            }else{
+
+                $mensajesrecivbidos = $this->getDoctrine()->getRepository(Chat::class)->getRecibidos($usuario);
+                $usuariosrecibidos = $this->getUsersMensajes($mensajesrecivbidos);
+                $mensajesenviados = $this->getDoctrine()->getRepository(Chat::class)->getEnviados($usuario);
+                $usuariosenviados = $this->getUsersMensajes($mensajesenviados);
+
+                return $this->render('mensajes/mismensajes.twig', [
+                    'usuariosrecibidos' => $usuariosrecibidos,
+                    'usuariosenviados' => $usuariosenviados
+                ]);
+            }
+
+
+        }
+
         $mensajesrecivbidos = $this->getDoctrine()->getRepository(Chat::class)->getRecibidos($usuario);
         $usuariosrecibidos = $this->getUsersMensajes($mensajesrecivbidos);
         $mensajesenviados = $this->getDoctrine()->getRepository(Chat::class)->getEnviados($usuario);
         $usuariosenviados = $this->getUsersMensajes($mensajesenviados);
+
         return $this->render('mensajes/mismensajes.twig', [
             'usuariosrecibidos' => $usuariosrecibidos,
             'usuariosenviados' => $usuariosenviados
@@ -35,7 +63,7 @@ class MesajesController extends AbstractController
     {
         $usuarios = [];
         foreach ($mensajes as $id){
-            $usuario = $this->getDoctrine()->getRepository(Usuario::class)->findOneBy(['id'=>$id]);
+            $usuario = $this->getDoctrine()->getRepository(Usuario::class)->findOneBy(['id'=>$id['id']]);
             array_push($usuarios,$usuario);
         }
 

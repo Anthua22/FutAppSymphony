@@ -10,5 +10,5 @@ document.addEventListener('DOMContentLoaded',e=>{
     setTimeout(()=>{
         container.classList.remove('d-none');
         spinner.classList.add('d-none');
-        }, 200);
+        }, 100);
 })

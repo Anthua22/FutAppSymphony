@@ -23,11 +23,17 @@ class UsuarioController extends AbstractController
      * @Route(
      *     "/usuarios",
      *     name="futapp_usuarios",
-     *     methods={"GET"}
+     *     methods={"GET","POST"}
      * )
      */
-    public function getArbitros(): Response
+    public function getUsuarios(Request $request): Response
     {
+        if($request->getMethod()==='POST'){
+
+            $usuarios = $this->getDoctrine()->getRepository(Usuario::class)->getUsersByBusqueda($request->get('nombre'));
+            return $this->render('usuarios/index.html.twig', [
+                'arbitros' => $usuarios]);
+        }
         $arbitros = $this->getDoctrine()->getRepository(Usuario::class)->findAll();
 
         return $this->render('usuarios/index.html.twig', [
@@ -177,19 +183,13 @@ class UsuarioController extends AbstractController
      */
     public function editFoto(Request $request, Usuario $usuario)
     {
-
         $fotoFile = $request->files->get('foto');
-
-
         $usuario->setFotoFile($fotoFile);
         $usuario->setUpdateAT(new \DateTime());
-
         $entityManager = $this->getDoctrine()->getManager();
         $entityManager->persist($usuario);
         $entityManager->flush();
         return $this->redirectToRoute('futapp_usuario_edit_perfil', ['id' => $usuario->getId()]);
-
-
     }
 
     /**
@@ -235,5 +235,35 @@ class UsuarioController extends AbstractController
         }
 
     }
+
+    /**
+     * @Route("/usuarios/arbitros", name="fut_app_usuarios_arbitros")
+     */
+    public function getOnlyArbitros()
+    {
+        $usuariosfilter = $this->getDoctrine()->getRepository(Usuario::class)->findBy([
+            'role'=>'ROLE_USER'
+        ]);
+
+        return $this->render('usuarios/index.html.twig',[
+            'arbitros'=>$usuariosfilter
+        ]);
+    }
+
+    /**
+     * @Route("/usuarios/admins", name="fut_app_usuarios_admins")
+     */
+    public function getOnlyAdmins()
+    {
+        $usuariosfilter = $this->getDoctrine()->getRepository(Usuario::class)->findBy([
+            'role'=>'ROLE_ADMIN'
+        ]);
+
+        return $this->render('usuarios/index.html.twig',[
+            'arbitros'=>$usuariosfilter
+        ]);
+    }
+
+
 
 }

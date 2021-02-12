@@ -19,6 +19,23 @@ class UsuarioRepository extends ServiceEntityRepository
         parent::__construct($registry, Usuario::class);
     }
 
+    public function getUsersByBusqueda(string $busqueda)
+    {
+        $qb = $this->createQueryBuilder('usuario');
+
+
+
+        $qb->where(
+            $qb->expr()->like('usuario.nombre', ":busqueda")
+        )->orWhere(
+            $qb->expr()->like('usuario.apellidos', ":busqueda")
+
+        )->setParameter('busqueda', '%' . $busqueda . '%');
+
+
+        return $qb->getQuery()->execute();
+    }
+
 
     // /**
     //  * @return Usuario[] Returns an array of Usuario objects

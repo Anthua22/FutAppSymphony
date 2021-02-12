@@ -41,7 +41,7 @@ class ChatRepository extends ServiceEntityRepository
         $qb->innerJoin('chat.receptor', 'receptor');
         $qb->innerJoin('chat.emisor','emisor');
 
-        $qb->where('receptor.id = ' . $usuario->getId())->select('emisor.id')->distinct()->orderBy('chat.fecha', 'ASC');
+        $qb->where('receptor.id = ' . $usuario->getId())->select('emisor.id, chat.fecha')->distinct('emisor.id')->orderBy('chat.fecha', 'DESC');
 
         return $qb->getQuery()->execute();
 
@@ -53,10 +53,48 @@ class ChatRepository extends ServiceEntityRepository
         $qb->innerJoin('chat.receptor', 'receptor');
         $qb->innerJoin('chat.emisor','emisor');
 
-        $qb->where('emisor.id = ' . $usuario->getId())->select('receptor.id')->distinct()->orderBy('chat.fecha', 'ASC');
+        $qb->where('emisor.id = ' . $usuario->getId())->select('receptor.id, chat.fecha')->distinct('receptor.id')->orderBy('chat.fecha', 'DESC');
 
         return $qb->getQuery()->execute();
 
+    }
+
+    public function getUsersRecibidosBusqueda(string $busqueda,int $emisor)
+    {
+        $qb = $this->createQueryBuilder('chat');
+        $qb->innerJoin('chat.emisor', 'emisor');
+        $qb->innerJoin('chat.receptor', 'receptor');
+
+
+        $qb->where(
+            $qb->expr()->like('emisor.nombre', ":busqueda")
+        )->orWhere(
+            $qb->expr()->like('emisor.apellidos', ":busqueda")
+        )->andWhere('receptor.id = '.$emisor)
+            ->select('emisor.id')->distinct()
+            ->setParameter('busqueda', '%' . $busqueda . '%');
+
+
+        return $qb->getQuery()->execute();
+    }
+
+    public function getUsersEnviadosBusqueda(string $busqueda,int $receptor)
+    {
+        $qb = $this->createQueryBuilder('chat');
+        $qb->innerJoin('chat.emisor', 'emisor');
+        $qb->innerJoin('chat.receptor', 'receptor');
+
+
+        $qb->where(
+            $qb->expr()->like('receptor.nombre', ":busqueda")
+        )->orWhere(
+            $qb->expr()->like('receptor.apellidos', ":busqueda")
+        )->andWhere('emisor.id = '.$receptor)
+            ->select('receptor.id')->distinct()
+            ->setParameter('busqueda', '%' . $busqueda . '%');
+
+
+        return $qb->getQuery()->execute();
     }
 
 

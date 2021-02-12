@@ -27,16 +27,28 @@
                     <div class="row">
                         {% if usuariosenviados | length > 0 %}
                             <div class="col-md-12 col-xl-12 chat">
-                                <div class="card mb-sm-3 mb-md-0 contacts_card">
+                                <div class="card contacts_card">
                                     <div class="card-header">
-                                        <div class="input-group">
-                                            <input type="text" placeholder="Search..." name=""
-                                                   class="form-control search">
-                                            <div class="input-group-prepend">
-                                            <span class="input-group-text search_btn" style="height: 60px"><i
-                                                        class="fa fa-search"></i></span>
+
+                                        <form action="{{ path('fut_app_mensajes') }}" method="post">
+                                            <div class="row">
+                                                <div class="col-10">
+                                                    <input placeholder="Nombre.." class="form-control" name="filtro"/>
+                                                </div>
+                                                <div class="btn-group col-2">
+                                                    <button type="submit" class="input-group-text search_btn"
+                                                            style="height: 40px">
+                                                        <i
+                                                                class="fa fa-search"></i>
+                                                    </button>
+
+                                                </div>
                                             </div>
-                                        </div>
+
+
+                                        </form>
+
+
                                     </div>
                                     <div class="card-body contacts_body">
                                         <div class="contacts">
@@ -64,14 +76,26 @@
                             <div class="col-md-12 col-xl-12 chat">
                                 <div class="card mb-sm-3 mb-md-0 contacts_card">
                                     <div class="card-header">
-                                        <div class="input-group">
-                                            <input type="text" placeholder="Search..." name=""
-                                                   class="form-control search">
-                                            <div class="input-group-prepend">
-                                            <span class="input-group-text search_btn" style="height: 60px"><i
-                                                        class="fa fa-search"></i></span>
+
+                                        <form action="{{ path('fut_app_mensajes') }}" method="post">
+                                            <div class="row">
+                                                <div class="col-10">
+                                                    <input placeholder="Nombre.." class="form-control" name="filtro"/>
+                                                </div>
+                                                <div class="btn-group col-2">
+                                                    <button type="submit" class="input-group-text search_btn"
+                                                            style="height: 40px">
+                                                        <i
+                                                                class="fa fa-search"></i>
+                                                    </button>
+
+                                                </div>
                                             </div>
-                                        </div>
+
+
+                                        </form>
+
+
                                     </div>
                                     <div class="card-body contacts_body">
                                         <div class="contacts">

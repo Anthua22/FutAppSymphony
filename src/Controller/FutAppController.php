@@ -23,7 +23,7 @@ class FutAppController extends AbstractController
         $partidos = $this->getDoctrine()->getRepository(Partido::class)->getUltimosPartidosAsignados();
         if($request->getMethod()==='POST'){
 
-            $equiponombre = $_POST['nombreequipo'];
+            $equiponombre = $request->get('nombreequipo');
             if(!empty($equiponombre)){
                 $partidosfilter = $this->getDoctrine()->getRepository(Partido::class)->getEquipoByPartido($equiponombre);
             }else{
