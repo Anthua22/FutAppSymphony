@@ -56,23 +56,26 @@
                     {% if arbitro.id != app.user.id and is_granted('ROLE_ADMIN') %}
                         <button type="button" class="col-3 btn btn-danger" data-toggle="modal"
                                 data-target="#{{ modal }}">
-                             <i class="fa fa-trash"></i>
+                            <i class="fa fa-trash"></i>
                         </button>
                     {% endif %}
                 {% endif %}
-            {% endif %}
-            {% if app.user is not empty %}
                 {% if arbitro.id != app.user.id %}
                     <a href="{{ path('fut_app_chat',{id: arbitro.id}) }}" class="col-3 btn btn-info"
                        style="margin-right: 5px;"> <i class="fa fa-comment"></i></a>
 
                 {% endif %}
-
+                {% if arbitro.id == app.user.id %}
+                    <a href="{{ path('fut_app_mensajes') }}" class="col-3 btn btn-info">
+                        <i class="fa fa-inbox"></i>
+                    </a>
+                {% endif %}
             {% else %}
                 <a href="{{ path('futapp_usuario_perfil',{id: arbitro.id}) }}" style="color: #ffffff;"
                    class="col-3 btn btn-info">Ver <i
                             class="fa fa-eye"></i></a>
             {% endif %}
+
 
         </div>
         <div class="modal fade" id="{{ modal }}" tabindex="-1" role="dialog"

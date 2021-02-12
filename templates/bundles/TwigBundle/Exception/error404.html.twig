@@ -4,6 +4,8 @@
 
 {% block main_content %}
 
-    <h2>Error {{ status_code }}: AH!!! Se siente!! No se ha encontrado la página</h2>
 
+    <div class="alert alert-danger" role="alert">
+        <strong>Error {{ status_code }} </strong>No se ha encontrado la página
+    </div>
 {% endblock %}

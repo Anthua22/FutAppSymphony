@@ -8,8 +8,7 @@
             class="mt-4"
             action="{{ path('futapp_usuario_edit_basico',{id: usuario.id}) }}"
             method="POST"
-            role="form"
-    >
+            role="form">
         <legend>Editar Perfil</legend>
         {% if app.session.flashBag.has('perfil_ok') %}
             <div class="alert alert-success" role="alert">
