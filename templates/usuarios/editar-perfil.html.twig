@@ -170,78 +170,150 @@
             <button type="submit" class="btn btn-primary">Cambiar rol</button>
         </form>
     {% endif %}
-    <form action="{{ path('futapp_usuario_edit_password',{id: usuario.id}) }}"
-          id="form-password"
-          class="mt-4"
-          method="POST"
-          role="form">
-        <legend>Editar Contraseña</legend>
-        {% if app.session.flashBag.has('error_pass') %}
-            <div class="alert alert-danger mb-4" role="alert">
-                <strong>Error</strong>
-                <div>
-                    {% for message in app.session.flashBag.get('error_pass') %}
+    {% if app.user.id == usuario.id %}
+        <form action="{{ path('futapp_usuario_edit_password',{id: usuario.id}) }}"
+              id="form-password"
+              class="mt-4"
+              method="POST"
+              role="form">
+            <legend>Editar Contraseña</legend>
+            {% if app.session.flashBag.has('error_pass') %}
+                <div class="alert alert-danger mb-4" role="alert">
+                    <strong>Error</strong>
+                    <div>
+                        {% for message in app.session.flashBag.get('error_pass') %}
 
-                        {{ message }}
+                            {{ message }}
 
-                    {% endfor %}
+                        {% endfor %}
+                    </div>
+
+                </div>
+            {% endif %}
+            {% if app.session.flashBag.has('pass_ok') %}
+                <div class="alert alert-success mb-4" role="alert">
+                    <strong>Ok</strong>
+                    <div>
+                        {% for message in app.session.flashBag.get('pass_ok') %}
+
+                            {{ message }}
+
+                        {% endfor %}
+                    </div>
+
+                </div>
+            {% endif %}
+
+
+            <div class="form-group">
+
+                <label for="password">Contraseña antigua</label>
+                <input
+                        type="password"
+                        class="form-control mb-3"
+                        name="passantigua"
+                        id="password"
+                        required
+                        placeholder="Password"
+                />
+                <div class="row">
+                    <div class="col-6"><label for="password2">Nueva contraseña</label>
+                        <input
+                                type="password"
+                                class="form-control mb-3"
+                                name="passnueva"
+                                id="passnueva"
+                                minlength="5"
+                                required
+                                placeholder="Nueva contraseña..."
+                        /></div>
+                    <div class="col-6"><label for="password2">Repetir contraseña:</label>
+                        <input
+                                type="password"
+                                class="form-control mb-3"
+                                name="passconfirm"
+                                id="passnueva"
+                                minlength="5"
+                                required
+                                placeholder="Repetir contraseña..."
+                        />
+                    </div>
+
                 </div>
 
+
+                <button type="submit" class="btn btn-primary">Cambiar contraseña</button>
             </div>
-        {% endif %}
-        {% if app.session.flashBag.has('pass_ok') %}
-            <div class="alert alert-success mb-4" role="alert">
-                <strong>Ok</strong>
-                <div>
-                    {% for message in app.session.flashBag.get('pass_ok') %}
+        </form>
+    {% endif %}
+    {% if is_granted('ROLE_ADMIN') and app.user.id != usuario.id %}
+        <form action="{{ path('futapp_usuario_edit_password_admin',{id: usuario.id}) }}"
+              id="form-password"
+              class="mt-4"
+              method="POST"
+              role="form">
+            <legend>Editar Contraseña</legend>
+            {% if app.session.flashBag.has('error_pass_admin') %}
+                <div class="alert alert-danger mb-4" role="alert">
+                    <strong>Error</strong>
+                    <div>
+                        {% for message in app.session.flashBag.get('error_pass') %}
 
-                        {{ message }}
+                            {{ message }}
 
-                    {% endfor %}
+                        {% endfor %}
+                    </div>
+
+                </div>
+            {% endif %}
+            {% if app.session.flashBag.has('pass_ok_admin') %}
+                <div class="alert alert-success mb-4" role="alert">
+                    <strong>Ok</strong>
+                    <div>
+                        {% for message in app.session.flashBag.get('pass_ok') %}
+
+                            {{ message }}
+
+                        {% endfor %}
+                    </div>
+
+                </div>
+            {% endif %}
+
+
+            <div class="form-group">
+
+                <div class="row">
+                    <div class="col-6"><label for="password2">Nueva contraseña</label>
+                        <input
+                                type="password"
+                                class="form-control mb-3"
+                                name="passnueva"
+                                id="passnueva"
+                                minlength="5"
+                                required
+                                placeholder="Nueva contraseña..."
+                        /></div>
+                    <div class="col-6"><label for="password2">Repetir contraseña:</label>
+                        <input
+                                type="password"
+                                class="form-control mb-3"
+                                name="passconfirm"
+                                id="passnueva"
+                                minlength="5"
+                                required
+                                placeholder="Repetir contraseña..."
+                        />
+                    </div>
+
                 </div>
 
+
+                <button type="submit" class="btn btn-primary">Cambiar contraseña</button>
             </div>
-        {% endif %}
-        <div class="form-group">
+        </form>
+    {% endif %}
 
-            <label for="password">Contraseña antigua</label>
-            <input
-                    type="password"
-                    class="form-control mb-3"
-                    name="passantigua"
-                    id="password"
-                    required
-                    placeholder="Password"
-            />
-            <div class="row">
-                <div class="col-6"><label for="password2">Nueva contraseña</label>
-                    <input
-                            type="password"
-                            class="form-control mb-3"
-                            name="passnueva"
-                            id="passnueva"
-                            minlength="5"
-                            required
-                            placeholder="Nueva contraseña..."
-                    /></div>
-                <div class="col-6"><label for="password2">Repetir contraseña:</label>
-                    <input
-                            type="password"
-                            class="form-control mb-3"
-                            name="passconfirm"
-                            id="passnueva"
-                            minlength="5"
-                            required
-                            placeholder="Repetir contraseña..."
-                    />
-                </div>
-
-            </div>
-
-
-            <button type="submit" class="btn btn-primary">Editar contrarseña</button>
-        </div>
-    </form>
 {% endblock %}
 
 {% block javascripts %}

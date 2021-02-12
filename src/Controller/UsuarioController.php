@@ -28,7 +28,7 @@ class UsuarioController extends AbstractController
      */
     public function getUsuarios(Request $request): Response
     {
-        if($request->getMethod()==='POST'){
+        if ($request->getMethod() === 'POST') {
 
             $usuarios = $this->getDoctrine()->getRepository(Usuario::class)->getUsersByBusqueda($request->get('nombre'));
             return $this->render('usuarios/index.html.twig', [
@@ -85,8 +85,24 @@ class UsuarioController extends AbstractController
 
     /**
      * @Route(
-     *     "/usarios/editar_perfil/{id}",
+     *     "/usuarios/editar_perfil/",
      *     name="futapp_usuario_edit_perfil",
+     *     methods={"GET"}
+     * )
+     */
+    public function showEditMyProfile()
+    {
+        $usuario = $this->getDoctrine()->getRepository(Usuario::class)->findOneBy(['email'=>$this->getUser()->getUsername()]);
+        return $this->render('usuarios/editar-perfil.html.twig',
+            [
+                'usuario' => $usuario
+            ]);
+    }
+
+    /**
+     * @Route(
+     *     "/admin/usuarios/editar_perfil/{id}",
+     *     name="futapp_usuario_edit_perfil_admin",
      *     requirements={"id"="\d+"},
      *     methods={"GET"}
      * )
@@ -102,7 +118,7 @@ class UsuarioController extends AbstractController
 
     /**
      * @Route(
-     *     "/usarios/editar_perfil/datos_basicos/{id}",
+     *     "/usuarios/editar_perfil/datos_basicos/{id}",
      *     name="futapp_usuario_edit_basico",
      *     requirements={"id"="\d+"},
      *     methods={"POST"}
@@ -143,13 +159,13 @@ class UsuarioController extends AbstractController
 
     /**
      * @Route(
-     *     "/usarios/editar_perfil/password/{id}",
+     *     "/usuarios/editar_perfil/password/{id}",
      *     name="futapp_usuario_edit_password",
      *      requirements={"id"="\d+"},
      *     methods={"POST"}
      * )
      */
-    public function editpassword(Request $request, UserPasswordEncoderInterface $encoder, Usuario $usuario)
+    public function editPassword(Request $request, UserPasswordEncoderInterface $encoder, Usuario $usuario)
     {
 
         if ($encoder->isPasswordValid($usuario, $request->get('passantigua'))) {
@@ -174,9 +190,38 @@ class UsuarioController extends AbstractController
 
     }
 
+
     /**
      * @Route(
-     *     "/usarios/editar_perfil/foto/{id}",
+     *     "/usuarios/editar_perfil/password/admin/{id}",
+     *     name="futapp_usuario_edit_password_admin",
+     *      requirements={"id"="\d+"},
+     *     methods={"POST"}
+     * )
+     */
+    public function editPasswordByAdmin(Request $request, UserPasswordEncoderInterface $encoder, Usuario $usuario)
+    {
+
+        if ($request->get('passconfirm') === $request->get('passnueva')) {
+            $usuario->setPassword($encoder->encodePassword($usuario, $request->get('passnueva')))
+                ->setUpdateAT(new \DateTime());
+            $entityManager = $this->getDoctrine()->getManager();
+            $entityManager->persist($usuario);
+            $entityManager->flush();
+            $this->addFlash('pass_ok_admin', 'Contraseña cambiada correctamente');
+            return $this->redirectToRoute('futapp_usuario_edit_perfil', ['id' => $usuario->getId()]);
+        } else {
+            $this->addFlash('error_pass_admin', 'La contraseña nueva introducida no coincide con la confirmada');
+            return $this->redirectToRoute('futapp_usuario_edit_perfil', ['id' => $usuario->getId()]);
+
+        }
+
+
+    }
+
+    /**
+     * @Route(
+     *     "/usuarios/editar_perfil/foto/{id}",
      *     name="futapp_usuario_foto",
      *      requirements={"id"="\d+"},
      *     methods={"POST"}
@@ -196,7 +241,7 @@ class UsuarioController extends AbstractController
 
     /**
      * @Route(
-     *     "/usarios/editar_perfil/rol/{id}",
+     *     "/usuarios/editar_perfil/rol/{id}",
      *     name="futapp_usuario_rol",
      *      requirements={"id"="\d+"},
      *     methods={"POST"}
@@ -223,18 +268,19 @@ class UsuarioController extends AbstractController
      *     methods={"GET"}
      * )
      */
-    public function borrar(Usuario $usuario){
-        try{
+    public function borrar(Usuario $usuario)
+    {
+        try {
             $fileName = $usuario->getFoto();
-            if(isset($fileName)){
-                unlink(__DIR__.'/../../public/uploads/fotos/'.$fileName);
+            if (isset($fileName)) {
+                unlink(__DIR__ . '/../../public/uploads/fotos/' . $fileName);
             }
             $manager = $this->getDoctrine()->getManager();
             $manager->remove($usuario);
             $manager->flush();
             return $this->redirectToRoute('futapp_usuarios');
-        }catch (BadRequestException $exception){
-            $this->addFlash('error',$exception );
+        } catch (BadRequestException $exception) {
+            $this->addFlash('error', $exception);
         }
 
     }
@@ -245,11 +291,11 @@ class UsuarioController extends AbstractController
     public function getOnlyArbitros()
     {
         $usuariosfilter = $this->getDoctrine()->getRepository(Usuario::class)->findBy([
-            'role'=>'ROLE_USER'
+            'role' => 'ROLE_USER'
         ]);
 
-        return $this->render('usuarios/index.html.twig',[
-            'arbitros'=>$usuariosfilter
+        return $this->render('usuarios/index.html.twig', [
+            'arbitros' => $usuariosfilter
         ]);
     }
 
@@ -259,14 +305,13 @@ class UsuarioController extends AbstractController
     public function getOnlyAdmins()
     {
         $usuariosfilter = $this->getDoctrine()->getRepository(Usuario::class)->findBy([
-            'role'=>'ROLE_ADMIN'
+            'role' => 'ROLE_ADMIN'
         ]);
 
-        return $this->render('usuarios/index.html.twig',[
-            'arbitros'=>$usuariosfilter
+        return $this->render('usuarios/index.html.twig', [
+            'arbitros' => $usuariosfilter
         ]);
     }
-
 
 
 }

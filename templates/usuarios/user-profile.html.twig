@@ -24,10 +24,16 @@
             {% if app.user is not empty %}
                 <div class="row mt-3">
                     {% if user.id == app.user.id or is_granted('ROLE_ADMIN') %}
-                        <a href="{{ path('futapp_usuario_edit_perfil',{id: user.id}) }}" class="col-3 btn btn-primary"
-                           style="margin-right: 5px;">Editar perfil <i
-                                    class="fa fa-edit"></i></a>
+                        {% if is_granted('ROLE_ADMIN') and app.user.id != user.id %}
+                            <a href="{{ path('futapp_usuario_edit_perfil_admin',{id:user.id}) }}" class="col-3 btn btn-primary"
+                               style="margin-right: 5px;">Editar perfil <i
+                                        class="fa fa-edit"></i></a>
+                        {% endif %}
+
                         {% if user.id == app.user.id %}
+                            <a href="{{ path('futapp_usuario_edit_perfil') }}" class="col-3 btn btn-primary"
+                                                            style="margin-right: 5px;">Editar perfil <i
+                                    class="fa fa-edit"></i></a>
                             <a href="{{ path('fut_app_mensajes') }}" class="col-3 btn btn-info">Mis
                                 mensajes
                                 <i class="fa fa-envelope"></i>

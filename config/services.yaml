@@ -6,6 +6,7 @@
 parameters:
     fotos_directory: '%kernel.project_dir%/public/uploads/fotos'
     author: 'dd'
+    fotos_url: '/uploads/fotos/'
 services:
     # default configuration for services in *this* file
     _defaults:
@@ -43,3 +44,18 @@ services:
         tags:
             - { name: doctrine.event_listener, event: prePersist }
             - { name: doctrine.event_listener, event: preUpdate }
+
+    App\BLL\BaseBLL:
+        abstract: true
+        arguments:
+            - '@doctrine.orm.entity_manager'
+            - '@validator'
+            - '@security.token_storage'
+            - '%fotos_directory%'
+            - '%fotos_url%'
+
+    App\BLL\EquipoBLL:
+        autowire: false
+        autoconfigure: false
+        public: false
+        parent: App\BLL\BaseBLL

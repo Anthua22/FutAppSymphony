@@ -9,7 +9,7 @@
             <h2 class="mb-4">Equipo Local</h2>
 
 
-            {% include 'equipo/parts/equipo.parts.html.twig' with {
+            {% include 'equipo/part/equipo.part.html.twig' with {
                 'equipo':partido.equipolocal
             } %}
 
@@ -17,7 +17,7 @@
         </div>
         <div class="col-6">
             <h2 class="mb-4">Equipo Visitante</h2>
-            {% include 'equipo/parts/equipo.parts.html.twig' with {
+            {% include 'equipo/part/equipo.part.html.twig' with {
                 'equipo':partido.equipovisitante
             } %}
         </div>

@@ -15,7 +15,7 @@ class MesajesController extends AbstractController
 {
 
     /**
-     * @Route("/mensajes", name="fut_app_mensajes",
+     * @Route("/mi_perfil/mensajes", name="fut_app_mensajes",
      *     methods={"GET","POST"})
      */
     public function showBandeja(Request $request)
