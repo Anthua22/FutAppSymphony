@@ -4,26 +4,56 @@
 namespace App\BLL;
 
 
-use App\Entity\Ciudad;
+
+use App\Entity\Equipo;
 use App\Entity\Partido;
+use App\Entity\Usuario;
 use Symfony\Component\Config\Definition\Exception\Exception;
 
 class PartidoBLL extends BaseBLL
 {
-    public function nuevo(array $data)
+    public function nuevo(array $data,Usuario $usuario, Equipo $equipolocal, Equipo $equipovisitante)
     {
         $partido = new Partido();
+        $fecha_encuentro = new \DateTime($data['fecha_encuentro']);
+        $fecha_asignacion = new \DateTime();
         $partido->setDisputado(false)
-            ->setArbitro($data['arbitro'])
             ->setDireccionEncuentro($data['direccion'])
-            ->setEquipoLocal($data['equipolocal'])
-            ->setEquipoVisitante($data['equipovisitante'])
-            ->setFechaAsignacion($data['fecha_asignacion'])
-            ->setFechaEncuentro($data['fecha_encuentro']);
+            ->setFechaEncuentro($fecha_encuentro)
+            ->setFechaAsignacion($fecha_asignacion)
+            ->setArbitro($usuario)
+            ->setEquipoVisitante($equipovisitante)
+            ->setEquipoLocal($equipolocal);
 
         return $this->guardaValidando($partido);
     }
 
+    public function editar(array $data, Partido $partido)
+    {
+        $fecha_encuentro = new \DateTime($data['fecha_encuentro']);
+        $fecha_asignacion = new \DateTime();
+        $partido->setFechaAsignacion($fecha_asignacion)
+            ->setFechaEncuentro($fecha_encuentro)
+            ->setDisputado($data['disputado'])
+            ->setDireccionEncuentro($data['direccion']);
+
+        return $this->guardaValidando($partido);
+    }
+
+    public function actaPartido(array $data, Partido $partido)
+    {
+        $partido->setObservaciones($data['observaciones']);
+        $partido->setResultado($data['resultado']);
+
+        return $this->guardaValidando($partido);
+    }
+
+    public function getAll(): array
+    {
+        $partidos = $this->em->getRepository(Partido:: class)->findAll();
+
+        return $this->entitiesToArray($partidos);
+    }
 
     public function toArray($partido)
     {
@@ -38,7 +68,11 @@ class PartidoBLL extends BaseBLL
             'equipolocal'=>$partido->getEquipoLocal(),
             'equipovisitante'=>$partido->getEquipoVisitante(),
             'fecha_asignacion'=>$partido->getFechaAsignacion(),
-            'fecha_encuentro'=>$partido->getFechaEncuentro()
+            'fecha_encuentro'=>$partido->getFechaEncuentro(),
+            'observaciones'=>$partido->getObservaciones(),
+            'disputado'=>$partido->getDisputado(),
+            'direccion'=>$partido->getDireccionEncuentro(),
+            'resultado'=>$partido->getResultado()
         ];
     }
 }

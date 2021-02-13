@@ -5,7 +5,7 @@ namespace App\Controller\REST;
 
 
 
-use App\BLL\UserBLL;
+
 use App\BLL\UsuarioBLL;
 use App\Entity\Usuario;
 use Symfony\Component\HttpFoundation\Request;
@@ -15,8 +15,6 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class UsuarioRestController extends BaseApiController
 {
-
-
 
     /**
      * @Route(
@@ -31,6 +29,8 @@ class UsuarioRestController extends BaseApiController
     {
         return $this->getResponse($userBLL->toArray($user));
     }
+
+
 
 
     /**
@@ -48,6 +48,7 @@ class UsuarioRestController extends BaseApiController
 
         return $this->getResponse($users);
     }
+
 
 
     /**

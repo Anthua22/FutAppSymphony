@@ -5,6 +5,7 @@ namespace App\BLL;
 
 
 use App\Entity\Usuario;
+use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 
 class UsuarioBLL extends BaseBLL
@@ -12,6 +13,32 @@ class UsuarioBLL extends BaseBLL
     /** @var UserPasswordEncoderInterface $encoder
      */
     private $encoder;
+
+    private function guardaImagen(Usuario $usuario, $data) {
+        $arr_foto = explode (',', $data['foto']);
+        if ( count ($arr_foto) < 2)
+            throw new BadRequestHttpException('formato de imagen incorrecto');
+
+        $imgFoto = base64_decode ($arr_foto[1]);
+        if (!is_null($imgFoto))
+        {
+            $fileName = $data['nombreFoto'] . '-'. time() . '.jpg';
+            $usuario->setFoto($fileName);
+            $ifp = fopen ($this->fotosDirectory . '/' . $fileName, "wb");
+            if ($ifp)
+            {
+                $ok = fwrite ($ifp, $imgFoto);
+
+                fclose ($ifp);
+
+                if ($ok)
+                    return $this->guardaValidando($usuario);
+            }
+        }
+
+        throw new \Exception('No se ha podido cargar la imagen del contacto');
+    }
+
 
     public function setEncoder(UserPasswordEncoderInterface $encoder)
     {
@@ -31,13 +58,16 @@ class UsuarioBLL extends BaseBLL
         $user->setPassword($this->encoder->encodePassword($user, $data['password']));
         $user->setEmail($data['email']);
         $user->setRole($data['role']);
+        $user->setNombre($data['nombre']);
+        $user->setApellidos($data['apellidos']);
+        $user->setActivo(true);
+
+        $this->guardaImagen($user,$data);
         if(!empty($data['telefono'])){
             $user->setTelefono($data['telefono']);
         }
-        $user->setNombre($data['nombre']);
-        $user->setApellidos($data['apellidos']);
+       ;
 
-        $user->setActivo(true);
 
         return $this->guardaValidando($user);
     }
