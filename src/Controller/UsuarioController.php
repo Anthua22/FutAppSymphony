@@ -139,10 +139,16 @@ class UsuarioController extends AbstractController
             $entityManager->persist($usuario);
             $entityManager->flush();
             $this->addFlash('perfil_ok', 'Perfil cambiado correctamente');
-            return $this->redirectToRoute('futapp_usuario_edit_perfil', ['id' => $usuario->getId()]);
+            if($usuario->getEmail() !== $this->getUser()->getUsername()){
+                return $this->redirectToRoute('futapp_usuario_edit_perfil_admin',['id'=>$usuario->getId()]);
+            }
+            return $this->redirectToRoute('futapp_usuario_edit_perfil');
         }
         $this->addFlash('error_basico', 'El email ya está registrado ');
-        return $this->redirectToRoute('futapp_usuario_edit_perfil', ['id' => $usuario->getId()]);
+        if($usuario->getEmail() !== $this->getUser()->getUsername()){
+            return $this->redirectToRoute('futapp_usuario_edit_perfil_admin',['id'=>$usuario->getId()]);
+        }
+        return $this->redirectToRoute('futapp_usuario_edit_perfil');
 
 
     }
@@ -176,15 +182,15 @@ class UsuarioController extends AbstractController
                 $entityManager->persist($usuario);
                 $entityManager->flush();
                 $this->addFlash('pass_ok', 'Contraseña cambiada correctamente');
-                return $this->redirectToRoute('futapp_usuario_edit_perfil', ['id' => $usuario->getId()]);
+                return $this->redirectToRoute('futapp_usuario_edit_perfil');
             } else {
                 $this->addFlash('error_pass', 'La contraseña nueva introducida no coincide con la confirmada');
-                return $this->redirectToRoute('futapp_usuario_edit_perfil', ['id' => $usuario->getId()]);
+                return $this->redirectToRoute('futapp_usuario_edit_perfil');
 
             }
         } else {
             $this->addFlash('error_pass', 'La contraseña introducida no coincide con la actual');
-            return $this->redirectToRoute('futapp_usuario_edit_perfil', ['id' => $usuario->getId()]);
+            return $this->redirectToRoute('futapp_usuario_edit_perfil');
 
         }
 
@@ -193,7 +199,7 @@ class UsuarioController extends AbstractController
 
     /**
      * @Route(
-     *     "/usuarios/editar_perfil/password/admin/{id}",
+     *     "/admin/usuarios/editar_perfil/password/{id}",
      *     name="futapp_usuario_edit_password_admin",
      *      requirements={"id"="\d+"},
      *     methods={"POST"}
@@ -212,7 +218,7 @@ class UsuarioController extends AbstractController
             return $this->redirectToRoute('futapp_usuario_edit_perfil', ['id' => $usuario->getId()]);
         } else {
             $this->addFlash('error_pass_admin', 'La contraseña nueva introducida no coincide con la confirmada');
-            return $this->redirectToRoute('futapp_usuario_edit_perfil', ['id' => $usuario->getId()]);
+            return $this->redirectToRoute('futapp_usuario_edit_perfil_admin', ['id' => $usuario->getId()]);
 
         }
 
@@ -236,12 +242,16 @@ class UsuarioController extends AbstractController
         $entityManager->persist($usuario);
         $entityManager->flush();
         $this->addFlash('foto_ok', 'Foto cambiada correctamente');
-        return $this->redirectToRoute('futapp_usuario_edit_perfil', ['id' => $usuario->getId()]);
+
+        if($usuario->getEmail() !== $this->getUser()->getUsername()){
+            return $this->redirectToRoute('futapp_usuario_edit_perfil_admin',['id'=>$usuario->getId()]);
+        }
+        return $this->redirectToRoute('futapp_usuario_edit_perfil');
     }
 
     /**
      * @Route(
-     *     "/usuarios/editar_perfil/rol/{id}",
+     *     "/admin/usuarios/editar_perfil/rol/{id}",
      *     name="futapp_usuario_rol",
      *      requirements={"id"="\d+"},
      *     methods={"POST"}
@@ -255,7 +265,7 @@ class UsuarioController extends AbstractController
         $entityManager->persist($usuario);
         $entityManager->flush();
         $this->addFlash('rol_ok', 'Rol cambiado correctamente');
-        return $this->redirectToRoute('futapp_usuario_edit_perfil', ['id' => $usuario->getId()]);
+        return $this->redirectToRoute('futapp_usuario_edit_perfil_admin', ['id' => $usuario->getId()]);
 
 
     }

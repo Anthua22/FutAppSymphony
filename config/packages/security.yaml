@@ -19,6 +19,32 @@ security:
         dev:
             pattern: ^/(_(profiler|wdt)|css|images|js)/
             security: false
+
+        login:
+            pattern: ^/api/v1/auth
+            stateless: true
+            anonymous: true
+            provider: users_in_bbdd
+            json_login:
+                check_path: /api/v1/auth/login
+                success_handler: lexik_jwt_authentication.handler.authentication_success
+                failure_handler: lexik_jwt_authentication.handler.authentication_failure
+
+
+        api:
+            pattern: ^/api/v1
+            anonymous: false
+            stateless: true
+            provider: users_in_bbdd
+            guard:
+                authenticators:
+                    - lexik_jwt_authentication.jwt_token_authenticator
+
+        register:
+            pattern: ^/api/v1/auth/register
+            stateless: true
+            anonymous: true
+
         main:
             anonymous: true
             http_basic: ~
@@ -46,4 +72,5 @@ security:
          - { path: ^/usuarios/editar_perfil, roles: ROLE_USER}
          - { path: ^/login, roles: IS_AUTHENTICATED_ANONYMOUSLY}
          - { path: ^/register, roles: IS_AUTHENTICATED_ANONYMOUSLY}
-
+         - { path: ^/api/v1/auth, roles: IS_AUTHENTICATED_ANONYMOUSLY }
+         - { path: ^/api/v1/, roles: IS_AUTHENTICATED_FULLY }

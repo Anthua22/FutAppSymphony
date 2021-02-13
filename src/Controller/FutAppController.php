@@ -61,9 +61,7 @@ class FutAppController extends AbstractController
             $form->handleRequest($request);
 
             if($form->isSubmitted() && $form->isValid()){
-
                 $partido = $form->getData();
-
                 if($fecha_actual < $partido->getFechaEncuentro())
                 {
                     $partido->setFechaAsignacion(new \DateTime());
