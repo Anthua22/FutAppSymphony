@@ -53,7 +53,7 @@
                     <a href="{{ path('futapp_usuario_edit_perfil_admin',{id: arbitro.id}) }}" class="col-3 btn btn-primary">
                         <i class="fa fa-edit"></i></a>
 
-                    {% if arbitro.id != app.user.id and is_granted('ROLE_ADMIN') %}
+                    {% if arbitro.id != app.user.id and is_granted('ROLE_ADMIN') and arbitro.role != 'ROLE_ADMIN' %}
                         <button type="button" class="col-3 btn btn-danger" data-toggle="modal"
                                 data-target="#{{ modal }}">
                             <i class="fa fa-trash"></i>

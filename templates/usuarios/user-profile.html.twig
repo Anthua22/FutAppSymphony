@@ -40,7 +40,7 @@
                             </a>
                         {% endif %}
 
-                        {% if is_granted('ROLE_ADMIN') and user.id != app.user.id %}
+                        {% if is_granted('ROLE_ADMIN') and user.id != app.user.id and user.role != 'ROLE_ADMIN' %}
                             <button type="button" class="col-3 btn btn-danger" data-toggle="modal"
                                     data-target="#exampleModalCenter" style="margin-right: 5px">
 
