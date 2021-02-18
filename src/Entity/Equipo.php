@@ -64,6 +64,25 @@ class Equipo
      */
     private $direccion_campo;
 
+
+    private $foto_antigua;
+
+    /**
+     * @return mixed
+     */
+    public function getFotoAntigua()
+    {
+        return $this->foto_antigua;
+    }
+
+    /**
+     * @param mixed $foto_antigua
+     */
+    public function setFotoAntigua($foto_antigua): void
+    {
+        $this->foto_antigua = $foto_antigua;
+    }
+
     public function getId(): ?int
     {
         return $this->id;

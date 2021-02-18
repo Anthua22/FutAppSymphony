@@ -81,6 +81,7 @@ class EquipoController extends AbstractController
             $fotoFile = $form['fotoFile']->getData();
 
             if($fotoFile){
+                $equipo->setFotoAntigua($equipo->getFoto());
                 $equipo->setFotoFile($fotoFile);
                 $equipo->setUpdateAt(new \DateTime());
             }

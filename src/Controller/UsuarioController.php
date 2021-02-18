@@ -215,7 +215,7 @@ class UsuarioController extends AbstractController
             $entityManager->persist($usuario);
             $entityManager->flush();
             $this->addFlash('pass_ok_admin', 'Contraseña cambiada correctamente');
-            return $this->redirectToRoute('futapp_usuario_edit_perfil', ['id' => $usuario->getId()]);
+            return $this->redirectToRoute('futapp_usuario_edit_perfil_admin', ['id' => $usuario->getId()]);
         } else {
             $this->addFlash('error_pass_admin', 'La contraseña nueva introducida no coincide con la confirmada');
             return $this->redirectToRoute('futapp_usuario_edit_perfil_admin', ['id' => $usuario->getId()]);

@@ -48,7 +48,7 @@ class PartidoRepository extends ServiceEntityRepository
         $qb = $this->createQueryBuilder('partido');
         $qb->where('partido.disputado = 0');
         $qb->orderBy('partido.fecha_asignacion','DESC');
-        $qb->setMaxResults(7);
+        $qb->setMaxResults(6);
 
         return $qb->getQuery()->execute();
 

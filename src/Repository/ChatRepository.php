@@ -41,7 +41,7 @@ class ChatRepository extends ServiceEntityRepository
         $qb->innerJoin('chat.receptor', 'receptor');
         $qb->innerJoin('chat.emisor','emisor');
 
-        $qb->where('receptor.id = ' . $usuario->getId())->select('emisor.id, chat.fecha')->distinct('emisor.id')->orderBy('chat.fecha', 'DESC');
+        $qb->where('receptor.id = ' . $usuario->getId())->select('Distinct emisor.id')->orderBy('chat.fecha', 'DESC');
 
         return $qb->getQuery()->execute();
 
@@ -53,7 +53,7 @@ class ChatRepository extends ServiceEntityRepository
         $qb->innerJoin('chat.receptor', 'receptor');
         $qb->innerJoin('chat.emisor','emisor');
 
-        $qb->where('emisor.id = ' . $usuario->getId())->select('receptor.id, chat.fecha')->distinct('receptor.id')->orderBy('chat.fecha', 'DESC');
+        $qb->where('emisor.id = ' . $usuario->getId())->select('Distinct receptor.id')->orderBy('chat.fecha', 'DESC');
 
         return $qb->getQuery()->execute();
 

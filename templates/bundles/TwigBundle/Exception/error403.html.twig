@@ -1,0 +1,11 @@
+{% extends 'layout.html.twig' %}
+
+{% block title %}{{ parent()  }} Error 404{% endblock %}
+
+{% block main_content %}
+
+
+    <div class="alert alert-danger" role="alert">
+        <strong>Error {{ status_code }} </strong>No tienes suficientes permisos para acceder a esta url
+    </div>
+{% endblock %}
