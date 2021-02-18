@@ -40,6 +40,30 @@ class PartidoBLL extends BaseBLL
         return $this->guardaValidando($partido);
     }
 
+    public function disputados():array{
+        $partidosfilter = $this->em->getRepository(Partido::class)->findBy([
+            'disputado'=>true
+        ]);
+
+        return $this->entitiesToArray($partidosfilter);
+    }
+
+    public function nodisputados():array
+    {
+        $partidosfilter = $this->em->getRepository(Partido::class)->findBy([
+            'disputado'=>false
+        ]);
+
+        return $this->entitiesToArray($partidosfilter);
+
+    }
+
+    public function getByNombre($data):array
+    {
+        $partidosfilter = $this->em->getRepository(Partido::class)->getEquipoByPartido($data['nombre']);
+        return $this->entitiesToArray($partidosfilter);
+    }
+
     public function actaPartido(array $data, Partido $partido)
     {
         $partido->setObservaciones($data['observaciones']);

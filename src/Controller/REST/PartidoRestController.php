@@ -47,6 +47,55 @@ class PartidoRestController extends BaseApiController
 
     /**
      * @Route(
+     *     "/partidos/disputados_api.{_format}",
+     *     name="get_partidos_disputados_api",
+     *     defaults={"_format": "json"},
+     *     requirements={"_format": "json"},
+     *     methods={"GET"}
+     * )
+     */
+    public function getDisputados(PartidoBLL $partidoBLL)
+    {
+        $partidos = $partidoBLL->disputados();
+
+        return $this->getResponse($partidos);
+    }
+
+    /**
+     * @Route(
+     *     "/partidos/no_disputados_api.{_format}",
+     *     name="get_partidos_no_disputados",
+     *     defaults={"_format": "json"},
+     *     requirements={"_format": "json"},
+     *     methods={"GET"}
+     * )
+     */
+    public function getNoDisputados(PartidoBLL $partidoBLL)
+    {
+        $partidos = $partidoBLL->nodisputados();
+
+        return $this->getResponse($partidos);
+    }
+
+    /**
+     * @Route(
+     *     "/partidos/nombre.{_format}",
+     *     name="get_partidos_nombre",
+     *     defaults={"_format": "json"},
+     *     requirements={"_format": "json"},
+     *     methods={"POST"}
+     * )
+     */
+    public function getPartidosByNombre(Request $request,PartidoBLL $partidoBLL)
+    {
+        $data = $this->getContent($request);
+        $partidos = $partidoBLL->getByNombre($data);
+
+        return $this->getResponse($partidos);
+    }
+
+    /**
+     * @Route(
      *     "/partidos/{id}.{_format}",
      *     name="delete_partido",
      *     requirements={"id": "\d+", "_format": "json"},

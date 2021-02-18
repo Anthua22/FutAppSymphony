@@ -66,6 +66,26 @@ class Usuario implements UserInterface, \Serializable
      */
     private $updateAT;
 
+    private $foto_antigua;
+
+    /**
+     * @return mixed
+     */
+    public function getFotoAntigua()
+    {
+        return $this->foto_antigua;
+    }
+
+    /**
+     * @param mixed $foto_antigua
+     */
+    public function setFotoAntigua($foto_antigua): void
+    {
+        $this->foto_antigua = $foto_antigua;
+    }
+
+
+
     /**
      * @return mixed
      */

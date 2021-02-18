@@ -236,6 +236,9 @@ class UsuarioController extends AbstractController
     public function editFoto(Request $request, Usuario $usuario)
     {
         $fotoFile = $request->files->get('foto');
+        if(!empty($usuario->getFoto())){
+            $usuario->setFotoAntigua($usuario->getFoto());
+        }
         $usuario->setFotoFile($fotoFile);
         $usuario->setUpdateAT(new \DateTime());
         $entityManager = $this->getDoctrine()->getManager();
